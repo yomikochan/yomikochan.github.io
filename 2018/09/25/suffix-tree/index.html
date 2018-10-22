@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+
+    <!--Description-->
+    
+        <meta name="description" content="前言详见我的这篇blog:Suffix tree
+路径压缩版后缀树123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="darkchii">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="后缀树"/>
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="吾輩"/>
+
+    <!--Page Cover-->
+    
+        <meta property="og:image" content=""/>
+    
+
+    <!-- Title -->
+    
+    <title>后缀树 - 吾輩</title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/main.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdn.rawgit.com/noelboss/featherlight/1.3.5/release/featherlight.min.css" type="text/css" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    
+
+
+    <!--Favicon-->
+    
+        <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/img/favicon.ico" type="image/x-icon"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Menu -->
+<!-- Navigation -->
+<header>
+    <div class="logo">
+        <a href="/">吾輩</a>
+    </div><!-- end logo -->
+
+    <div id="menu_icon"></div>
+    <nav>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about">About</a>
+            </li>
+            
+            <li>
+                <a href="http://latex.codecogs.com/eqneditor/editor.php">Latex</a>
+            </li>
+            
+            <li>
+                <a href="https://khan.github.io/KaTeX/function-support.html">Katex</a>
+            </li>
+            
+            <li>
+                <a href="https://www.mathjax.org/">MathJax</a>
+            </li>
+            
+            <li>
+                <a href="https://ww2.mathworks.cn/help/matlab/functionlist.html">MatLab</a>
+            </li>
+            
+            <li>
+                <a href="https://mobx.js.org/">mobx</a>
+            </li>
+            
+            <li>
+                <a href="https://tool.lu/favicon/">favicon</a>
+            </li>
+            
+        </ul>
+    </nav><!-- end navigation menu -->
+
+    <div class="footer clearfix">
+        <ul class="social clearfix">
+            
+                <li><a href="https://www.twitter.com/darkchii1" class="twitter" target="_blank" data-title="Twitter"></a></li>
+            
+            
+                <li><a href="https://www.facebook.com/" class="fb" target="_blank" data-title="Facebook"></a></li>
+            
+            
+                <li><a href="https://www.behance.net/" class="behance" target="_blank" data-title="Behance"></a></li>
+            
+            
+                <li><a href="https://plus.google.com/+Pixelhint/posts" class="google" target="_blank" data-title="Google+"></a></li>
+            
+            
+                <li><a href="https://dribbble.com/pixelhint" class="dribble" target="_blank" data-title="Dribble"></a></li>
+            
+            
+            
+            
+                <li><a href="https://www.youtube.com/" class="youtube" target="_blank" data-title="Youtube"></a></li>
+            
+        </ul><!-- end social -->
+
+        <div class="rights">
+            <p>Copyright © 2014 magnetic.</p>
+            <p>Template by <a href="http://pixelhint.com/magnetic-free-html5-responsive-photography-website-template/">Pixelhint.com</a></p>
+            <p>Hexo Theme by <a href="http://www.codeblocq.com/">Jonathan K.</a></p>
+        </div><!-- end rights -->
+    </div ><!-- end footer -->
+</header><!-- end header -->
+
+
+<!-- Main Content -->
+<section class="main clearfix">
+
+    <section class="top" style="background: url('https://raw.githubusercontent.com/darkchii/photo/master/wef9023rj2cfq2312.jpeg');">
+        <div class="wrapper content_header clearfix">
+            
+
+<div class="work_nav">
+
+    <ul class="btn clearfix">
+        
+        <li><a href="/2018/09/28/hash-tree/" class="previous" data-title="哈希树"></a></li>
+        
+        <li><a href="/" class="grid" data-title="Portfolio"></a></li>
+        
+        <li><a href="/2018/09/25/float-to-string/" class="next" data-title="浮点型转字符串"></a></li>
+        
+    </ul>
+
+</div><!-- end work_nav -->
+            <h1 class="title">后缀树</h1>
+        </div>
+    </section><!-- end top -->
+
+    <section class="wrapper">
+        <div class="content">
+
+            <!-- Gallery -->
+            
+
+            <!-- Content -->
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>详见我的这篇blog:<a href="https://www.cnblogs.com/darkchii/p/9116558.html" target="_blank" rel="noopener">Suffix tree</a></p>
+<h3 id="路径压缩版后缀树"><a href="#路径压缩版后缀树" class="headerlink" title="路径压缩版后缀树"></a>路径压缩版后缀树</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> rep(i, a, b) for(int i = a; i &lt; b; i++)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> trans(c) (c - <span class="meta-string">'a'</span>)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIZE 26</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX (100010 &lt;&lt; 2)</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">BaseNode</span> &#123;</span></span><br><span class="line">	<span class="keyword">int</span> len;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span>*s;</span><br><span class="line">	<span class="keyword">int</span> pos[MAX];</span><br><span class="line">	BaseNode*next[SIZE];</span><br><span class="line">	BaseNode()</span><br><span class="line">	&#123;</span><br><span class="line">		len = <span class="number">0</span>;</span><br><span class="line">		rep(i, <span class="number">0</span>, MAX) pos[i] = <span class="number">0</span>;</span><br><span class="line">		rep(i, <span class="number">0</span>, SIZE) next[i] = <span class="literal">nullptr</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	BaseNode(<span class="keyword">const</span> <span class="keyword">char</span>*s, <span class="keyword">int</span> p)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">this</span>-&gt;s = s, <span class="keyword">this</span>-&gt;len = p;</span><br><span class="line">		rep(i, <span class="number">0</span>, MAX) pos[i] = <span class="number">0</span>;</span><br><span class="line">		rep(i, <span class="number">0</span>, SIZE) next[i] = <span class="literal">nullptr</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuffixTree</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	BaseNode*root;</span><br><span class="line">	<span class="comment">/**/</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>*s, <span class="keyword">int</span> p)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(BaseNode*r)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">destory</span><span class="params">(BaseNode*&amp;r)</span></span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	SuffixTree()</span><br><span class="line">	&#123;</span><br><span class="line">		root = <span class="literal">nullptr</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>*s)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="built_in">string</span> s)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		insert(s.c_str());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">remove</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>*s)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">visual</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		print(root);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">match</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>*s)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">match</span><span class="params">(<span class="built_in">string</span> s)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		match(s.c_str());</span><br><span class="line">	&#125;</span><br><span class="line">	~SuffixTree()</span><br><span class="line">	&#123;</span><br><span class="line">		destory(root);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">void</span> SuffixTree::add(<span class="keyword">const</span> <span class="keyword">char</span>*s, <span class="keyword">int</span> p)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>; <span class="keyword">while</span> (s[i]) i++;</span><br><span class="line">	<span class="keyword">if</span> (!root-&gt;next[p]) root-&gt;next[p] = <span class="keyword">new</span> BaseNode(s, i);</span><br><span class="line">	root-&gt;next[p]-&gt;pos[i] = i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> SuffixTree::insert(<span class="keyword">const</span> <span class="keyword">char</span>*s)</span><br><span class="line">&#123;</span><br><span class="line">	root = <span class="keyword">new</span> BaseNode();</span><br><span class="line">	<span class="keyword">while</span> (*s)</span><br><span class="line">	&#123;</span><br><span class="line">		add(s, trans(*s));</span><br><span class="line">		s++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">bool</span> SuffixTree::match(<span class="keyword">const</span> <span class="keyword">char</span>*s)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span>* ps = root-&gt;next[trans(*s)]-&gt;s;</span><br><span class="line">	<span class="keyword">while</span> (*s) <span class="keyword">if</span> (*ps++ != *s++) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> SuffixTree::print(BaseNode*r)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (r)</span><br><span class="line">	&#123;</span><br><span class="line">		rep(i, <span class="number">0</span>, SIZE)</span><br><span class="line">			<span class="keyword">if</span> (r-&gt;next[i])</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="string">':'</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">				rep(j, <span class="number">0</span>, r-&gt;next[i]-&gt;len + <span class="number">1</span>)</span><br><span class="line">					<span class="keyword">if</span> (r-&gt;next[i]-&gt;pos[j])</span><br><span class="line">					&#123;</span><br><span class="line">						rep(k, <span class="number">0</span>, r-&gt;next[i]-&gt;pos[j])</span><br><span class="line">							<span class="built_in">cout</span> &lt;&lt; r-&gt;next[i]-&gt;s[k];</span><br><span class="line">						<span class="built_in">cout</span> &lt;&lt; <span class="string">'$'</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">					&#125;</span><br><span class="line">			&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">void</span> SuffixTree::destory(BaseNode*&amp;r)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (r)</span><br><span class="line">	&#123;</span><br><span class="line">		rep(i, <span class="number">0</span>, SIZE) destory(r-&gt;next[i]);</span><br><span class="line">		<span class="keyword">delete</span> r;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	SuffixTree st;</span><br><span class="line">	st.insert(<span class="string">"banana"</span>);</span><br><span class="line">	st.visual();</span><br><span class="line">	<span class="keyword">if</span> (st.match(<span class="string">"na"</span>)) <span class="built_in">cout</span> &lt;&lt; <span class="string">"Yes"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">else</span> <span class="built_in">cout</span> &lt;&lt; <span class="string">"No"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>output:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">0:</span><br><span class="line">a$</span><br><span class="line">ana$</span><br><span class="line">anana$</span><br><span class="line">1:</span><br><span class="line">banana$</span><br><span class="line">13:</span><br><span class="line">na$</span><br><span class="line">nana$</span><br><span class="line">Yes</span><br></pre></td></tr></table></figure>
+
+            <!-- Tags -->
+            
+
+
+<div class="tags">
+    <a href="/tags/C-C/">C/C++</a>
+</div>
+
+
+
+            <!-- Comments -->
+            <div>
+                
+    <hr />
+    <h3>留言:</h3>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+
+
+
+            </div>
+        </div><!-- end content -->
+    </section>
+</section><!-- end main -->
+
+<!-- After footer scripts -->
+
+<!-- jQuery -->
+<script src="/js/jquery.js"></script>
+
+<!-- Custom Code -->
+<script src="/js/main.js"></script>
+
+<!-- Gallery -->
+<script src="//cdn.rawgit.com/noelboss/featherlight/1.3.5/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'klugjotest';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"superSample":2,"position":"right","width":150,"height":300,"hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body>
+
+</html>

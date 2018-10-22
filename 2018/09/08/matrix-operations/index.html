@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+
+    <!--Description-->
+    
+        <meta name="description" content="简介这篇主要介绍一些矩阵运算相关算法。
+矩阵乘法矩阵相乘：$ C = AB $
+普通算法
+时间复杂度 $ O(N^3) $
+
+12345memset(c, 0, sizeof(c));for (int i = 0; i &amp;lt; N; i++)    for (int j = 0; j &amp;lt; N">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="darkchii">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="矩阵运算"/>
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="吾輩"/>
+
+    <!--Page Cover-->
+    
+        <meta property="og:image" content=""/>
+    
+
+    <!-- Title -->
+    
+    <title>矩阵运算 - 吾輩</title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/main.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdn.rawgit.com/noelboss/featherlight/1.3.5/release/featherlight.min.css" type="text/css" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    
+
+
+    <!--Favicon-->
+    
+        <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/img/favicon.ico" type="image/x-icon"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Menu -->
+<!-- Navigation -->
+<header>
+    <div class="logo">
+        <a href="/">吾輩</a>
+    </div><!-- end logo -->
+
+    <div id="menu_icon"></div>
+    <nav>
+        <ul>
+            
+            <li>
+                <a href="/">Home</a>
+            </li>
+            
+            <li>
+                <a href="/archives">Archives</a>
+            </li>
+            
+            <li>
+                <a href="/about">About</a>
+            </li>
+            
+            <li>
+                <a href="http://latex.codecogs.com/eqneditor/editor.php">Latex</a>
+            </li>
+            
+            <li>
+                <a href="https://khan.github.io/KaTeX/function-support.html">Katex</a>
+            </li>
+            
+            <li>
+                <a href="https://www.mathjax.org/">MathJax</a>
+            </li>
+            
+            <li>
+                <a href="https://ww2.mathworks.cn/help/matlab/functionlist.html">MatLab</a>
+            </li>
+            
+            <li>
+                <a href="https://mobx.js.org/">mobx</a>
+            </li>
+            
+            <li>
+                <a href="https://tool.lu/favicon/">favicon</a>
+            </li>
+            
+        </ul>
+    </nav><!-- end navigation menu -->
+
+    <div class="footer clearfix">
+        <ul class="social clearfix">
+            
+                <li><a href="https://www.twitter.com/darkchii1" class="twitter" target="_blank" data-title="Twitter"></a></li>
+            
+            
+                <li><a href="https://www.facebook.com/" class="fb" target="_blank" data-title="Facebook"></a></li>
+            
+            
+                <li><a href="https://www.behance.net/" class="behance" target="_blank" data-title="Behance"></a></li>
+            
+            
+                <li><a href="https://plus.google.com/+Pixelhint/posts" class="google" target="_blank" data-title="Google+"></a></li>
+            
+            
+                <li><a href="https://dribbble.com/pixelhint" class="dribble" target="_blank" data-title="Dribble"></a></li>
+            
+            
+            
+            
+                <li><a href="https://www.youtube.com/" class="youtube" target="_blank" data-title="Youtube"></a></li>
+            
+        </ul><!-- end social -->
+
+        <div class="rights">
+            <p>Copyright © 2014 magnetic.</p>
+            <p>Template by <a href="http://pixelhint.com/magnetic-free-html5-responsive-photography-website-template/">Pixelhint.com</a></p>
+            <p>Hexo Theme by <a href="http://www.codeblocq.com/">Jonathan K.</a></p>
+        </div><!-- end rights -->
+    </div ><!-- end footer -->
+</header><!-- end header -->
+
+
+<!-- Main Content -->
+<section class="main clearfix">
+
+    <section class="top" style="background: url('https://raw.githubusercontent.com/darkchii/photo/master/wef9023rj2cfq2312.jpeg');">
+        <div class="wrapper content_header clearfix">
+            
+
+<div class="work_nav">
+
+    <ul class="btn clearfix">
+        
+        <li><a href="/2018/09/09/counting-sort/" class="previous" data-title="计数排序"></a></li>
+        
+        <li><a href="/" class="grid" data-title="Portfolio"></a></li>
+        
+        <li><a href="/2018/09/05/math-derivative/" class="next" data-title="数学-导数篇（持续更新）"></a></li>
+        
+    </ul>
+
+</div><!-- end work_nav -->
+            <h1 class="title">矩阵运算</h1>
+        </div>
+    </section><!-- end top -->
+
+    <section class="wrapper">
+        <div class="content">
+
+            <!-- Gallery -->
+            
+
+            <!-- Content -->
+            <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>这篇主要介绍一些矩阵运算相关算法。</p>
+<h3 id="矩阵乘法"><a href="#矩阵乘法" class="headerlink" title="矩阵乘法"></a>矩阵乘法</h3><p>矩阵相乘：$ C = AB $</p>
+<h5 id="普通算法"><a href="#普通算法" class="headerlink" title="普通算法"></a>普通算法</h5><ul>
+<li>时间复杂度 $ O(N^3) $</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">memset</span>(c, <span class="number">0</span>, <span class="keyword">sizeof</span>(c));</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; N; j++)</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; N; k++)</span><br><span class="line">            c[i][j] += a[i][k] * b[k][j];</span><br></pre></td></tr></table></figure>
+<h5 id="Strassen算法"><a href="#Strassen算法" class="headerlink" title="Strassen算法"></a>Strassen算法</h5><ul>
+<li>时间复杂度 $ O(N^{lg7}) $</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Strassen_algo</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt; &amp; c, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;  a, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;  b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="线性方程组"><a href="#线性方程组" class="headerlink" title="线性方程组"></a>线性方程组</h3><p>$ n $ 个未知数 $ m $ 个方程的线性方程组</p>
+<script type="math/tex; mode=display">
+\left\{
+\begin{matrix}
+a_{00}x_0 & a_{01}x_1 & \cdots & a_{0n}x_n &= b_0 \\
+a_{10}x_0 & a_{11}x_1 & \cdots & a_{1n}x_n &= b_1 \\
+\vdots \\
+a_{m0}x_0 & a_{m1}x_1 & \cdots & a_{mn}x_n &= b_m 
+\end{matrix}\right.</script><p>将上式写为以向量 $ x $ 为未知元的向量方程</p>
+<script type="math/tex; mode=display">Ax = b \quad (1)</script><h5 id="方程是否有解"><a href="#方程是否有解" class="headerlink" title="方程是否有解"></a>方程是否有解</h5><p>设 $ B = (A, b) $ 为增广矩阵，$ R(A) $ 是矩阵 $ A $ 的秩，$ R(A, b) $ 是增广矩阵 $ B $ 的秩。</p>
+<ul>
+<li>无解的充分必要条件是 $ R(A) &lt; R(A, b) $;</li>
+<li>$ n $ 元线性方程组 $ Ax = b \quad $ 有唯一解的充分必要条件是 $ R(A) = R(A, b) = n $;</li>
+<li>有无限多解的充分必要条件是 $ R(A) = R(A, b) \leq n $.</li>
+</ul>
+<h5 id="LUP分解原理"><a href="#LUP分解原理" class="headerlink" title="LUP分解原理"></a>LUP分解原理</h5><p>$ LUP $ 分解的基本思想就是找出三个 $ n \times n $ 矩阵 $ L $、$ U $、$ P $，满足</p>
+<script type="math/tex; mode=display">PA = LU \quad (2)</script><p>其中，$ L $ 是一个单位下三角矩阵，$ U $ 是一个上三角矩阵，$ P $ 是一个置换矩阵。我们称满足式 (2) 的矩阵 $ L $、$ U $、$ P $ 为矩阵 $ A $ 的 <strong>LUP 分解</strong>。</p>
+<p>可以证明，如果矩阵 $ A $ 是一个非奇异矩阵，那么我们一定能找到 $ L $、$ U $、$ P $ 分解满足上式。</p>
+<p>这有什么用呢？</p>
+<p>我们先对 (1) 进行置换，在等式 $ Ax = b $ 两边同时乘以 $ P $ 置换，得到：$ PAx = Pb $，利用 (2) 式有</p>
+<script type="math/tex; mode=display">LUx = Pb</script><p>设 $ y = Ux $，其中 x 就是要求解的向量解。首先，通过一种称为“正向替换”的方法求解单位下三角系统</p>
+<script type="math/tex; mode=display">Ly = Pb \quad (3)</script><p>得到未知向量 $ y $。然后，通过一种称为“反向替换”的方法求解上三角系统</p>
+<script type="math/tex; mode=display">Ux = y \quad (4)</script><p>得到向量解 $ x $。由于置换矩阵 $ P $ 是可逆的，在等式 (2) 两边同时乘以 $ P^{-1} $，于是</p>
+<script type="math/tex; mode=display">A = P^{-1}LU</script><p>因此，向量 $ x $ 就是 $ Ax = b $ 的解</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+Ax
+&= P^{-1}LUx \\
+&= P^{-1}Ly \\
+&= P^{-1}Pb \\
+&= b
+\end{aligned}</script><h5 id="正向替换与反向替换"><a href="#正向替换与反向替换" class="headerlink" title="正向替换与反向替换"></a>正向替换与反向替换</h5><p>进一步看看正向替换与反向替换是如何进行的。</p>
+<ul>
+<li>正向替换</li>
+</ul>
+<p>已知 $ L $、$ P $ 和 $ b $，正向替换可在 $ O(n^2) $ 的时间内求解单位下三角系统 (3)。</p>
+<script type="math/tex; mode=display">
+Pb = 
+\begin{bmatrix}
+p_{0,0} & p_{0,1} & \cdots & p_{0,n} \\
+p_{1,0} & p_{1,1} & \cdots & p_{1,n} \\
+\vdots & \vdots & \cdots & \vdots \\
+p_{n,0} & p_{n,1} & \cdots & p_{n,n}
+\end{bmatrix}
+\begin{bmatrix}
+b_0 \\
+b_1 \\
+\vdots \\
+b_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+\sum_{j = 0}^{n}p_{0,j} \cdot b_j \\
+\sum_{j = 0}^{n}p_{1,j} \cdot b_j \\
+\vdots \\
+\sum_{j = 0}^{n}p_{n,j} \cdot b_j
+\end{bmatrix}</script><p>为了方便起见，这里用一个数组 $ \pi[0…n] $ 简洁地表示置换 $ P $。对 $ i = 0, 1, 2, \cdots, n $，元素 $ \pi[i] $ 表示 $ P_{i, \pi[i]} = 1 $，并且对 $ j \neq \pi[i] $ 有 $ P_{ij} = 0 $。因此，$ PA $ 第 $ i $ 行第 $ j $ 列的元素为 $ a_{\pi[i],j} $，$ Pb $ 的第 $ i $ 个元素为 $ b_{\pi[i]} $。因为 $ L $ 是单位下三角矩阵，我们可以重写等式 (3) 为：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+y_0 & & & & & & & & &= b_{\pi[0]} \\
+l_{10}y_0 & + & y_1 & & & & & & &= b_{\pi[1]} \\
+l_{20}y_0 & + & l_{21}y_1 & + & y_2 & & & & &= b_{\pi[2]} \\
+\vdots \\
+l_{n0}y_0 & + & l_{n1}y_1 & + & l_{n2}y_2 & + & \cdots & + & y_n &= b_{\pi[n]}
+\end{bmatrix}</script><p>第一个等式可以求出 $ y_0 $，我们把它代入第二个等式，求出 </p>
+<script type="math/tex; mode=display">y_1 = b_{\pi[1]} - l_{10}y_0</script><p>在将 $ y_1, y_2 $ 代入第三个等式，得到</p>
+<script type="math/tex; mode=display">y_2 = b_{\pi[2]} - (l_{20}y_0 + l{21}y_1)</script><p>一般的，我们把 $ y_0, y_1, \cdots, y_{i - 1} $ “正向替换”到第 $ i $ 个等式中，就可以求解 $ y_i $：</p>
+<script type="math/tex; mode=display">y_i = b_{\pi[i]} - \sum_{j = 0}^{i - 1} l_{ij}y_{j}</script><ul>
+<li>反向替换</li>
+</ul>
+<p>与正向替换类似，求解上三角系统等式 (4)。</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+u_{0,0}x_0 & + & u_{0,1}x_1 & + & \cdots & + & u_{0,n-2}x_{n-2} & + & u_{0,n-1}x_{n-1} & + & u_{0,n}x_n &= y_{0} \\
+& & u_{1,1}x_1 & + &  \cdots & + & u_{1,n-2}x_{n-2} & + & u_{1,n-1}x_{n-1} & + & u_{1,n}x_n &= y_{1} \\
+& & & & & & & & & & \vdots \\
+& & & & & & u_{n-2,n-2}x_{n-2} & + & u_{n-2,n-1}x_{n-1} & + & u_{n-2,n}x_n &= y_{n - 2} \\
+& & & & & & & & u_{n-1,n-1}x_{n-1} & + & u_{n-1,n}x_n &= y_{n - 1} \\
+& & & & & & & & & & u_{n,n}x_n &= y_{n}
+\end{bmatrix}</script><p>这里我们先求解第 $ n $ 个等式，然后往前一个等式代，因此可以如下相继求出 $ x_n, x_{n - 1}, \cdots, x_1 $ 的解：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+x_n &= \frac{y_{n}}{u_{n,n}} \\
+x_{n - 1} &= \frac{y_{n - 1} - u_{n - 1, n}x_n}{u_{n - 1,n - 1}} \\
+\vdots
+\end{aligned}</script><p>一般的，有</p>
+<script type="math/tex; mode=display">x_i = \frac{y_i - \sum_{j = i + 1}^{n} u_{ij}x_{j}}{u_{ij}}</script><h5 id="计算LUP分解"><a href="#计算LUP分解" class="headerlink" title="计算LUP分解"></a>计算LUP分解</h5><p>我们该如何找到这样的 $ L $、 $ U $、 $ P $ 矩阵呢？</p>
+<p>通常在 $ LUP $ 分解中包含一个置换矩阵 $ P $ 的原因是为了避免矩阵 $ A $ 中的主元 $ a_{i,i} = 0 $ ，即矩阵对角线上的数。</p>
+<p>但如果矩阵 $ A $ 的对角线上的数都不为 0，我们有一个 $ LU $ 分解算法就可以计算出矩阵 $ L $ 、 $ U $。</p>
+<p>下面先给出LU分解算法的实现，之后再分析算法原理。</p>
+<h5 id="LU分解算法实现"><a href="#LU分解算法实现" class="headerlink" title="LU分解算法实现"></a>LU分解算法实现</h5><p>示例(Example):</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+2 & 3 & 1 & 5 \\
+6 & 13 & 5 & 19 \\
+2 & 19 & 10 & 23 \\
+4 & 10 & 11 & 31 \\
+\end{bmatrix}</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">4</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lu</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt; &amp;l, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt; &amp;u, <span class="keyword">float</span> a[][N])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		l[i][i] = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">			l[i][j] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N; i++)</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++)</span><br><span class="line">			u[i][j] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		u[i][i] = a[i][i];</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">size_t</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			l[j][i] = a[j][i] / u[i][i];</span><br><span class="line">			u[i][j] = a[i][j];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">size_t</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">size_t</span> k = i + <span class="number">1</span>; k &lt; N; k++)</span><br><span class="line">				a[j][k] -= l[j][i] * u[i][k];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;  l(N, <span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;(N));</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;  u(N, <span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;(N));</span><br><span class="line">	<span class="keyword">float</span> a[N][N] = &#123;</span><br><span class="line">		<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">5</span>,</span><br><span class="line">		<span class="number">6</span>, <span class="number">13</span>, <span class="number">5</span>, <span class="number">19</span>,</span><br><span class="line">		<span class="number">2</span>, <span class="number">19</span>, <span class="number">10</span>, <span class="number">23</span>,</span><br><span class="line">		<span class="number">4</span>, <span class="number">10</span>, <span class="number">11</span>, <span class="number">31</span></span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	lu(l, u, a);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"L 矩阵:"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; N; j++)</span><br><span class="line">			<span class="built_in">cout</span> &lt;&lt; l[i][j] &lt;&lt; <span class="string">'\t'</span>;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"U 矩阵:"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; N; j++)</span><br><span class="line">			<span class="built_in">cout</span> &lt;&lt; u[i][j] &lt;&lt; <span class="string">'\t'</span>;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">memset</span>(a, <span class="number">0</span>, <span class="keyword">sizeof</span>(a));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; N; j++)</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; N; k++)</span><br><span class="line">				a[i][j] += l[i][k] * u[k][j];</span><br><span class="line"></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"A 矩阵:"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; N; j++)</span><br><span class="line">			<span class="built_in">cout</span> &lt;&lt; a[i][j] &lt;&lt; <span class="string">'\t'</span>;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="LU分解算法分析"><a href="#LU分解算法分析" class="headerlink" title="LU分解算法分析"></a>LU分解算法分析</h5><p>前面说到对于一个非奇异矩阵 $ A $，即 $ \det{A} \neq 0 $，就能找到其 $ LU $ 分解，那么运用正向替换与反向替换就可以求出线性方程组 $ Ax = b $ 的解。</p>
+<blockquote>
+<p>原理：算法利用高斯消元法来创建 $ LU $ 分解。首先从其他方程中减去第一个方程的倍数，以把那些方程中的第一个变量消去。然后，从第三个及以后的方程中减去第二个方程的倍数，把这些方程的第一个和第二个变量消去。继续上述过程，直到系统变为一个上三角矩阵形式，实际上此矩阵就是 $ U $。矩阵 $ L $ 是由消去变量所用的行的乘数组成。</p>
+</blockquote>
+<p>采用递归算法实现这个策略。我们希望构造出一个 $ n \times n $ 的非奇异矩阵 $ A $ 的一个 $ LU $ 分解。<br>如果 $ n = 1 $，则构造完成，因为可以算则 $ L = I_1 $ (注：$ I_n $ 是单位阵)， $ U = A $。对于 $ n &gt; 1 $，我们把 $ A $ 拆成 4 部分</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+a_{11} & | & a_{12} & \cdots & a_{1n} \\
+-&-&-&-&- \\
+a_{21} & | & a_{22} & \cdots & a_{2n} \\
+\vdots & | \\
+a_{n1} & | & a_{n2} & \cdots & a_{nn}
+\end{bmatrix}
+=
+\begin{bmatrix}
+a_{11} & \omega^T \\
+\upsilon & A'
+\end{bmatrix}</script><p>其中 $ \upsilon $ 是一个 $ n - 1 $ 维列向量，$ \omega^T $ 是一个 $ n - 1 $ 维行向量，$ A’ $ 是一个 $ (n - 1) \times (n - 1) $ 矩阵。然后，利用矩阵代数 (通过简单地从头到尾使用乘法来验证方程式)，可以把 $ A $ 分解为</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+1 & 0 \\
+\frac{\upsilon}{a_{11}} & I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{11} & \omega^T \\
+0 & A' - \frac{\upsilon\omega^T}{a_{11}}
+\end{bmatrix}</script><p>项 $ \frac{\upsilon\omega^T}{a_{11}} $ 是一个 $ (n - 1) \times (n - 1) $ 矩阵，它与矩阵 $ A’ $ 大小一致。所得矩阵</p>
+<script type="math/tex; mode=display">A' - \frac{\upsilon\omega^T}{a_{11}}</script><p>称为矩阵 $ A $ 对于 $ a_{11} $ 的<a href="https://en.wikipedia.org/wiki/Schur_complement" target="_blank" rel="noopener">舒尔补</a>。</p>
+<p>如果矩阵 $ A $ 是非奇异的，那么舒尔补矩阵也是非奇异的。</p>
+<p>因为舒尔补是非奇异的，现在我们可以递归地找出它的一个 $ LU $ 分解。我们说</p>
+<script type="math/tex; mode=display">A' - \frac{\upsilon\omega^T}{a_{11}} = L'U'</script><p>其中 $ L’ $ 是单位下三角矩阵，$ U’ $ 是上三角矩阵。然后，利用矩阵代数可得</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+A &= 
+\begin{bmatrix}
+1 & 0 \\
+\frac{\upsilon}{a_{00}} & I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{00} & \omega^T \\
+0 & A' - \frac{\upsilon\omega^T}{a_{00}}
+\end{bmatrix}
+= 
+\begin{bmatrix}
+1 & 0 \\
+\frac{\upsilon}{a_{00}} & I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k0} & \omega^T \\
+0 & L'U'
+\end{bmatrix} \\
+&=
+\begin{bmatrix}
+1 & 0 \\
+\frac{\upsilon}{a_{00}} & L'
+\end{bmatrix}
+\begin{bmatrix}
+a_{00} & \omega^T \\
+0 & U'
+\end{bmatrix}
+=
+LU
+\end{aligned}</script><ul>
+<li>时间复杂度 $ O(N^3) $</li>
+</ul>
+<h5 id="LUP分解算法实现"><a href="#LUP分解算法实现" class="headerlink" title="LUP分解算法实现"></a>LUP分解算法实现</h5><p>示例(Example):</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+2 & 0 & 2 & 0.6 \\
+3 & 3 & 4 & -2 \\
+5 & 5 & 4 & 2 \\
+-1 & -2 & 3.4 & -1
+\end{bmatrix}</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">4</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lup</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; &amp;P, <span class="keyword">float</span> a[][N])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">float</span> p = <span class="number">0</span>; <span class="keyword">size_t</span> i_;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">size_t</span> j = i; j &lt; N; j++)</span><br><span class="line">			<span class="keyword">if</span> (fabsf(a[j][i]) &gt; p)</span><br><span class="line">				p = fabsf(a[j][i]), i_ = j;</span><br><span class="line">		<span class="keyword">if</span> (p == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">		swap(P[i], P[i_]);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">size_t</span> j = <span class="number">0</span>; j &lt; N; j++)</span><br><span class="line">			swap(a[i][j], a[i_][j]);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">size_t</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			a[j][i] /= a[i][i];</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">size_t</span> k = i + <span class="number">1</span>; k &lt; N; k++)</span><br><span class="line">				a[j][k] -= a[j][i] * a[i][k];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; P(N);</span><br><span class="line">	<span class="keyword">float</span> b[][N] = &#123;</span><br><span class="line">		<span class="number">2</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0.6</span>,</span><br><span class="line">		<span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">-2</span>,</span><br><span class="line">		<span class="number">5</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">2</span>,</span><br><span class="line">		<span class="number">-1</span>, <span class="number">-2</span>, <span class="number">3.4</span>, <span class="number">-1</span></span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">    lup(P, b);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"B 矩阵:"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; N; j++)</span><br><span class="line">			<span class="built_in">cout</span> &lt;&lt; b[i][j] &lt;&lt; <span class="string">'\t'</span>;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"P 矩阵:"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; P.size(); i++)</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; i &lt;&lt; P[i] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>version 2.<code>lup()</code></strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lup2</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;&amp;l, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;&amp;u, <span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; &amp;P, <span class="keyword">float</span> a[][N])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		l[i][i] = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">			l[i][j] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N; i++)</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++)</span><br><span class="line">			u[i][j] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">float</span> p = <span class="number">0</span>; <span class="keyword">int</span> i_;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; N; j++)</span><br><span class="line">			<span class="keyword">if</span> (fabsf(a[j][i]) &gt; p)</span><br><span class="line">				p = fabsf(a[j][i]), i_ = j;</span><br><span class="line">		<span class="keyword">if</span> (p == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">		swap(P[i], P[i_]);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; N; j++)</span><br><span class="line">			swap(a[i][j], a[i_][j]);</span><br><span class="line">		u[i][i] = a[i][i];</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			l[j][i] = a[j][i] / u[i][i];</span><br><span class="line">			u[i][j] = a[i][j];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> k = i + <span class="number">1</span>; k &lt; N; k++)</span><br><span class="line">				a[j][k] -= l[j][i] * u[i][k];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="LUP分解算法分析"><a href="#LUP分解算法分析" class="headerlink" title="LUP分解算法分析"></a>LUP分解算法分析</h5><blockquote>
+<p>原理：算法考虑每次计算过程，若主元为 $ 0 $ 或主元的值大于除数时，我们将找到合适的行与当前主元所在的行进行交换。比如，第 $ 1 $ 行，第 $ 1 $ 列为 $ 0 $，我们把第 $ 1 $ 行与第 $ k $ 行互换，这等价于用一个置换矩阵 $ Q $ 左乘矩阵 $ A $。因此可以把 $ QA $ 写成</p>
+</blockquote>
+<script type="math/tex; mode=display">
+QA =
+\begin{bmatrix}
+a_{k1} & \omega^T \\
+\upsilon & A'
+\end{bmatrix}</script><p>其中</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\upsilon &= (a_{21}, a_{31}, \cdots, a_{n1})^T \\
+\omega^T &= (a_{k2}, a_{k3}, \cdots, a_{kn})
+\end{aligned}</script><p>$ A’ $ 是一个 $ (n - 1) \times (n - 1) $ 矩阵。因为 $ a_{k1} \neq 0 $，现在可以执行与 $ LU $ 分解基本相同的线性代数运算，但现在能保证不会除以 0</p>
+<script type="math/tex; mode=display">
+QA =
+\begin{bmatrix}
+a_{k1} & \omega^T \\
+\upsilon & A'
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 \\
+\frac{\upsilon}{a_{k1}} & I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} & \omega^T \\
+0 & A' - \frac{\upsilon\omega^T}{a_{k1}}
+\end{bmatrix}</script><p>如果 $ A $ 是非奇异的，那么舒尔补 $ A’ - \frac{\upsilon\omega^T}{a_{k1}} $ 也是非奇异的。因此，可以递归地找出它的一个 $ LUP $ 分解，包括单位下三角矩阵 $ L’ $、上三角矩阵 $ U’ $ 和 置换矩阵 $ P’ $，满足</p>
+<script type="math/tex; mode=display">P'(A' - \frac{\upsilon\omega^T}{a_{k1}}) = L'U'</script><p>定义</p>
+<script type="math/tex; mode=display">
+P = 
+\begin{bmatrix}
+1 & 0 \\
+0 & P'
+\end{bmatrix}
+Q</script><p>它是一个置换矩阵，因为它是两个置换矩阵的乘积。有</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+PA &= 
+\begin{bmatrix}
+1 & 0 \\
+0 & P'
+\end{bmatrix}
+QA = 
+\begin{bmatrix}
+1 & 0 \\
+0 & P'
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 \\
+\frac{\upsilon}{a_{k1}} & I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} & \omega^T \\
+0 & A' - \frac{\upsilon\omega^T}{a_{k1}}
+\end{bmatrix} \\
+&= 
+\begin{bmatrix}
+1 & 0 \\
+P'\frac{\upsilon}{a_{k1}} & P'
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} & \omega^T \\
+0 & A' - \frac{\upsilon\omega^T}{a_{k1}}
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 \\
+P'\frac{\upsilon}{a_{k1}} & I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} & \omega^T \\
+0 & P'(A' - \frac{\upsilon\omega^T}{a_{k1}})
+\end{bmatrix} \\
+&= 
+\begin{bmatrix}
+1 & 0 \\
+P'\frac{\upsilon}{a_{k1}} & I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} & \omega^T \\
+0 & L'U'
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 \\
+P'\frac{\upsilon}{a_{k1}} & L'
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} & \omega^T \\
+0 & U'
+\end{bmatrix}
+=
+LU
+\end{aligned}</script><p>这样就推出了 $ LUP $ 分解。因为 $ L’ $ 是单位下三角矩阵，所以 $ L $ 也是单位下三角矩阵；又因为 $ U’ $ 是上三角矩阵，于是 $ U $ 也是上三角矩阵。</p>
+<ul>
+<li>时间复杂度 $ O(N^3) $</li>
+</ul>
+<h5 id="求解线性方程组算法"><a href="#求解线性方程组算法" class="headerlink" title="求解线性方程组算法"></a>求解线性方程组算法</h5><p>有了以上基础知识以后，我们才能拿到 $ L $、$ U $、$ P $ ，步入最后一步求解出线性方程组 $ Ax = b $ 的向量解。</p>
+<h5 id="完整的算法实现"><a href="#完整的算法实现" class="headerlink" title="完整的算法实现"></a>完整的算法实现</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lu</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt; &amp;l, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt; &amp;u, <span class="keyword">float</span> a[][N])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		l[i][i] = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">			l[i][j] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N; i++)</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++)</span><br><span class="line">			u[i][j] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		u[i][i] = a[i][i];</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			l[j][i] = a[j][i] / u[i][i];</span><br><span class="line">			u[i][j] = a[i][j];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> k = i + <span class="number">1</span>; k &lt; N; k++)</span><br><span class="line">				a[j][k] -= l[j][i] * u[i][k];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lup</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; &amp;P, <span class="keyword">float</span> a[][N])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">float</span> p = <span class="number">0</span>; <span class="keyword">int</span> i_;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; N; j++)</span><br><span class="line">			<span class="keyword">if</span> (fabsf(a[j][i]) &gt; p)</span><br><span class="line">				p = fabsf(a[j][i]), i_ = j;</span><br><span class="line">		<span class="keyword">if</span> (p == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">		swap(P[i], P[i_]);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; N; j++)</span><br><span class="line">			swap(a[i][j], a[i_][j]);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			a[j][i] /= a[i][i];</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> k = i + <span class="number">1</span>; k &lt; N; k++)</span><br><span class="line">				a[j][k] -= a[j][i] * a[i][k];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lup2</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;&amp;l, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;&amp;u, <span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; &amp;P, <span class="keyword">float</span> a[][N])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		l[i][i] = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">			l[i][j] = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; N; i++)</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++)</span><br><span class="line">			u[i][j] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">float</span> p = <span class="number">0</span>; <span class="keyword">int</span> i_;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; N; j++)</span><br><span class="line">			<span class="keyword">if</span> (fabsf(a[j][i]) &gt; p)</span><br><span class="line">				p = fabsf(a[j][i]), i_ = j;</span><br><span class="line">		<span class="keyword">if</span> (p == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">		swap(P[i], P[i_]);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; N; j++)</span><br><span class="line">			swap(a[i][j], a[i_][j]);</span><br><span class="line">		u[i][i] = a[i][i];</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">		&#123;</span><br><span class="line">			l[j][i] = a[j][i] / u[i][i];</span><br><span class="line">			u[i][j] = a[i][j];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> k = i + <span class="number">1</span>; k &lt; N; k++)</span><br><span class="line">				a[j][k] -= l[j][i] * u[i][k];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lup_solve</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;&amp;l, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;&amp;u, <span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&amp;x, <span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&amp;y, <span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; b, <span class="keyword">float</span> a[][N])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">float</span> sum = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++)</span><br><span class="line">			sum += l[i][j] * y[j];</span><br><span class="line">		y[i] = b[i] - sum;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = N - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">float</span> sum = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; N; j++)</span><br><span class="line">			sum += u[i][j] * x[j];</span><br><span class="line">		x[i] = (y[i] - sum) / u[i][i];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;  l(N, <span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;(N));</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;  u(N, <span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;(N));</span><br><span class="line">	<span class="comment">/*float a[][N] = &#123;</span></span><br><span class="line"><span class="comment">		2, 3, 1, 5,</span></span><br><span class="line"><span class="comment">		6, 13, 5, 19,</span></span><br><span class="line"><span class="comment">		2, 19, 10, 23,</span></span><br><span class="line"><span class="comment">		4, 10, 11, 31</span></span><br><span class="line"><span class="comment">	&#125;;</span></span><br><span class="line"><span class="comment">	float b[][N] = &#123;</span></span><br><span class="line"><span class="comment">		2, 0, 2, 0.6,</span></span><br><span class="line"><span class="comment">		3, 3, 4, -2,</span></span><br><span class="line"><span class="comment">		5, 5, 4, 2,</span></span><br><span class="line"><span class="comment">		-1, -2, 3.4, -1</span></span><br><span class="line"><span class="comment">	&#125;;*/</span></span><br><span class="line">	<span class="keyword">float</span> c[][N] = &#123;</span><br><span class="line">		<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>,</span><br><span class="line">		<span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>,</span><br><span class="line">		<span class="number">5</span>, <span class="number">6</span>, <span class="number">3</span></span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; P(N);</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; x(N);</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; y(N);</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; b &#123; <span class="number">3</span>, <span class="number">7</span>, <span class="number">8</span> &#125;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">		P[i] = (<span class="keyword">float</span>)i;</span><br><span class="line"></span><br><span class="line">	lup2(l, u, P, c);</span><br><span class="line">	</span><br><span class="line">	lup_solve(l, u, x, y, b, c);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"解向量 x:"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; x[i] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>示例：</strong></p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+1 & 2 & 0 \\
+3 & 4 & 4 \\
+5 & 6 & 3
+\end{bmatrix}</script><p><strong>output:</strong></p>
+<p>使用 <code>lu()</code> 函数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">解向量 x:</span><br><span class="line">-1.4</span><br><span class="line">2.2</span><br><span class="line">0.6</span><br></pre></td></tr></table></figure>
+<p>使用 <code>lup2()</code> 函数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">解向量 x:</span><br><span class="line">-10.08</span><br><span class="line">7.94</span><br><span class="line">1.92</span><br></pre></td></tr></table></figure>
+<h3 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h3><p>显然，代码很直观的实现了对算法的描述过程，即利用正向替换，代换出 $ Ly = Pb $ 的 $ y $，然后再利用反向替换计算出 $ Ux = y $ 中的解向量 $ x $。</p>
+<ul>
+<li><code>lup_solve()</code>的时间复杂度为 $ O(N^2) $</li>
+</ul>
+<h3 id="矩阵求逆"><a href="#矩阵求逆" class="headerlink" title="矩阵求逆"></a>矩阵求逆</h3><p>$ A’ $ 是 $ A $ 的逆矩阵，则有</p>
+<script type="math/tex; mode=display">AA' = E</script><p>其中 $ E $ 是单位阵。</p>
+<p>设 $ X = A’ $， $ X_i $ 表示 $ X $ 的第 $ i $ 列， $ e_i $ 是 $ E $ 的第 $ i $ 列。于是可以利用 $ A $ 的 $ LUP $ 分解求解方程中的 $ X $，需分别求解每一个方程</p>
+<script type="math/tex; mode=display">AX_i = e_i</script><p>中的 $ X_i $。一旦得到 $ LUP $ 分解，就可以在 $ O(N^2) $ 时间内计算 $ n $ 个 $ X_i $ 列中的每一个，因此可以在 $ O(N^3) $ 时间内从 $ A $ 的 $ LUP $ 分解计算 $ X $。既然可以在 $ O(N^3) $ 内确定出 $ A $ 的 $ LUP $ 分解，我们就可以在 $ O(N^3) $ 的时间内求矩阵 $ A $ 的逆矩阵 $ A’ $。</p>
+<h5 id="算法演示"><a href="#算法演示" class="headerlink" title="算法演示"></a>算法演示</h5><p><strong>示例：</strong></p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+1 & 2 & 0 \\
+3 & 4 & 4 \\
+5 & 6 & 3
+\end{bmatrix}</script><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;  l(N, <span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;(N));</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt;  u(N, <span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;(N));</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; x(N);</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; y(N);</span><br><span class="line">	<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&gt; E &#123;</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&#123; <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span> &#125;, </span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span> &#125;,</span><br><span class="line">		<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt;&#123; <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">    <span class="keyword">float</span> a[][N] = &#123;</span><br><span class="line">		<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>,</span><br><span class="line">		<span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>,</span><br><span class="line">		<span class="number">5</span>, <span class="number">6</span>, <span class="number">3</span></span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	lu(l, u, a);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; E.size(); j++)</span><br><span class="line">	&#123;</span><br><span class="line">		lup_solve(l, u, x, y, E[j], a);</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"解向量 X["</span> &lt;&lt; j &lt;&lt; <span class="string">"]:"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">			<span class="built_in">cout</span> &lt;&lt; x[i] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>output:</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">解向量 X[0]:</span><br><span class="line">-1.2</span><br><span class="line">1.1</span><br><span class="line">-0.2</span><br><span class="line">解向量 X[1]:</span><br><span class="line">-0.6</span><br><span class="line">0.3</span><br><span class="line">0.4</span><br><span class="line">解向量 X[2]:</span><br><span class="line">0.8</span><br><span class="line">-0.4</span><br><span class="line">-0.2</span><br></pre></td></tr></table></figure>
+<p><strong>即</strong></p>
+<script type="math/tex; mode=display">
+A'=
+\begin{bmatrix}
+-1.2 & -0.6 & 0.8 \\
+1.1 & 0.3 & -0.4 \\
+-0.2 & 0.4 & -0.2
+\end{bmatrix}</script><h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><ul>
+<li>[1] 《算法导论 第三版》</li>
+<li>[2] 《线性代数 第五版》· 同济大学数学系</li>
+<li>[3] <a href="https://en.wikipedia.org/wiki/Matrix_multiplication" target="_blank" rel="noopener">matrix multiplicaton - wikipedia</a></li>
+</ul>
+
+
+            <!-- Tags -->
+            
+
+
+<div class="tags">
+    <a href="/tags/Math-C-C/">Math, C/C++</a>
+</div>
+
+
+
+            <!-- Comments -->
+            <div>
+                
+    <hr />
+    <h3>留言:</h3>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+
+
+
+            </div>
+        </div><!-- end content -->
+    </section>
+</section><!-- end main -->
+
+<!-- After footer scripts -->
+
+<!-- jQuery -->
+<script src="/js/jquery.js"></script>
+
+<!-- Custom Code -->
+<script src="/js/main.js"></script>
+
+<!-- Gallery -->
+<script src="//cdn.rawgit.com/noelboss/featherlight/1.3.5/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'klugjotest';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"superSample":2,"position":"right","width":150,"height":300,"hOffset":0,"vOffset":-20},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body>
+
+</html>
