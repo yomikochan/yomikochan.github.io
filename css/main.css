@@ -126,7 +126,7 @@ h5, h6          { font-weight: bolder }
     }
 
     header .logo{
-        margin-top: 100px;
+        margin-top: 30px;
     }
 
     header .logo a, header .logo a:active, header .logo a:visited {
@@ -146,13 +146,13 @@ h5, h6          { font-weight: bolder }
     header nav ul{
         display: block;
         overflow: hidden;
-        margin-top: 100px;
+        margin-top: 20px;
         list-style: none;
     }
 
     header nav ul li{
         display: block;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
 
     header nav ul li a{
@@ -170,7 +170,7 @@ h5, h6          { font-weight: bolder }
 
     header .footer{
         position: absolute;
-        bottom: 50px;
+        bottom: 20px;
     }
 
     header ul.social{
