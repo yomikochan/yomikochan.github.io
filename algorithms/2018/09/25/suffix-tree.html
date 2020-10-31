@@ -1,0 +1,136 @@
+<h3 id="前言">前言</h3>
+
+<p>详见我的这篇blog:<a href="https://www.cnblogs.com/darkchii/p/9116558.html">Suffix tree</a></p>
+
+<h3 id="路径压缩版后缀树">路径压缩版后缀树</h3>
+
+<pre><code class="language-C++">#include &lt;iostream&gt;
+using namespace std;
+#define rep(i, a, b) for(int i = a; i &lt; b; i++)
+#define trans(c) (c - 'a')
+#define SIZE 26
+#define MAX (100010 &lt;&lt; 2)
+struct BaseNode {
+	int len;
+	const char*s;
+	int pos[MAX];
+	BaseNode*next[SIZE];
+	BaseNode()
+	{
+		len = 0;
+		rep(i, 0, MAX) pos[i] = 0;
+		rep(i, 0, SIZE) next[i] = nullptr;
+	}
+	BaseNode(const char*s, int p)
+	{
+		this-&gt;s = s, this-&gt;len = p;
+		rep(i, 0, MAX) pos[i] = 0;
+		rep(i, 0, SIZE) next[i] = nullptr;
+	}
+};
+class SuffixTree {
+private:
+	BaseNode*root;
+	/**/
+	void add(const char*s, int p);
+	void print(BaseNode*r);
+	void destory(BaseNode*&amp;r);
+public:
+	SuffixTree()
+	{
+		root = nullptr;
+	}
+	void insert(const char*s);
+	void insert(string s)
+	{
+		insert(s.c_str());
+	}
+	void remove(const char*s)
+	{
+
+	}
+	void visual()
+	{
+		print(root);
+	}
+	bool match(const char*s);
+	bool match(string s)
+	{
+		match(s.c_str());
+	}
+	~SuffixTree()
+	{
+		destory(root);
+	}
+};
+void SuffixTree::add(const char*s, int p)
+{
+	int i = 0; while (s[i]) i++;
+	if (!root-&gt;next[p]) root-&gt;next[p] = new BaseNode(s, i);
+	root-&gt;next[p]-&gt;pos[i] = i;
+}
+void SuffixTree::insert(const char*s)
+{
+	root = new BaseNode();
+	while (*s)
+	{
+		add(s, trans(*s));
+		s++;
+	}
+}
+bool SuffixTree::match(const char*s)
+{
+	const char* ps = root-&gt;next[trans(*s)]-&gt;s;
+	while (*s) if (*ps++ != *s++) return false;
+	return true;
+}
+void SuffixTree::print(BaseNode*r)
+{
+	if (r)
+	{
+		rep(i, 0, SIZE)
+			if (r-&gt;next[i])
+			{
+				cout &lt;&lt; i &lt;&lt; ':' &lt;&lt; endl;
+				rep(j, 0, r-&gt;next[i]-&gt;len + 1)
+					if (r-&gt;next[i]-&gt;pos[j])
+					{
+						rep(k, 0, r-&gt;next[i]-&gt;pos[j])
+							cout &lt;&lt; r-&gt;next[i]-&gt;s[k];
+						cout &lt;&lt; '$' &lt;&lt; endl;
+					}
+			}
+	}
+}
+void SuffixTree::destory(BaseNode*&amp;r)
+{
+	if (r)
+	{
+		rep(i, 0, SIZE) destory(r-&gt;next[i]);
+		delete r;
+	}
+}
+int main()
+{
+	SuffixTree st;
+	st.insert("banana");
+	st.visual();
+	if (st.match("na")) cout &lt;&lt; "Yes" &lt;&lt; endl;
+	else cout &lt;&lt; "No" &lt;&lt; endl;
+	return 0;
+}
+</code></pre>
+
+<p>output:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0:
+a<span class="err">$</span>
+ana<span class="err">$</span>
+anana<span class="err">$</span>
+1:
+banana<span class="err">$</span>
+13:
+na<span class="err">$</span>
+nana<span class="err">$</span>
+Yes
+</code></pre></div></div>

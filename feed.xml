@@ -1,0 +1,1925 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-cn"><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://nekosama.club/feed.xml" rel="self" type="application/atom+xml" /><link href="https://nekosama.club/" rel="alternate" type="text/html" hreflang="zh-cn" /><updated>2020-10-31T23:42:08+08:00</updated><id>https://nekosama.club/feed.xml</id><title type="html">nekosama</title><subtitle>.</subtitle><author><name>nekosama</name></author><entry><title type="html">机器学习</title><link href="https://nekosama.club/2018/10/24/machine-learning.html" rel="alternate" type="text/html" title="机器学习" /><published>2018-10-24T22:34:16+08:00</published><updated>2018-10-24T22:34:16+08:00</updated><id>https://nekosama.club/2018/10/24/machine-learning</id><content type="html" xml:base="https://nekosama.club/2018/10/24/machine-learning.html">&lt;h3 id=&quot;前言&quot;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;机器学习可以做许多有趣的事情，每个技术方向都有入门例子，但实际上只是照着入门例子抄，然后跑一遍可能对入门并没有帮助。于是我就个人入门经验，用自己的例子来做一个入门指导吧。&lt;/p&gt;
+
+&lt;p&gt;虽然是入门，但这里并不会指导进行环境搭建，所以，在看这篇文章之前，请先准备好机器学习的环境。&lt;/p&gt;
+
+&lt;h3 id=&quot;你将会了解到的&quot;&gt;你将会了解到的&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;什么是数据集&lt;/li&gt;
+  &lt;li&gt;如何训练模型&lt;/li&gt;
+  &lt;li&gt;模型的复用&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;什么是数据集&quot;&gt;什么是数据集&lt;/h3&gt;
+
+&lt;p&gt;我个人觉得入门不太合适一上来就教如何数据处理，特征工程，应该先对做机器学习过程有一个大体了解，然后再深入细节，学习更多细节方面的东西。&lt;/p&gt;
+
+&lt;p&gt;首先我的例子是这样的：&lt;/p&gt;
+
+&lt;p&gt;预测方程 $ a_n = a_{n - 2} + a_{n - 4} + 1 $ 的第 $ n $ 项的值。（不要求答案完全正确，误差在 1e7 左右）&lt;/p&gt;
+
+&lt;p&gt;正常来说，这种问题不会用机器学习来做，明明可以写个递归跑，干嘛非要机器学习，误差还很大？嘛…你就当计算非常大的项 $ n $ 时，跑递归计算很慢，觉得不爽，只想知道值大概范围即可。&lt;/p&gt;
+
+&lt;p&gt;那么你可以继续往下看。。。&lt;/p&gt;
+
+&lt;p&gt;我们首先要有数据集让机器能学习，如何弄到数据集呢，呃，监督学习似乎都可以用表格来存储数据并作为数据集，对于上面这个问题，显然是回归任务，它是属于监督学习的。&lt;/p&gt;
+
+&lt;p&gt;而数据集一般也分为训练集和测试集，顾名思义，训练集用于训练，测试集用来测试训练好的模型的效果如何。&lt;/p&gt;
+
+&lt;p&gt;下面Python代码用来生成问题的训练集（python很慢）：&lt;/p&gt;
+
+&lt;div class=&quot;language-py highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;
+
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;recursive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;recursive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;recursive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+
+&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;66&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;recursive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'data'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'result'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to_csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'train.csv'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;这里我选择0~65用来训练，66~86用来测试。你可以用两个文件中分别保存训练集和测试集，也可以把所有数据放在同一个文件，然后训练时只取一部分。我用了两个文件。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;一般比赛时，主办方会提供数据集，所以，大家其实不太重视如何生成数据集，而更多的关注的是数据清洗等问题。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;如何训练模型&quot;&gt;如何训练模型&lt;/h3&gt;
+
+&lt;p&gt;前面也提到这是一个回归任务，那么至少要知道应该用 sklearn 提供的 linear_model 来做这个问题。&lt;/p&gt;
+
+&lt;p&gt;问题很单一，所以我们不需要数据预处理。。。&lt;/p&gt;
+
+&lt;p&gt;不过为什么用回归任务的线性模块算法，看看数据分布关系，就明白了：&lt;/p&gt;
+
+&lt;div class=&quot;language-py highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;seaborn&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sns&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;train&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read_csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'train.csv'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sns&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lmplot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'data'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'result'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/Figure_1.png&quot; alt=&quot;img1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;然后很简单的拟合，并保存模型：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Python&quot;&gt;import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.linear_model import Lasso, RidgeCV, ElasticNet, BayesianRidge, LinearRegression, LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.externals import joblib
+from sklearn.preprocessing import PolynomialFeatures
+
+
+train = pd.read_csv('train.csv')
+train_X, train_y = train.iloc[:, :-1].values, train['result']
+
+poly_reg = PolynomialFeatures(degree=9) # 2333
+X = poly_reg.fit_transform(train_X)
+clf = LinearRegression()
+print(clf.fit(X, train_y)) # 拟合
+
+# c = clf.coef_
+# print('参数：', c)
+
+plt.scatter(train_X, train_y)
+plt.plot(X, clf.predict(X))
+plt.xlabel('data')
+plt.ylabel('result')
+plt.show()
+
+joblib.dump(clf, 'save_model.m') # 拟合后，随意取个名字保存即可
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;把大多数回归模型可以用的算法都试过以后，发现还是非线性回归转线性回归最合适，误差也小一些。然而评分看着很高，却并没有什么用（笑）&lt;/p&gt;
+
+&lt;h3 id=&quot;模型的复用&quot;&gt;模型的复用&lt;/h3&gt;
+
+&lt;p&gt;上面保存了训练好的模型，我们随时可以用它来做事:&lt;/p&gt;
+
+&lt;div class=&quot;language-py highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;seaborn&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sns&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.metrics&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mean_squared_error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r2_score&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.linear_model&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Lasso&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RidgeCV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ElasticNet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BayesianRidge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LinearRegression&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LogisticRegression&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.externals&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;joblib&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.preprocessing&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PolynomialFeatures&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read_csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'test.csv'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;test_X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test_y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iloc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'result'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;clf&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;joblib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'save_model.m'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;poly_reg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PolynomialFeatures&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;degree&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;poly_reg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit_transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pred&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;clf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# 预测
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'均方误差：%.2f'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mean_squared_error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y_true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_pred&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'评分：%.2f'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r2_score&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y_true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_pred&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>nekosama</name></author><category term="Machine Leraning" /><category term="Python" /><summary type="html">前言</summary></entry><entry><title type="html">Hello World</title><link href="https://nekosama.club/2018/10/23/hello-world.html" rel="alternate" type="text/html" title="Hello World" /><published>2018-10-23T00:00:00+08:00</published><updated>2018-10-23T00:00:00+08:00</updated><id>https://nekosama.club/2018/10/23/hello-world</id><content type="html" xml:base="https://nekosama.club/2018/10/23/hello-world.html">&lt;h2 id=&quot;个人小站建立时间&quot;&gt;个人小站建立时间&lt;/h2&gt;
+
+&lt;p&gt;2018-07-06&lt;/p&gt;</content><author><name>nekosama</name></author><summary type="html">个人小站建立时间</summary></entry><entry><title type="html">哈希树</title><link href="https://nekosama.club/algorithms/2018/09/28/hash-tree.html" rel="alternate" type="text/html" title="哈希树" /><published>2018-09-28T03:15:40+08:00</published><updated>2018-09-28T03:15:40+08:00</updated><id>https://nekosama.club/algorithms/2018/09/28/hash-tree</id><content type="html" xml:base="https://nekosama.club/algorithms/2018/09/28/hash-tree.html">&lt;h3 id=&quot;简介&quot;&gt;简介&lt;/h3&gt;
+
+&lt;p&gt;哈希树又叫做&lt;a href=&quot;https://en.wikipedia.org/wiki/Merkle_tree&quot;&gt;Merkle tree&lt;/a&gt;。广泛应用于密码学领域进行数据加密。个人也很喜欢这个算法。&lt;/p&gt;
+
+&lt;h3 id=&quot;数据结构&quot;&gt;数据结构&lt;/h3&gt;
+
+&lt;p&gt;一张十分易懂的图(来源：https://blog.csdn.net/yang_yulei/article/details/46337405) ：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://img.it610.com/image/info5/41313cddbbed46e8aee99b9ffd72654e.jpg&quot; alt=&quot;hash_tree.png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;template&amp;lt;class T1, class T2&amp;gt; struct BaseNode {
+    T1 key; T2 val;
+    BaseNode*next[N];
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;加权函数&quot;&gt;加权函数&lt;/h3&gt;
+
+&lt;p&gt;由于key数据主要使用字符串类型，所以我们先考虑将字符串进行加权。沿用了我做&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Json解析器&lt;/code&gt;时用到的加权函数。稍有不同的是，这里直接使用每一个字符的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ascii&lt;/code&gt;码乘以字符的位置，最后再加上字符串长度。因为考虑到数字类的字符的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ascii&lt;/code&gt;码比字符&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt;小，会出现负数。设字符串长度为 $ n $，则加权函数为&lt;/p&gt;
+
+\[weight(s) = n + \sum_{i = 0}^{n} s_{i} \cdot (i + 1)\]
+
+&lt;p&gt;即&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;ll weight(string key)
+{
+    ll x = 0; size_t i = 0;
+    for (; i &amp;lt; key.size(); i++) x += key[i]*(i + 1);
+    return x + i;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;算法解析&quot;&gt;算法解析&lt;/h3&gt;
+
+&lt;p&gt;显然，树由上而下变得越来越茂密，因为，根据质数的性质，如果质数越小，则能被其整除的数越多，所以，发生碰撞的概率越大，于是这样就导致了树的形状。
+关于为什么质数只使用到 $ 29 $，每一层的子节点数最大为 $ 32 $ 的问题，我认为看严谨的数学证明会更好：https://wenku.baidu.com/view/16b2c7abd1f34693daef3e58.html&lt;/p&gt;
+
+&lt;p&gt;ps 还是想说说算法的空间复杂度：第0层1个根节点，第1层为2进制，第0层最多2个子节点，第2层为3进制，每个节点最多3个子节点，第3层为5进制，每个节点最多5个子节点。。。以此类推，注意到每一层的总结点个数为以该层的进制数为底，前一层的进制数为幂，因此最坏情况下，10层的时候，哈希树的总空间大小为：$ 2^1 + 3^2 + 5^3 + 7^5 + 11^7 + 13^{11} + 17^{13} + 19^{17} + 23^{19} + 29^{23} $ 这是一个非常大的数字，所以空间是完全足够的。至于32，每层每个节点都有32个子节点的空间，最大可以 $ mod \ 29 $，所以，下标也不会越界。想要突破第十层，需要比较特殊的一组数，可以连续映射前 10 个质数。其实也很容易突破，只要这组数满足第 $ i $ 个数能被前 $ i $ 个质数整除，就可以了（我之前的加权算法会导致这样的情况，比如，这样一组字符串 “a”,”b”,”c”,”d”，虽然字符串不同，但却都被加权为1，结果 $ 1 \ mod $ 任何数都为1，嘛…后来改为下标从 1 开始就不存在单个字符组成的字符串被加权为 1 的情况了）。但工程中也尽量避免这样的情况，会做一些处理，所以基本上属于概率问题了。&lt;/p&gt;
+
+&lt;h3 id=&quot;算法实现&quot;&gt;算法实现&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define ll long long
+#define MAX_OVERFLOW 0x16
+using namespace std;
+const int N = 32;
+const int prime[] = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
+template&amp;lt;class T&amp;gt;ll weight(T key)
+{
+    ll x = 0; size_t i = 0;
+    for (; key[i]; i++) x += key[i]*(i + 1);
+    return x + i;
+}
+template&amp;lt;class T1, class T2&amp;gt; struct BaseNode {
+    T1 key; T2 val;
+    unsigned short floor;
+    BaseNode*next[N];
+    BaseNode() { floor = 0; REP(i, N) next[i] = nullptr; }
+    BaseNode(T1 k, T2 v) : key(k), val(v) { floor = 0; REP(i, N) next[i] = nullptr; }
+};
+template&amp;lt;class T1, class T2&amp;gt;
+class HashTree {
+private:
+    T2 return_type_value;
+    BaseNode&amp;lt;T1, T2&amp;gt;*root;
+    void destory(BaseNode&amp;lt;T1, T2&amp;gt;*&amp;amp;r)
+    {
+        if (r)
+        {
+            REP(i, prime[r-&amp;gt;floor]) destory(r-&amp;gt;next[i]);
+            delete r;
+        }
+    }
+    void print(BaseNode&amp;lt;T1, T2&amp;gt;*&amp;amp;r)
+    {
+        if (r)
+        {
+            REP(i, prime[r-&amp;gt;floor]) print(r-&amp;gt;next[i]);
+            cout &amp;lt;&amp;lt; r-&amp;gt;key &amp;lt;&amp;lt; &quot;:&quot; &amp;lt;&amp;lt; r-&amp;gt;val &amp;lt;&amp;lt; endl;
+        }
+    }
+    BaseNode&amp;lt;T1, T2&amp;gt;* findkey(T1 key)
+    {
+        BaseNode&amp;lt;T1, T2&amp;gt;*p = root;
+        if (p)
+        {
+            size_t i = 0;
+            while (p &amp;amp;&amp;amp; p-&amp;gt;key != key)
+                p = p-&amp;gt;next[weight(key)%prime[i++]];
+            return p;
+        }
+        return nullptr;
+    }
+public:
+    HashTree()
+    {
+        root = nullptr;
+        if (typeid(T2) == typeid(string))
+            return_type_value = string(&quot;&quot;);
+        else if (typeid(T2) == typeid(const char*))
+            return_type_value = &quot;&quot;;
+        else if (typeid(T2) == typeid(char*))
+            return_type_value = &quot;&quot;;
+        else if (typeid(T2) == typeid(long long))
+            return_type_value = MAX_OVERFLOW;
+        else if (typeid(T2) == typeid(int))
+            return_type_value = ~MAX_OVERFLOW | 1;
+        else if (typeid(T2) == typeid(unsigned))
+            return_type_value = MAX_OVERFLOW &amp;gt;&amp;gt; 1 | 1;
+        else if (typeid(T2) == typeid(short))
+            return_type_value = ~MAX_OVERFLOW &amp;gt;&amp;gt; 1;
+        else if (typeid(T2) == typeid(double))
+            return_type_value = MAX_OVERFLOW | 1;
+        else if (typeid(T2) == typeid(float))
+            return_type_value = MAX_OVERFLOW &amp;gt;&amp;gt; 1 | 1;
+        else if (typeid(T2) == typeid(bool))
+            return_type_value = false;
+        else
+            return_type_value = nullptr;
+    }
+    HashTree(T1 k, T2 v) { root = nullptr; insert(k, v); }
+    ~HashTree() { destory(root); }
+    void insert(T1 key, T2 val)
+    {
+        BaseNode&amp;lt;T1, T2&amp;gt;*n = new BaseNode&amp;lt;T1, T2&amp;gt;(key, val);
+        if (!root)
+            root = n;
+        else
+        {
+            if (!findkey(key))
+            {
+                BaseNode&amp;lt;T1, T2&amp;gt;*p = root; size_t i = 0;
+                while (p-&amp;gt;next[weight(key)%prime[i]])
+                    p = p-&amp;gt;next[weight(key)%prime[i++]];
+                n-&amp;gt;floor = i + 1;
+                p-&amp;gt;next[weight(key)%prime[i]] = n;
+            }
+        }
+    }
+    void update(T1 key, T2 val)
+    {
+        BaseNode&amp;lt;T1, T2&amp;gt;*p = findkey(key);
+        if (p) p-&amp;gt;val = val;
+        else
+        {
+            cerr &amp;lt;&amp;lt; &quot;Not found the key!&quot; &amp;lt;&amp;lt; endl;
+            return;
+        }
+    }
+    void remove(T1 key)
+    {
+        BaseNode&amp;lt;T1, T2&amp;gt;*p = findkey(key);
+        if (p)
+        {
+            size_t i = 0, pos;
+            while (!p-&amp;gt;next[i++]) /* pass */;
+            pos = i - 1;
+            queue&amp;lt;BaseNode&amp;lt;T1, T2&amp;gt;*&amp;gt; children;
+            while (i &amp;lt; prime[p-&amp;gt;next[pos]-&amp;gt;floor - 1])
+            {
+                if (p-&amp;gt;next[i]) children.push(p-&amp;gt;next[i]);
+                i++;
+            }
+            p = p-&amp;gt;next[pos];
+            delete p;
+            while (!children.empty())
+            {
+                BaseNode&amp;lt;T1, T2&amp;gt;*siling = children.front(); children.pop();
+                BaseNode&amp;lt;T1, T2&amp;gt;*n = p; size_t j = siling-&amp;gt;floor;
+                while (p-&amp;gt;next[weight(siling-&amp;gt;key)%prime[j]])
+                    p = p-&amp;gt;next[weight(siling-&amp;gt;key)%prime[j++]];
+                p-&amp;gt;next[weight(siling-&amp;gt;key)%prime[j]] = siling;
+            }
+        }
+        else
+        {
+            cerr &amp;lt;&amp;lt; &quot;Not found the key!&quot; &amp;lt;&amp;lt; endl;
+            return;
+        }
+    }
+    void visual()
+    {
+        print(root);
+    }
+    T2&amp;amp; GetValue(T1 key)
+    {
+        BaseNode&amp;lt;T1, T2&amp;gt;*n = findkey(key);
+        if (n)
+            return n-&amp;gt;val;
+        cerr &amp;lt;&amp;lt; &quot;Not found the key!&quot; &amp;lt;&amp;lt; endl;
+        return return_type_value;
+    }
+    T2&amp;amp; operator[](T1 key)
+    {
+        return GetValue(key);
+    }
+    T2&amp;amp; operator=(T2 val)
+    {
+        return val;
+    }
+};
+int main()
+{
+    HashTree&amp;lt;string, string&amp;gt; n;
+    n.insert(&quot;one&quot;, &quot;first&quot;);
+    n.insert(&quot;two&quot;, &quot;second&quot;);
+    n.insert(&quot;three&quot;, &quot;third&quot;);
+    n.insert(&quot;four&quot;, &quot;fourth&quot;);
+    n.insert(&quot;five&quot;, &quot;fifth&quot;);
+    n.insert(&quot;six&quot;, &quot;sixth&quot;);
+
+    cout &amp;lt;&amp;lt; n[&quot;two&quot;] &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; n[&quot;three&quot;] &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; n[&quot;one&quot;] &amp;lt;&amp;lt; endl;
+    n[&quot;one&quot;] = &quot;error&quot;; // 还可以通过这样的方式进行赋值
+    cout &amp;lt;&amp;lt; n[&quot;one&quot;] &amp;lt;&amp;lt; endl;
+
+    n.visual();
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;output:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;second
+third
+first
+error
+six:sixth
+five:fifth
+three:third
+two:second
+four:fourth
+one:error
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>nekosama</name></author><category term="C/C++" /><summary type="html">简介</summary></entry><entry><title type="html">后缀树</title><link href="https://nekosama.club/algorithms/2018/09/25/suffix-tree.html" rel="alternate" type="text/html" title="后缀树" /><published>2018-09-25T22:47:46+08:00</published><updated>2018-09-25T22:47:46+08:00</updated><id>https://nekosama.club/algorithms/2018/09/25/suffix-tree</id><content type="html" xml:base="https://nekosama.club/algorithms/2018/09/25/suffix-tree.html">&lt;h3 id=&quot;前言&quot;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;详见我的这篇blog:&lt;a href=&quot;https://www.cnblogs.com/darkchii/p/9116558.html&quot;&gt;Suffix tree&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;路径压缩版后缀树&quot;&gt;路径压缩版后缀树&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;iostream&amp;gt;
+using namespace std;
+#define rep(i, a, b) for(int i = a; i &amp;lt; b; i++)
+#define trans(c) (c - 'a')
+#define SIZE 26
+#define MAX (100010 &amp;lt;&amp;lt; 2)
+struct BaseNode {
+	int len;
+	const char*s;
+	int pos[MAX];
+	BaseNode*next[SIZE];
+	BaseNode()
+	{
+		len = 0;
+		rep(i, 0, MAX) pos[i] = 0;
+		rep(i, 0, SIZE) next[i] = nullptr;
+	}
+	BaseNode(const char*s, int p)
+	{
+		this-&amp;gt;s = s, this-&amp;gt;len = p;
+		rep(i, 0, MAX) pos[i] = 0;
+		rep(i, 0, SIZE) next[i] = nullptr;
+	}
+};
+class SuffixTree {
+private:
+	BaseNode*root;
+	/**/
+	void add(const char*s, int p);
+	void print(BaseNode*r);
+	void destory(BaseNode*&amp;amp;r);
+public:
+	SuffixTree()
+	{
+		root = nullptr;
+	}
+	void insert(const char*s);
+	void insert(string s)
+	{
+		insert(s.c_str());
+	}
+	void remove(const char*s)
+	{
+
+	}
+	void visual()
+	{
+		print(root);
+	}
+	bool match(const char*s);
+	bool match(string s)
+	{
+		match(s.c_str());
+	}
+	~SuffixTree()
+	{
+		destory(root);
+	}
+};
+void SuffixTree::add(const char*s, int p)
+{
+	int i = 0; while (s[i]) i++;
+	if (!root-&amp;gt;next[p]) root-&amp;gt;next[p] = new BaseNode(s, i);
+	root-&amp;gt;next[p]-&amp;gt;pos[i] = i;
+}
+void SuffixTree::insert(const char*s)
+{
+	root = new BaseNode();
+	while (*s)
+	{
+		add(s, trans(*s));
+		s++;
+	}
+}
+bool SuffixTree::match(const char*s)
+{
+	const char* ps = root-&amp;gt;next[trans(*s)]-&amp;gt;s;
+	while (*s) if (*ps++ != *s++) return false;
+	return true;
+}
+void SuffixTree::print(BaseNode*r)
+{
+	if (r)
+	{
+		rep(i, 0, SIZE)
+			if (r-&amp;gt;next[i])
+			{
+				cout &amp;lt;&amp;lt; i &amp;lt;&amp;lt; ':' &amp;lt;&amp;lt; endl;
+				rep(j, 0, r-&amp;gt;next[i]-&amp;gt;len + 1)
+					if (r-&amp;gt;next[i]-&amp;gt;pos[j])
+					{
+						rep(k, 0, r-&amp;gt;next[i]-&amp;gt;pos[j])
+							cout &amp;lt;&amp;lt; r-&amp;gt;next[i]-&amp;gt;s[k];
+						cout &amp;lt;&amp;lt; '$' &amp;lt;&amp;lt; endl;
+					}
+			}
+	}
+}
+void SuffixTree::destory(BaseNode*&amp;amp;r)
+{
+	if (r)
+	{
+		rep(i, 0, SIZE) destory(r-&amp;gt;next[i]);
+		delete r;
+	}
+}
+int main()
+{
+	SuffixTree st;
+	st.insert(&quot;banana&quot;);
+	st.visual();
+	if (st.match(&quot;na&quot;)) cout &amp;lt;&amp;lt; &quot;Yes&quot; &amp;lt;&amp;lt; endl;
+	else cout &amp;lt;&amp;lt; &quot;No&quot; &amp;lt;&amp;lt; endl;
+	return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;output:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0:
+a&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;
+ana&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;
+anana&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;
+1:
+banana&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;
+13:
+na&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;
+nana&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;
+Yes
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>nekosama</name></author><category term="C/C++" /><summary type="html">前言</summary></entry><entry><title type="html">P3372（模板）线段树1</title><link href="https://nekosama.club/algorithms/2018/09/24/p3372.html" rel="alternate" type="text/html" title="P3372（模板）线段树1" /><published>2018-09-24T16:35:08+08:00</published><updated>2018-09-24T16:35:08+08:00</updated><id>https://nekosama.club/algorithms/2018/09/24/p3372</id><content type="html" xml:base="https://nekosama.club/algorithms/2018/09/24/p3372.html">&lt;h3 id=&quot;代码&quot;&gt;代码&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define MP make_pair
+#define PB push_back
+#define st first
+#define nd second
+#define rd third
+#define rg register
+#define FOR(i, a, b) for(int i =(a); i &amp;lt;=(b); ++i)
+#define RE(i, n) FOR(i, 1, n)
+#define FORD(i, a, b) for(int i = (a); i &amp;gt;= (b); --i)
+#define REP(i, n) for(int i = 0;i &amp;lt;(n); ++i)
+#define VAR(v, i) __typeof(i) v=(i)
+#define FORE(i, c) for(VAR(i, (c).begin()); i != (c).end(); ++i)
+#define ALL(x) (x).begin(), (x).end()
+#define SZ(x) ((int)(x).size())
+using namespace std;
+#define l(i) ((i) &amp;lt;&amp;lt; 1)
+#define r(i) ((i) &amp;lt;&amp;lt; 1 | 1)
+const int N = 500010;
+struct { int l, r, val, tag; } segment[N];
+inline int read()
+{
+    char c; int ret = 0, sgn = 1;
+    do{c = getchar();}while((c &amp;lt; '0' || c &amp;gt; '9') &amp;amp;&amp;amp; c != '-');
+    if(c == '-') sgn = -1; else ret = c - '0';
+    while((c = getchar()) &amp;gt;= '0' &amp;amp;&amp;amp; c &amp;lt;= '9') ret = ret * 10 + (c - '0');
+    return sgn * ret;
+}
+void build(int num[], int s, int e, int p)
+{
+    if (s == e) segment[p].val = num[s];
+    else
+    {
+        segment[p].tag = 0;
+        int m = (s + e) &amp;gt;&amp;gt; 1;
+        build(num, s, m, l(p));
+        build(num, m + 1, e, r(p));
+        segment[p].val = segment[l(p)].val + segment[r(p)].val;
+    }
+}
+void update(int s, int e, int b, int f, int p, int v)
+{
+    if (b &amp;lt;= s &amp;amp;&amp;amp; e &amp;lt;= f)
+    {
+        segment[p].val += v*(e - s + 1);
+        segment[p].tag += v;
+        return;
+    }
+    int m = (s + e) &amp;gt;&amp;gt; 1;
+    segment[l(p)].tag += segment[p].tag;
+    segment[l(p)].val += segment[p].tag*(m - s + 1);
+    segment[r(p)].tag += segment[p].tag;
+    segment[r(p)].val += segment[p].tag*(e - m);
+    segment[p].tag = 0;
+    if (b &amp;lt;= m) update(s, m, b, f, l(p), v);
+    if (f &amp;gt; m) update(m + 1, e, b, f, r(p), v);
+    segment[p].val = segment[l(p)].val + segment[r(p)].val;
+}
+int query(int s, int e, int b, int f, int p)
+{
+    if (b &amp;lt;= s &amp;amp;&amp;amp; e &amp;lt;= f) return segment[p].val;
+    int m = (s + e) &amp;gt;&amp;gt; 1, ans = 0;
+    segment[l(p)].tag += segment[p].tag;
+    segment[l(p)].val += segment[p].tag*(m - s + 1);
+    segment[r(p)].tag += segment[p].tag;
+    segment[r(p)].val += segment[p].tag*(e - m);
+    segment[p].tag = 0;
+    if (b &amp;lt;= m) ans += query(s, m, b, f, l(p));
+    if (f &amp;gt; m) ans += query(m + 1, e, b, f, r(p));
+    return ans;
+}
+int main()
+{
+    int n, m, num[N], x, y, v, opera;
+    cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; m;
+    for (int i = 1; i &amp;lt;= n; i++)
+        cin &amp;gt;&amp;gt; num[i];
+    build(num, 1, n, 1);
+    while (m--)
+    {
+        cin &amp;gt;&amp;gt; opera;
+        switch(opera)
+        {
+            case 1: cin &amp;gt;&amp;gt; x &amp;gt;&amp;gt; y &amp;gt;&amp;gt; v; update(1, n, x, y, 1, v); break;
+            case 2: cin &amp;gt;&amp;gt; x &amp;gt;&amp;gt; y; cout &amp;lt;&amp;lt; query(1, n, x, y, 1) &amp;lt;&amp;lt; endl; break;
+        }
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content><author><name>nekosama</name></author><category term="C/C++" /><category term="Lougu" /><summary type="html">代码</summary></entry><entry><title type="html">P3368（模板）树状数组</title><link href="https://nekosama.club/algorithms/2018/09/19/p3368.html" rel="alternate" type="text/html" title="P3368（模板）树状数组" /><published>2018-09-19T22:50:59+08:00</published><updated>2018-09-19T22:50:59+08:00</updated><id>https://nekosama.club/algorithms/2018/09/19/p3368</id><content type="html" xml:base="https://nekosama.club/algorithms/2018/09/19/p3368.html">&lt;h3 id=&quot;前言&quot;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;借这个题学新姿势，这个题需要利用差分才能AC，普通树状树有3个点过不了。&lt;/p&gt;
+
+&lt;h5 id=&quot;差分原理参考题解区大佬&quot;&gt;差分原理（参考题解区大佬）：&lt;/h5&gt;
+
+&lt;p&gt;一个例子，一组数据 $ a[] = { 1, 5, 4, 2, 3 } $，差分后得到 $ b[] = { 1, 4, -1, -2, 1 } $，其中 $ a_0 = 0, b_i = a_i - a_{i - 1} $，求原数组 $ a_n $ 某个位置 $ i $ 上的值。&lt;/p&gt;
+
+&lt;p&gt;由 $ b_i = a_i - a_{i - 1} \Rightarrow a_i = b_i + a_{i - 1} $，于是&lt;/p&gt;
+
+\[\left.
+\begin{aligned}
+a_i &amp;amp;= b_i + a_{i - 1} \\
+a_{i - 1} &amp;amp;= b_{i - 1} + a_{i - 2} \\
+\vdots \\
+a_1 &amp;amp;= b_1 + a_0
+\end{aligned} \right
+\} +\]
+
+\[\Rightarrow  a_i = b_i + b_{i - 1} + \cdots + b_1 + a_0\]
+
+&lt;p&gt;注意到 $ a_0 = 0 $，于是 $ a_i = \sum_{i = 1}^{n} b_i $ 。这样就求出了原数组位置上的值了。&lt;/p&gt;
+
+&lt;p&gt;然后再看看如何更新区间的值呢。&lt;/p&gt;
+
+&lt;p&gt;我们对 a 数组区间 2 ~ 4 每个值进行 +2 操作，得到 $ 1, 7, 6, 4, 3 $，我们对这个数组进行新的差分得到 $ b_n’ = { 1 6 -1 -2 -1 } $ ，我们比较新的差分数组 $ b_n’ $ 与 $ b_n $，发现只有 $ b_2’, b_5’ $ 上的值变了，$ b_2’ = b_2 + 2, b_5’ = b_5 - 2 $，可以验证，在任何区间 $ a[l,…,r] $ 做出 $ +x $ 更新，都有 $ b_l’ = b_l + x , b_{r + 1}’ = b_{r + 1} - x $ 。并且不论任何数组经过这样操作都有这样的特点，于是就有了代码中的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dif()&lt;/code&gt; 函数对区间进行更新。这样每次更新只用更新位置 $ b_l, b_{r + 1} $ 上的值，效率提高了许多。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define MP make_pair
+#define PB push_back
+#define st first
+#define nd second
+#define rd third
+#define rg register
+#define FOR(i, a, b) for(int i =(a); i &amp;lt;=(b); ++i)
+#define RE(i, n) FOR(i, 1, n)
+#define FORD(i, a, b) for(int i = (a); i &amp;gt;= (b); --i)
+#define REP(i, n) for(int i = 0;i &amp;lt;(n); ++i)
+#define VAR(v, i) __typeof(i) v=(i)
+#define FORE(i, c) for(VAR(i, (c).begin()); i != (c).end(); ++i)
+#define ALL(x) (x).begin(), (x).end()
+#define SZ(x) ((int)(x).size())
+using namespace std;
+
+#define lowbit(x) ((x) &amp;amp; (-x))
+const int N = 500010;
+int id[N];
+void upd(int n, int k, int x)
+{
+    while (k &amp;lt;= n) id[k] += x, k += lowbit(k);
+}
+void dif(int n, int l, int r, int x)
+{
+    upd(n, l, x);
+    upd(n, r + 1, -x);
+}
+int sum(int k)
+{
+    int ans = 0;
+    while (k &amp;gt; 0) ans += id[k], k -= lowbit(k);
+    return ans;
+}
+int org(int k)
+{
+    return sum(k) - sum(k - 1);
+}
+int ask(int l, int r)
+{
+    return sum(r) - sum(l - 1);
+}
+int main()
+{
+    int n, m, k, x, opera, l, r, pre;
+    pre = 0;
+    cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; m;
+    FOR (i, 1, n)
+    {
+        cin &amp;gt;&amp;gt; x;
+        upd(n, i, x - pre); // 差分后更新到树状数组
+        pre = x;
+    }
+    while(m--)
+    {
+        cin &amp;gt;&amp;gt; opera;
+        switch(opera)
+        {
+            case 1: cin &amp;gt;&amp;gt; l &amp;gt;&amp;gt; r &amp;gt;&amp;gt; x; dif(n, l, r, x); break;
+            case 2: cin &amp;gt;&amp;gt; k; cout &amp;lt;&amp;lt; sum(k) &amp;lt;&amp;lt; endl; break;
+        }
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content><author><name>nekosama</name></author><category term="C/C++" /><category term="Lougu" /><summary type="html">前言</summary></entry><entry><title type="html">筛法</title><link href="https://nekosama.club/algorithms/2018/09/13/sieve.html" rel="alternate" type="text/html" title="筛法" /><published>2018-09-13T16:50:51+08:00</published><updated>2018-09-13T16:50:51+08:00</updated><id>https://nekosama.club/algorithms/2018/09/13/sieve</id><content type="html" xml:base="https://nekosama.club/algorithms/2018/09/13/sieve.html">&lt;h3 id=&quot;sieve-of-eratosthenes-埃氏筛&quot;&gt;Sieve of Eratosthenes (埃氏筛)&lt;/h3&gt;
+
+&lt;p&gt;时间复杂度：$ O(nlglgn) $&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes&quot;&gt;埃氏筛 - 维基百科&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+const int N = 2000010;
+int main(int n, char**v)
+{
+    bool prime[N];
+    for(int i = 2; i &amp;lt; N; i++)
+        prime[i] = true;
+    for (int i = 2; i &amp;lt;= sqrt(N); i++)
+        if (prime[i])
+            for (int j = i*i; j &amp;lt; N; j += i)
+                prime[j] = false;
+    for (int i = 2; i &amp;lt; N; i++)
+        if (prime[i])
+            cout &amp;lt;&amp;lt; i &amp;lt;&amp;lt; ' ';
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;sieve-of-atkin&quot;&gt;Sieve of Atkin&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Sieve_of_Atkin&quot;&gt;Sieve of Atkin - wikipedia&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;sieve-of-prime-素数筛&quot;&gt;Sieve of prime (素数筛)&lt;/h3&gt;
+
+&lt;p&gt;学会这个筛法就可以A掉这个题了：P3383 【模板】线性筛&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+#define rg register
+const int N = 10000010;
+int prime[N], notprime[N];
+void SievePrime()
+{
+    int step = 0;
+    notprime[1] = 1;
+    for (rg int i = 2; i &amp;lt; N; i++)
+    {
+        if (!notprime[i]) prime[++step] = i;
+        for (rg int j = 1; j &amp;lt;= step &amp;amp;&amp;amp; prime[j] * i &amp;lt; N; j++)
+        {
+            notprime[i * prime[j]] = 1;
+            if (i%prime[j] == 0) break;
+        }
+    }
+}
+int main()
+{
+    SievePrime();
+    for (rg int i = 0; i &amp;lt; N; i++)
+        if (prime[i])
+            cout &amp;lt;&amp;lt; prime[i] &amp;lt;&amp;lt; ' ';
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;sieve-of-euler-欧拉筛&quot;&gt;Sieve of Euler (欧拉筛)&lt;/h3&gt;
+
+&lt;h5 id=&quot;原理&quot;&gt;原理&lt;/h5&gt;
+
+&lt;p&gt;&lt;strong&gt;欧拉函数&lt;/strong&gt;&lt;/p&gt;
+
+\[\phi(n) = n \prod_{p|n} (1 - \frac{1}{p}) = \prod(p - 1)p^{k_r - 1}\]
+
+&lt;p&gt;其中 $ p $ 为 $ n $ 的所有质因子。&lt;strong&gt;它表示在不超过 $ n $ 的正整数中与 $ n $ 互质的数的个数。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;如果 $ p $ 是素数，$ k \geq 1 $，那么有&lt;/p&gt;
+
+\[\phi(p^k) = p^{k - 1}(p - 1) = p^k(1 - \frac{1}{p})\]
+
+&lt;p&gt;利用这个公式便可以证明欧拉函数。&lt;/p&gt;
+
+&lt;p&gt;首先 $ n = p_1^{k_1} \cdots p_r^{k_r} $，则&lt;/p&gt;
+
+\[\begin{aligned}
+\phi(n)
+&amp;amp;= \phi(p_1^{k_1})\phi(p_2^{k_2}) \cdots \phi(p_r^{k_r}) \\
+&amp;amp;= p_1^{k_1}(1 - \frac{1}{p_1})p_2^{k_2}(1 - \frac{1}{p_2}) \cdots p_r^{k_r}(1 - \frac{1}{p_r}) \\
+&amp;amp;= p_1^{k_1}p_2^{k_2} \cdots p_r^{k_r}(1 - \frac{1}{p_1})(1 - \frac{1}{p_2}) \cdots (1 - \frac{1}{p_r}) \\
+&amp;amp;= n(1 - \frac{1}{p_1})(1 - \frac{1}{p_2}) \cdots (1 - \frac{1}{p_r})
+\end{aligned}\]
+
+&lt;p&gt;欧拉函数是积性函数。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;与欧拉定理、费马小定理的关系&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;对任何两个互质的正整数 $ a, m (m &amp;gt;= 2) $，有欧拉定理 $ a^{\phi(m)} = 1(mod \ m) $ (其中 $ \phi(m) $ 是欧拉函数) ，当 $ m $ 是质数 $ p $ 时，式子变为&lt;/p&gt;
+
+\[x^{p - 1} = 1(mod \ p)\]
+
+&lt;p&gt;即费马小定理。&lt;/p&gt;
+
+&lt;p&gt;更多关于欧拉函数，另请参见：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://baike.baidu.com/item/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/1944850?fr=aladdin&quot;&gt;欧拉函数 - 百度百科&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Euler%27s_totient_function&quot;&gt;Euler function - wikipedia&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;求欧拉函数的算法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+int eular(int n)
+{
+    int ret=1;
+    for(int i = 2; i*i &amp;lt;= n; i++)
+    {
+        if(n%i == 0)
+        {
+            n /= i,ret *= i - 1;
+            while(n%i == 0) n /= i, ret *= i;
+        }
+    }
+    if(n &amp;gt; 1) ret *= n - 1;
+    return ret;
+}
+int main()
+{
+    int n, s;
+    cin &amp;gt;&amp;gt; n;
+    s = eular(n);
+    cout &amp;lt;&amp;lt; s &amp;lt;&amp;lt; endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;欧拉筛法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+#define rg register
+const int N = 10000010;
+int prime[N], notprime[N], phi[N];
+void SieveEuler()
+{
+    int step = 0;
+    phi[1] = 1;
+    for (rg int i = 2; i &amp;lt; N; i++)
+    {
+        if (!notprime[i]) prime[++step] = i, phi[i] = i - 1;
+        for (rg int j = 1; j &amp;lt;= step &amp;amp;&amp;amp; prime[j] * i &amp;lt; N; j++)
+        {
+            notprime[i * prime[j]] = 1;
+            if (i%prime[j] == 0)
+            {
+                phi[i * prime[j]] = phi[i] * prime[j];
+                break;
+            }
+            else phi[i * prime[j]] = phi[i]*(prime[j] - 1);
+        }
+    }
+}
+int main()
+{
+    SieveEuler();
+    for (rg int i = 0; i &amp;lt; N; i++)
+        if (prime[i])
+            cout &amp;lt;&amp;lt; prime[i] &amp;lt;&amp;lt; ' ';
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;sieve-of-mobius-莫比乌斯筛&quot;&gt;Sieve of Mobius (莫比乌斯筛)&lt;/h3&gt;
+
+&lt;h5 id=&quot;原理-1&quot;&gt;原理&lt;/h5&gt;
+
+&lt;p&gt;&lt;strong&gt;莫比乌斯函数&lt;/strong&gt;&lt;/p&gt;
+
+\[\mu(n) = \eta_{\omega(n)\Omega(n)}\lambda(n)\]
+
+&lt;p&gt;这里 $ \lambda(n) $ 是刘维尔函数。&lt;/p&gt;
+
+&lt;p&gt;莫比乌斯函数也是一个积性函数（$ \mu(ab) = \mu(a)\mu(b) $，$ a $ 和 $ b $ 互质 ）&lt;/p&gt;
+
+&lt;p&gt;当 $ n = 1 $ 时，$ n $ 的所有因子的莫比乌斯函数值和为 1;
+当 $ n \neq 1 $ 时，$ n $ 的所有因子的莫比乌斯函数值和为 0.&lt;/p&gt;
+
+&lt;p&gt;即&lt;/p&gt;
+
+\[\sum_{d|n}\mu(d) =
+\left\{
+\begin{aligned} 
+    1 \quad n = 1; \\
+    0 \quad n &amp;gt; 1.
+\end{aligned}
+\right.\]
+
+&lt;p&gt;莫比乌斯函数完整定义的通俗表达：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;莫比乌斯函数 $ \mu(n) $ 的定义域是 $ N $;&lt;/li&gt;
+  &lt;li&gt;$ \mu(1) = 1 $;&lt;/li&gt;
+  &lt;li&gt;当n存在平方因子时，$ \mu(n) =0 $;&lt;/li&gt;
+  &lt;li&gt;当n是素数或奇数个不同素数之积时，$ \mu(n) = -1 $;&lt;/li&gt;
+  &lt;li&gt;当n是偶数个不同素数之积时，$ \mu(n) = 1 $.&lt;/li&gt;
+&lt;/ol&gt;
+
+\[\mu(n) =
+\left\{
+\begin{aligned} 
+    1 \quad n = 1; \\
+    (-1)^k \quad n = p_1 p_2 \ cdots p_k
+    0 \quad other.
+\end{aligned}
+\right.\]
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://baike.baidu.com/item/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%87%BD%E6%95%B0/2567473&quot;&gt;莫比乌斯函数 - 百度百科&lt;/a&gt;
+&lt;a href=&quot;https://en.wikipedia.org/wiki/M%C3%B6bius_function&quot;&gt;Mobius function - wikipedia&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;莫比乌斯筛法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+#define rg register
+const int N = 1000010;
+int prime[N], notprime[N], mobius[N];
+void SieveMobius()
+{
+    int step = 0;
+    mobius[1] = 1;
+    for (rg int i = 2; i &amp;lt; N; i++)
+    {
+        if (!notprime[i]) prime[++step] = i, mobius[i] = -1;
+        for (rg int j = 1; j &amp;lt;= step &amp;amp;&amp;amp; prime[j] * i &amp;lt; N; j++)
+        {
+            notprime[i * prime[j]] = 1;
+            if (i%prime[j] == 0)
+            {
+                mobius[i * prime[j]] = 0;
+                break;
+            }
+            else mobius[i * prime[j]] = -mobius[i];
+        }
+    }
+}
+int main()
+{
+    SieveMobius();
+    for (int i = 0; i &amp;lt; N; i++)
+        if (prime[i])
+            cout &amp;lt;&amp;lt; prime[i] &amp;lt;&amp;lt; ' ';
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;其他参考&quot;&gt;其他参考&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.cnblogs.com/Paul-Guderian/p/7723031.html&quot;&gt;线性筛&lt;/a&gt;
+&lt;a href=&quot;https://blog.csdn.net/qq_40515553/article/details/79365871&quot;&gt;几种线性筛&lt;/a&gt;&lt;/p&gt;</content><author><name>nekosama</name></author><category term="Prime" /><category term="C/C++" /><summary type="html">Sieve of Eratosthenes (埃氏筛)</summary></entry><entry><title type="html">计数排序</title><link href="https://nekosama.club/algorithms/2018/09/09/counting-sort.html" rel="alternate" type="text/html" title="计数排序" /><published>2018-09-09T20:38:06+08:00</published><updated>2018-09-09T20:38:06+08:00</updated><id>https://nekosama.club/algorithms/2018/09/09/counting-sort</id><content type="html" xml:base="https://nekosama.club/algorithms/2018/09/09/counting-sort.html">&lt;h3 id=&quot;简介&quot;&gt;简介&lt;/h3&gt;
+
+&lt;p&gt;计数排序是一种空间换时间的排序算法。通常用作&lt;a href=&quot;https://en.wikipedia.org/wiki/Radix_sort&quot;&gt;基数排序&lt;/a&gt;的子过程。&lt;/p&gt;
+
+&lt;h3 id=&quot;参考文献&quot;&gt;参考文献&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Counting_sort&quot;&gt;Counting sort - wikipeida&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://baike.baidu.com/item/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F&quot;&gt;计数排序 - 百度百科&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.cdn.geeksforgeeks.org/counting-sort/&quot;&gt;Counting sort - geeksforgeeks&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;算法实现&quot;&gt;算法实现&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;iostream&amp;gt;
+using namespace std;
+const int MAXN = 100000;
+const int k = 1000;
+int a[MAXN], c[MAXN], ranked[MAXN];
+int main()
+{
+    int n;
+    cin &amp;gt;&amp;gt; n;
+    for (int i = 0; i &amp;lt; n; ++i)
+    {
+        cin &amp;gt;&amp;gt; a[i];
+        ++c[a[i]];
+    }
+    for (int i = 1; i &amp;lt; k; ++i)
+        c[i] += c[i - 1];
+    for (int i = n - 1; i &amp;gt;= 0; --i)
+        ranked[--c[a[i]]] = a[i];
+    for (int i = 0; i &amp;lt; n; ++i)
+        cout &amp;lt;&amp;lt; ranked[i] &amp;lt;&amp;lt; ' ';
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;算法分析&quot;&gt;算法分析&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;时间复杂度 O(n + k)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;空间复杂度 O(n + k)&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>nekosama</name></author><category term="C/C++" /><category term="Sorting" /><summary type="html">简介</summary></entry><entry><title type="html">矩阵运算</title><link href="https://nekosama.club/algorithms/mathematical/2018/09/08/matrix-operations.html" rel="alternate" type="text/html" title="矩阵运算" /><published>2018-09-08T01:10:44+08:00</published><updated>2018-09-08T01:10:44+08:00</updated><id>https://nekosama.club/algorithms/mathematical/2018/09/08/matrix-operations</id><content type="html" xml:base="https://nekosama.club/algorithms/mathematical/2018/09/08/matrix-operations.html">&lt;h1 id=&quot;简介&quot;&gt;简介&lt;/h1&gt;
+
+&lt;p&gt;这篇主要介绍一些矩阵运算相关算法。&lt;/p&gt;
+
+&lt;h3 id=&quot;矩阵乘法&quot;&gt;矩阵乘法&lt;/h3&gt;
+
+&lt;p&gt;矩阵相乘：$ C = AB $&lt;/p&gt;
+
+&lt;h5 id=&quot;普通算法&quot;&gt;普通算法&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;时间复杂度 $ O(N^3) $&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;memset(c, 0, sizeof(c));
+for (int i = 0; i &amp;lt; N; i++)
+    for (int j = 0; j &amp;lt; N; j++)
+        for (int k = 0; k &amp;lt; N; k++)
+            c[i][j] += a[i][k] * b[k][j];
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&quot;strassen算法&quot;&gt;Strassen算法&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;时间复杂度 $ O(N^{lg7}) $&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C&quot;&gt;void Strassen_algo(vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt; &amp;amp; c, vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;  a, vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;  b)
+{
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;线性方程组&quot;&gt;线性方程组&lt;/h3&gt;
+
+&lt;p&gt;$ n $ 个未知数 $ m $ 个方程的线性方程组&lt;/p&gt;
+
+\[\left\{
+\begin{matrix}
+a_{00}x_0 &amp;amp; a_{01}x_1 &amp;amp; \cdots &amp;amp; a_{0n}x_n &amp;amp;= b_0 \\
+a_{10}x_0 &amp;amp; a_{11}x_1 &amp;amp; \cdots &amp;amp; a_{1n}x_n &amp;amp;= b_1 \\
+\vdots \\
+a_{m0}x_0 &amp;amp; a_{m1}x_1 &amp;amp; \cdots &amp;amp; a_{mn}x_n &amp;amp;= b_m 
+\end{matrix}\right.\]
+
+&lt;p&gt;将上式写为以向量 $ x $ 为未知元的向量方程&lt;/p&gt;
+
+\[Ax = b \quad (1)\]
+
+&lt;h5 id=&quot;方程是否有解&quot;&gt;方程是否有解&lt;/h5&gt;
+
+&lt;p&gt;设 $ B = (A, b) $ 为增广矩阵，$ R(A) $ 是矩阵 $ A $ 的秩，$ R(A, b) $ 是增广矩阵 $ B $ 的秩。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;无解的充分必要条件是 $ R(A) &amp;lt; R(A, b) $;&lt;/li&gt;
+  &lt;li&gt;$ n $ 元线性方程组 $ Ax = b \quad $ 有唯一解的充分必要条件是 $ R(A) = R(A, b) = n $;&lt;/li&gt;
+  &lt;li&gt;有无限多解的充分必要条件是 $ R(A) = R(A, b) \leq n $.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;lup分解原理&quot;&gt;LUP分解原理&lt;/h5&gt;
+
+&lt;p&gt;$ LUP $ 分解的基本思想就是找出三个 $ n \times n $ 矩阵 $ L $、$ U $、$ P $，满足&lt;/p&gt;
+
+\[PA = LU \quad (2)\]
+
+&lt;p&gt;其中，$ L $ 是一个单位下三角矩阵，$ U $ 是一个上三角矩阵，$ P $ 是一个置换矩阵。我们称满足式 (2) 的矩阵 $ L $、$ U $、$ P $ 为矩阵 $ A $ 的 &lt;strong&gt;LUP 分解&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;可以证明，如果矩阵 $ A $ 是一个非奇异矩阵，那么我们一定能找到 $ L $、$ U $、$ P $ 分解满足上式。&lt;/p&gt;
+
+&lt;p&gt;这有什么用呢？&lt;/p&gt;
+
+&lt;p&gt;我们先对 (1) 进行置换，在等式 $ Ax = b $ 两边同时乘以 $ P $ 置换，得到：$ PAx = Pb $，利用 (2) 式有&lt;/p&gt;
+
+\[LUx = Pb\]
+
+&lt;p&gt;设 $ y = Ux $，其中 x 就是要求解的向量解。首先，通过一种称为“正向替换”的方法求解单位下三角系统&lt;/p&gt;
+
+\[Ly = Pb \quad (3)\]
+
+&lt;p&gt;得到未知向量 $ y $。然后，通过一种称为“反向替换”的方法求解上三角系统&lt;/p&gt;
+
+\[Ux = y \quad (4)\]
+
+&lt;p&gt;得到向量解 $ x $。由于置换矩阵 $ P $ 是可逆的，在等式 (2) 两边同时乘以 $ P^{-1} $，于是&lt;/p&gt;
+
+\[A = P^{-1}LU\]
+
+&lt;p&gt;因此，向量 $ x $ 就是 $ Ax = b $ 的解&lt;/p&gt;
+
+\[\begin{aligned}
+Ax
+&amp;amp;= P^{-1}LUx \\
+&amp;amp;= P^{-1}Ly \\
+&amp;amp;= P^{-1}Pb \\
+&amp;amp;= b
+\end{aligned}\]
+
+&lt;h5 id=&quot;正向替换与反向替换&quot;&gt;正向替换与反向替换&lt;/h5&gt;
+
+&lt;p&gt;进一步看看正向替换与反向替换是如何进行的。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;正向替换&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;已知 $ L $、$ P $ 和 $ b $，正向替换可在 $ O(n^2) $ 的时间内求解单位下三角系统 (3)。&lt;/p&gt;
+
+\[Pb = 
+\begin{bmatrix}
+p_{0,0} &amp;amp; p_{0,1} &amp;amp; \cdots &amp;amp; p_{0,n} \\
+p_{1,0} &amp;amp; p_{1,1} &amp;amp; \cdots &amp;amp; p_{1,n} \\
+\vdots &amp;amp; \vdots &amp;amp; \cdots &amp;amp; \vdots \\
+p_{n,0} &amp;amp; p_{n,1} &amp;amp; \cdots &amp;amp; p_{n,n}
+\end{bmatrix}
+\begin{bmatrix}
+b_0 \\
+b_1 \\
+\vdots \\
+b_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+\sum_{j = 0}^{n}p_{0,j} \cdot b_j \\
+\sum_{j = 0}^{n}p_{1,j} \cdot b_j \\
+\vdots \\
+\sum_{j = 0}^{n}p_{n,j} \cdot b_j
+\end{bmatrix}\]
+
+&lt;p&gt;为了方便起见，这里用一个数组 $ \pi[0…n] $ 简洁地表示置换 $ P $。对 $ i = 0, 1, 2, \cdots, n $，元素 $ \pi[i] $ 表示 $ P_{i, \pi[i]} = 1 $，并且对 $ j \neq \pi[i] $ 有 $ P_{ij} = 0 $。因此，$ PA $ 第 $ i $ 行第 $ j $ 列的元素为 $ a_{\pi[i],j} $，$ Pb $ 的第 $ i $ 个元素为 $ b_{\pi[i]} $。因为 $ L $ 是单位下三角矩阵，我们可以重写等式 (3) 为：&lt;/p&gt;
+
+\[\begin{bmatrix}
+y_0 &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp;= b_{\pi[0]} \\
+l_{10}y_0 &amp;amp; + &amp;amp; y_1 &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp;= b_{\pi[1]} \\
+l_{20}y_0 &amp;amp; + &amp;amp; l_{21}y_1 &amp;amp; + &amp;amp; y_2 &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp;= b_{\pi[2]} \\
+\vdots \\
+l_{n0}y_0 &amp;amp; + &amp;amp; l_{n1}y_1 &amp;amp; + &amp;amp; l_{n2}y_2 &amp;amp; + &amp;amp; \cdots &amp;amp; + &amp;amp; y_n &amp;amp;= b_{\pi[n]}
+\end{bmatrix}\]
+
+&lt;p&gt;第一个等式可以求出 $ y_0 $，我们把它代入第二个等式，求出&lt;/p&gt;
+
+\[y_1 = b_{\pi[1]} - l_{10}y_0\]
+
+&lt;p&gt;在将 $ y_1, y_2 $ 代入第三个等式，得到&lt;/p&gt;
+
+\[y_2 = b_{\pi[2]} - (l_{20}y_0 + l{21}y_1)\]
+
+&lt;p&gt;一般的，我们把 $ y_0, y_1, \cdots, y_{i - 1} $ “正向替换”到第 $ i $ 个等式中，就可以求解 $ y_i $：&lt;/p&gt;
+
+\[y_i = b_{\pi[i]} - \sum_{j = 0}^{i - 1} l_{ij}y_{j}\]
+
+&lt;ul&gt;
+  &lt;li&gt;反向替换&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;与正向替换类似，求解上三角系统等式 (4)。&lt;/p&gt;
+
+\[\begin{bmatrix}
+u_{0,0}x_0 &amp;amp; + &amp;amp; u_{0,1}x_1 &amp;amp; + &amp;amp; \cdots &amp;amp; + &amp;amp; u_{0,n-2}x_{n-2} &amp;amp; + &amp;amp; u_{0,n-1}x_{n-1} &amp;amp; + &amp;amp; u_{0,n}x_n &amp;amp;= y_{0} \\
+&amp;amp; &amp;amp; u_{1,1}x_1 &amp;amp; + &amp;amp;  \cdots &amp;amp; + &amp;amp; u_{1,n-2}x_{n-2} &amp;amp; + &amp;amp; u_{1,n-1}x_{n-1} &amp;amp; + &amp;amp; u_{1,n}x_n &amp;amp;= y_{1} \\
+&amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; \vdots \\
+&amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; u_{n-2,n-2}x_{n-2} &amp;amp; + &amp;amp; u_{n-2,n-1}x_{n-1} &amp;amp; + &amp;amp; u_{n-2,n}x_n &amp;amp;= y_{n - 2} \\
+&amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; u_{n-1,n-1}x_{n-1} &amp;amp; + &amp;amp; u_{n-1,n}x_n &amp;amp;= y_{n - 1} \\
+&amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; &amp;amp; u_{n,n}x_n &amp;amp;= y_{n}
+\end{bmatrix}\]
+
+&lt;p&gt;这里我们先求解第 $ n $ 个等式，然后往前一个等式代，因此可以如下相继求出 $ x_n, x_{n - 1}, \cdots, x_1 $ 的解：&lt;/p&gt;
+
+\[\begin{aligned}
+x_n &amp;amp;= \frac{y_{n}}{u_{n,n}} \\
+x_{n - 1} &amp;amp;= \frac{y_{n - 1} - u_{n - 1, n}x_n}{u_{n - 1,n - 1}} \\
+\vdots
+\end{aligned}\]
+
+&lt;p&gt;一般的，有&lt;/p&gt;
+
+\[x_i = \frac{y_i - \sum_{j = i + 1}^{n} u_{ij}x_{j}}{u_{ij}}\]
+
+&lt;h5 id=&quot;计算lup分解&quot;&gt;计算LUP分解&lt;/h5&gt;
+
+&lt;p&gt;我们该如何找到这样的 $ L $、 $ U $、 $ P $ 矩阵呢？&lt;/p&gt;
+
+&lt;p&gt;通常在 $ LUP $ 分解中包含一个置换矩阵 $ P $ 的原因是为了避免矩阵 $ A $ 中的主元 $ a_{i,i} = 0 $ ，即矩阵对角线上的数。&lt;/p&gt;
+
+&lt;p&gt;但如果矩阵 $ A $ 的对角线上的数都不为 0，我们有一个 $ LU $ 分解算法就可以计算出矩阵 $ L $ 、 $ U $。&lt;/p&gt;
+
+&lt;p&gt;下面先给出LU分解算法的实现，之后再分析算法原理。&lt;/p&gt;
+
+&lt;h5 id=&quot;lu分解算法实现&quot;&gt;LU分解算法实现&lt;/h5&gt;
+
+&lt;p&gt;示例(Example):&lt;/p&gt;
+
+\[\begin{bmatrix}
+2 &amp;amp; 3 &amp;amp; 1 &amp;amp; 5 \\
+6 &amp;amp; 13 &amp;amp; 5 &amp;amp; 19 \\
+2 &amp;amp; 19 &amp;amp; 10 &amp;amp; 23 \\
+4 &amp;amp; 10 &amp;amp; 11 &amp;amp; 31 \\
+\end{bmatrix}\]
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;vector&amp;gt;
+const int N = 4;
+using namespace std;
+void lu(vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt; &amp;amp;l, vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt; &amp;amp;u, float a[][N])
+{
+    for (int i = 0; i &amp;lt; N; i++)
+	{
+		l[i][i] = 1;
+		for (int j = i + 1; j &amp;lt; N; j++)
+			l[i][j] = 0;
+	}
+	for (int i = 1; i &amp;lt; N; i++)
+		for (int j = 0; j &amp;lt; i; j++)
+			u[i][j] = 0;
+	for (size_t i = 0; i &amp;lt; N; i++)
+	{
+		u[i][i] = a[i][i];
+		for (size_t j = i + 1; j &amp;lt; N; j++)
+		{
+			l[j][i] = a[j][i] / u[i][i];
+			u[i][j] = a[i][j];
+		}
+		for (size_t j = i + 1; j &amp;lt; N; j++)
+			for (size_t k = i + 1; k &amp;lt; N; k++)
+				a[j][k] -= l[j][i] * u[i][k];
+	}
+}
+int main()
+{
+	vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;  l(N, vector&amp;lt;float&amp;gt;(N));
+	vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;  u(N, vector&amp;lt;float&amp;gt;(N));
+	float a[N][N] = {
+		2, 3, 1, 5,
+		6, 13, 5, 19,
+		2, 19, 10, 23,
+		4, 10, 11, 31
+	};
+
+	lu(l, u, a);
+
+	cout &amp;lt;&amp;lt; &quot;L 矩阵:&quot; &amp;lt;&amp;lt; endl;
+	for (int i = 0; i &amp;lt; N; i++)
+	{
+		for (int j = 0; j &amp;lt; N; j++)
+			cout &amp;lt;&amp;lt; l[i][j] &amp;lt;&amp;lt; '\t';
+		cout &amp;lt;&amp;lt; endl;
+	}
+	cout &amp;lt;&amp;lt; &quot;U 矩阵:&quot; &amp;lt;&amp;lt; endl;
+	for (int i = 0; i &amp;lt; N; i++)
+	{
+		for (int j = 0; j &amp;lt; N; j++)
+			cout &amp;lt;&amp;lt; u[i][j] &amp;lt;&amp;lt; '\t';
+		cout &amp;lt;&amp;lt; endl;
+	}
+
+	memset(a, 0, sizeof(a));
+
+	for (int i = 0; i &amp;lt; N; i++)
+		for (int j = 0; j &amp;lt; N; j++)
+			for (int k = 0; k &amp;lt; N; k++)
+				a[i][j] += l[i][k] * u[k][j];
+
+	cout &amp;lt;&amp;lt; &quot;A 矩阵:&quot; &amp;lt;&amp;lt; endl;
+	for (int i = 0; i &amp;lt; N; i++)
+	{
+		for (int j = 0; j &amp;lt; N; j++)
+			cout &amp;lt;&amp;lt; a[i][j] &amp;lt;&amp;lt; '\t';
+		cout &amp;lt;&amp;lt; endl;
+	}
+	return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&quot;lu分解算法分析&quot;&gt;LU分解算法分析&lt;/h5&gt;
+
+&lt;p&gt;前面说到对于一个非奇异矩阵 $ A $，即 $ \det{A} \neq 0 $，就能找到其 $ LU $ 分解，那么运用正向替换与反向替换就可以求出线性方程组 $ Ax = b $ 的解。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;原理：算法利用高斯消元法来创建 $ LU $ 分解。首先从其他方程中减去第一个方程的倍数，以把那些方程中的第一个变量消去。然后，从第三个及以后的方程中减去第二个方程的倍数，把这些方程的第一个和第二个变量消去。继续上述过程，直到系统变为一个上三角矩阵形式，实际上此矩阵就是 $ U $。矩阵 $ L $ 是由消去变量所用的行的乘数组成。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;采用递归算法实现这个策略。我们希望构造出一个 $ n \times n $ 的非奇异矩阵 $ A $ 的一个 $ LU $ 分解。
+如果 $ n = 1 $，则构造完成，因为可以算则 $ L = I_1 $ (注：$ I_n $ 是单位阵)， $ U = A $。对于 $ n &amp;gt; 1 $，我们把 $ A $ 拆成 4 部分&lt;/p&gt;
+
+\[\begin{bmatrix}
+a_{11} &amp;amp; | &amp;amp; a_{12} &amp;amp; \cdots &amp;amp; a_{1n} \\
+-&amp;amp;-&amp;amp;-&amp;amp;-&amp;amp;- \\
+a_{21} &amp;amp; | &amp;amp; a_{22} &amp;amp; \cdots &amp;amp; a_{2n} \\
+\vdots &amp;amp; | \\
+a_{n1} &amp;amp; | &amp;amp; a_{n2} &amp;amp; \cdots &amp;amp; a_{nn}
+\end{bmatrix}
+=
+\begin{bmatrix}
+a_{11} &amp;amp; \omega^T \\
+\upsilon &amp;amp; A'
+\end{bmatrix}\]
+
+&lt;p&gt;其中 $ \upsilon $ 是一个 $ n - 1 $ 维列向量，$ \omega^T $ 是一个 $ n - 1 $ 维行向量，$ A’ $ 是一个 $ (n - 1) \times (n - 1) $ 矩阵。然后，利用矩阵代数 (通过简单地从头到尾使用乘法来验证方程式)，可以把 $ A $ 分解为&lt;/p&gt;
+
+\[\begin{bmatrix}
+1 &amp;amp; 0 \\
+\frac{\upsilon}{a_{11}} &amp;amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{11} &amp;amp; \omega^T \\
+0 &amp;amp; A' - \frac{\upsilon\omega^T}{a_{11}}
+\end{bmatrix}\]
+
+&lt;p&gt;项 $ \frac{\upsilon\omega^T}{a_{11}} $ 是一个 $ (n - 1) \times (n - 1) $ 矩阵，它与矩阵 $ A’ $ 大小一致。所得矩阵&lt;/p&gt;
+
+\[A' - \frac{\upsilon\omega^T}{a_{11}}\]
+
+&lt;p&gt;称为矩阵 $ A $ 对于 $ a_{11} $ 的&lt;a href=&quot;https://en.wikipedia.org/wiki/Schur_complement&quot;&gt;舒尔补&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;如果矩阵 $ A $ 是非奇异的，那么舒尔补矩阵也是非奇异的。&lt;/p&gt;
+
+&lt;p&gt;因为舒尔补是非奇异的，现在我们可以递归地找出它的一个 $ LU $ 分解。我们说&lt;/p&gt;
+
+\[A' - \frac{\upsilon\omega^T}{a_{11}} = L'U'\]
+
+&lt;p&gt;其中 $ L’ $ 是单位下三角矩阵，$ U’ $ 是上三角矩阵。然后，利用矩阵代数可得&lt;/p&gt;
+
+\[\begin{aligned}
+A &amp;amp;= 
+\begin{bmatrix}
+1 &amp;amp; 0 \\
+\frac{\upsilon}{a_{00}} &amp;amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{00} &amp;amp; \omega^T \\
+0 &amp;amp; A' - \frac{\upsilon\omega^T}{a_{00}}
+\end{bmatrix}
+= 
+\begin{bmatrix}
+1 &amp;amp; 0 \\
+\frac{\upsilon}{a_{00}} &amp;amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k0} &amp;amp; \omega^T \\
+0 &amp;amp; L'U'
+\end{bmatrix} \\
+&amp;amp;=
+\begin{bmatrix}
+1 &amp;amp; 0 \\
+\frac{\upsilon}{a_{00}} &amp;amp; L'
+\end{bmatrix}
+\begin{bmatrix}
+a_{00} &amp;amp; \omega^T \\
+0 &amp;amp; U'
+\end{bmatrix}
+=
+LU
+\end{aligned}\]
+
+&lt;ul&gt;
+  &lt;li&gt;时间复杂度 $ O(N^3) $&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;lup分解算法实现&quot;&gt;LUP分解算法实现&lt;/h5&gt;
+
+&lt;p&gt;示例(Example):&lt;/p&gt;
+
+\[\begin{bmatrix}
+2 &amp;amp; 0 &amp;amp; 2 &amp;amp; 0.6 \\
+3 &amp;amp; 3 &amp;amp; 4 &amp;amp; -2 \\
+5 &amp;amp; 5 &amp;amp; 4 &amp;amp; 2 \\
+-1 &amp;amp; -2 &amp;amp; 3.4 &amp;amp; -1
+\end{bmatrix}\]
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;vector&amp;gt;
+const int N = 4;
+using namespace std;
+void lup(vector&amp;lt;float&amp;gt; &amp;amp;P, float a[][N])
+{
+	for (size_t i = 0; i &amp;lt; N; i++)
+	{
+		float p = 0; size_t i_;
+		for (size_t j = i; j &amp;lt; N; j++)
+			if (fabsf(a[j][i]) &amp;gt; p)
+				p = fabsf(a[j][i]), i_ = j;
+		if (p == 0) return;
+		swap(P[i], P[i_]);
+		for (size_t j = 0; j &amp;lt; N; j++)
+			swap(a[i][j], a[i_][j]);
+		for (size_t j = i + 1; j &amp;lt; N; j++)
+		{
+			a[j][i] /= a[i][i];
+			for (size_t k = i + 1; k &amp;lt; N; k++)
+				a[j][k] -= a[j][i] * a[i][k];
+		}
+	}
+}
+int main()
+{
+	vector&amp;lt;float&amp;gt; P(N);
+	float b[][N] = {
+		2, 0, 2, 0.6,
+		3, 3, 4, -2,
+		5, 5, 4, 2,
+		-1, -2, 3.4, -1
+	};
+
+    lup(P, b);
+
+	cout &amp;lt;&amp;lt; &quot;B 矩阵:&quot; &amp;lt;&amp;lt; endl;
+	for (int i = 0; i &amp;lt; N; i++)
+	{
+		for (int j = 0; j &amp;lt; N; j++)
+			cout &amp;lt;&amp;lt; b[i][j] &amp;lt;&amp;lt; '\t';
+		cout &amp;lt;&amp;lt; endl;
+	}
+    cout &amp;lt;&amp;lt; &quot;P 矩阵:&quot; &amp;lt;&amp;lt; endl;
+	for (size_t i = 0; i &amp;lt; P.size(); i++)
+		cout &amp;lt;&amp;lt; i &amp;lt;&amp;lt; P[i] &amp;lt;&amp;lt; endl;
+	return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;version 2.&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lup()&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;void lup2(vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;&amp;amp;l, vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;&amp;amp;u, vector&amp;lt;float&amp;gt; &amp;amp;P, float a[][N])
+{
+	for (int i = 0; i &amp;lt; N; i++)
+	{
+		l[i][i] = 1;
+		for (int j = i + 1; j &amp;lt; N; j++)
+			l[i][j] = 0;
+	}
+	for (int i = 1; i &amp;lt; N; i++)
+		for (int j = 0; j &amp;lt; i; j++)
+			u[i][j] = 0;
+	for (int i = 0; i &amp;lt; N; i++)
+	{
+		float p = 0; int i_;
+		for (int j = i; j &amp;lt; N; j++)
+			if (fabsf(a[j][i]) &amp;gt; p)
+				p = fabsf(a[j][i]), i_ = j;
+		if (p == 0) return;
+		swap(P[i], P[i_]);
+		for (int j = 0; j &amp;lt; N; j++)
+			swap(a[i][j], a[i_][j]);
+		u[i][i] = a[i][i];
+		for (int j = i + 1; j &amp;lt; N; j++)
+		{
+			l[j][i] = a[j][i] / u[i][i];
+			u[i][j] = a[i][j];
+		}
+		for (int j = i + 1; j &amp;lt; N; j++)
+			for (int k = i + 1; k &amp;lt; N; k++)
+				a[j][k] -= l[j][i] * u[i][k];
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&quot;lup分解算法分析&quot;&gt;LUP分解算法分析&lt;/h5&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;原理：算法考虑每次计算过程，若主元为 $ 0 $ 或主元的值大于除数时，我们将找到合适的行与当前主元所在的行进行交换。比如，第 $ 1 $ 行，第 $ 1 $ 列为 $ 0 $，我们把第 $ 1 $ 行与第 $ k $ 行互换，这等价于用一个置换矩阵 $ Q $ 左乘矩阵 $ A $。因此可以把 $ QA $ 写成&lt;/p&gt;
+&lt;/blockquote&gt;
+
+\[QA =
+\begin{bmatrix}
+a_{k1} &amp;amp; \omega^T \\
+\upsilon &amp;amp; A'
+\end{bmatrix}\]
+
+&lt;p&gt;其中&lt;/p&gt;
+
+\[\begin{aligned}
+\upsilon &amp;amp;= (a_{21}, a_{31}, \cdots, a_{n1})^T \\
+\omega^T &amp;amp;= (a_{k2}, a_{k3}, \cdots, a_{kn})
+\end{aligned}\]
+
+&lt;p&gt;$ A’ $ 是一个 $ (n - 1) \times (n - 1) $ 矩阵。因为 $ a_{k1} \neq 0 $，现在可以执行与 $ LU $ 分解基本相同的线性代数运算，但现在能保证不会除以 0&lt;/p&gt;
+
+\[QA =
+\begin{bmatrix}
+a_{k1} &amp;amp; \omega^T \\
+\upsilon &amp;amp; A'
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 &amp;amp; 0 \\
+\frac{\upsilon}{a_{k1}} &amp;amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} &amp;amp; \omega^T \\
+0 &amp;amp; A' - \frac{\upsilon\omega^T}{a_{k1}}
+\end{bmatrix}\]
+
+&lt;p&gt;如果 $ A $ 是非奇异的，那么舒尔补 $ A’ - \frac{\upsilon\omega^T}{a_{k1}} $ 也是非奇异的。因此，可以递归地找出它的一个 $ LUP $ 分解，包括单位下三角矩阵 $ L’ $、上三角矩阵 $ U’ $ 和 置换矩阵 $ P’ $，满足&lt;/p&gt;
+
+\[P'(A' - \frac{\upsilon\omega^T}{a_{k1}}) = L'U'\]
+
+&lt;p&gt;定义&lt;/p&gt;
+
+\[P = 
+\begin{bmatrix}
+1 &amp;amp; 0 \\
+0 &amp;amp; P'
+\end{bmatrix}
+Q\]
+
+&lt;p&gt;它是一个置换矩阵，因为它是两个置换矩阵的乘积。有&lt;/p&gt;
+
+\[\begin{aligned}
+PA &amp;amp;= 
+\begin{bmatrix}
+1 &amp;amp; 0 \\
+0 &amp;amp; P'
+\end{bmatrix}
+QA = 
+\begin{bmatrix}
+1 &amp;amp; 0 \\
+0 &amp;amp; P'
+\end{bmatrix}
+\begin{bmatrix}
+1 &amp;amp; 0 \\
+\frac{\upsilon}{a_{k1}} &amp;amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} &amp;amp; \omega^T \\
+0 &amp;amp; A' - \frac{\upsilon\omega^T}{a_{k1}}
+\end{bmatrix} \\
+&amp;amp;= 
+\begin{bmatrix}
+1 &amp;amp; 0 \\
+P'\frac{\upsilon}{a_{k1}} &amp;amp; P'
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} &amp;amp; \omega^T \\
+0 &amp;amp; A' - \frac{\upsilon\omega^T}{a_{k1}}
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 &amp;amp; 0 \\
+P'\frac{\upsilon}{a_{k1}} &amp;amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} &amp;amp; \omega^T \\
+0 &amp;amp; P'(A' - \frac{\upsilon\omega^T}{a_{k1}})
+\end{bmatrix} \\
+&amp;amp;= 
+\begin{bmatrix}
+1 &amp;amp; 0 \\
+P'\frac{\upsilon}{a_{k1}} &amp;amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} &amp;amp; \omega^T \\
+0 &amp;amp; L'U'
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 &amp;amp; 0 \\
+P'\frac{\upsilon}{a_{k1}} &amp;amp; L'
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} &amp;amp; \omega^T \\
+0 &amp;amp; U'
+\end{bmatrix}
+=
+LU
+\end{aligned}\]
+
+&lt;p&gt;这样就推出了 $ LUP $ 分解。因为 $ L’ $ 是单位下三角矩阵，所以 $ L $ 也是单位下三角矩阵；又因为 $ U’ $ 是上三角矩阵，于是 $ U $ 也是上三角矩阵。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;时间复杂度 $ O(N^3) $&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;求解线性方程组算法&quot;&gt;求解线性方程组算法&lt;/h5&gt;
+
+&lt;p&gt;有了以上基础知识以后，我们才能拿到 $ L $、$ U $、$ P $ ，步入最后一步求解出线性方程组 $ Ax = b $ 的向量解。&lt;/p&gt;
+
+&lt;h5 id=&quot;完整的算法实现&quot;&gt;完整的算法实现&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;vector&amp;gt;
+const int N = 3;
+using namespace std;
+void lu(vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt; &amp;amp;l, vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt; &amp;amp;u, float a[][N])
+{
+	for (int i = 0; i &amp;lt; N; i++)
+	{
+		l[i][i] = 1;
+		for (int j = i + 1; j &amp;lt; N; j++)
+			l[i][j] = 0;
+	}
+	for (int i = 1; i &amp;lt; N; i++)
+		for (int j = 0; j &amp;lt; i; j++)
+			u[i][j] = 0;
+	for (int i = 0; i &amp;lt; N; i++)
+	{
+		u[i][i] = a[i][i];
+		for (int j = i + 1; j &amp;lt; N; j++)
+		{
+			l[j][i] = a[j][i] / u[i][i];
+			u[i][j] = a[i][j];
+		}
+		for (int j = i + 1; j &amp;lt; N; j++)
+			for (int k = i + 1; k &amp;lt; N; k++)
+				a[j][k] -= l[j][i] * u[i][k];
+	}
+}
+void lup(vector&amp;lt;float&amp;gt; &amp;amp;P, float a[][N])
+{
+	for (int i = 0; i &amp;lt; N; i++)
+	{
+		float p = 0; int i_;
+		for (int j = i; j &amp;lt; N; j++)
+			if (fabsf(a[j][i]) &amp;gt; p)
+				p = fabsf(a[j][i]), i_ = j;
+		if (p == 0) return;
+		swap(P[i], P[i_]);
+		for (int j = 0; j &amp;lt; N; j++)
+			swap(a[i][j], a[i_][j]);
+		for (int j = i + 1; j &amp;lt; N; j++)
+		{
+			a[j][i] /= a[i][i];
+			for (int k = i + 1; k &amp;lt; N; k++)
+				a[j][k] -= a[j][i] * a[i][k];
+		}
+	}
+}
+void lup2(vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;&amp;amp;l, vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;&amp;amp;u, vector&amp;lt;float&amp;gt; &amp;amp;P, float a[][N])
+{
+	for (int i = 0; i &amp;lt; N; i++)
+	{
+		l[i][i] = 1;
+		for (int j = i + 1; j &amp;lt; N; j++)
+			l[i][j] = 0;
+	}
+	for (int i = 1; i &amp;lt; N; i++)
+		for (int j = 0; j &amp;lt; i; j++)
+			u[i][j] = 0;
+	for (int i = 0; i &amp;lt; N; i++)
+	{
+		float p = 0; int i_;
+		for (int j = i; j &amp;lt; N; j++)
+			if (fabsf(a[j][i]) &amp;gt; p)
+				p = fabsf(a[j][i]), i_ = j;
+		if (p == 0) return;
+		swap(P[i], P[i_]);
+		for (int j = 0; j &amp;lt; N; j++)
+			swap(a[i][j], a[i_][j]);
+		u[i][i] = a[i][i];
+		for (int j = i + 1; j &amp;lt; N; j++)
+		{
+			l[j][i] = a[j][i] / u[i][i];
+			u[i][j] = a[i][j];
+		}
+		for (int j = i + 1; j &amp;lt; N; j++)
+			for (int k = i + 1; k &amp;lt; N; k++)
+				a[j][k] -= l[j][i] * u[i][k];
+	}
+}
+void lup_solve(vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;&amp;amp;l, vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;&amp;amp;u, vector&amp;lt;float&amp;gt;&amp;amp;x, vector&amp;lt;float&amp;gt;&amp;amp;y, vector&amp;lt;float&amp;gt; b, float a[][N])
+{
+	for (int i = 0; i &amp;lt; N; i++)
+	{
+		float sum = 0;
+		for (int j = 0; j &amp;lt; i; j++)
+			sum += l[i][j] * y[j];
+		y[i] = b[i] - sum;
+	}
+	for (int i = N - 1; i &amp;gt;= 0; i--)
+	{
+		float sum = 0;
+		for (int j = i + 1; j &amp;lt; N; j++)
+			sum += u[i][j] * x[j];
+		x[i] = (y[i] - sum) / u[i][i];
+	}
+}
+int main()
+{
+	vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;  l(N, vector&amp;lt;float&amp;gt;(N));
+	vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;  u(N, vector&amp;lt;float&amp;gt;(N));
+	/*float a[][N] = {
+		2, 3, 1, 5,
+		6, 13, 5, 19,
+		2, 19, 10, 23,
+		4, 10, 11, 31
+	};
+	float b[][N] = {
+		2, 0, 2, 0.6,
+		3, 3, 4, -2,
+		5, 5, 4, 2,
+		-1, -2, 3.4, -1
+	};*/
+	float c[][N] = {
+		1, 2, 0,
+		3, 4, 4,
+		5, 6, 3
+	};
+	vector&amp;lt;float&amp;gt; P(N);
+	vector&amp;lt;float&amp;gt; x(N);
+	vector&amp;lt;float&amp;gt; y(N);
+	vector&amp;lt;float&amp;gt; b { 3, 7, 8 };
+
+	for (int i = 0; i &amp;lt; N; i++)
+		P[i] = (float)i;
+
+	lup2(l, u, P, c);
+	
+	lup_solve(l, u, x, y, b, c);
+
+	cout &amp;lt;&amp;lt; &quot;解向量 x:&quot; &amp;lt;&amp;lt; endl;
+	for (int i = 0; i &amp;lt; N; i++)
+		cout &amp;lt;&amp;lt; x[i] &amp;lt;&amp;lt; endl;
+	return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
+
+\[\begin{bmatrix}
+1 &amp;amp; 2 &amp;amp; 0 \\
+3 &amp;amp; 4 &amp;amp; 4 \\
+5 &amp;amp; 6 &amp;amp; 3
+\end{bmatrix}\]
+
+&lt;p&gt;&lt;strong&gt;output:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;使用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lu()&lt;/code&gt; 函数&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;解向量 x:
+&lt;span class=&quot;nt&quot;&gt;-1&lt;/span&gt;.4
+2.2
+0.6
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;使用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lup2()&lt;/code&gt; 函数&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;解向量 x:
+&lt;span class=&quot;nt&quot;&gt;-10&lt;/span&gt;.08
+7.94
+1.92
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;算法分析&quot;&gt;算法分析&lt;/h3&gt;
+
+&lt;p&gt;显然，代码很直观的实现了对算法的描述过程，即利用正向替换，代换出 $ Ly = Pb $ 的 $ y $，然后再利用反向替换计算出 $ Ux = y $ 中的解向量 $ x $。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lup_solve()&lt;/code&gt;的时间复杂度为 $ O(N^2) $&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;矩阵求逆&quot;&gt;矩阵求逆&lt;/h3&gt;
+
+&lt;p&gt;$ A’ $ 是 $ A $ 的逆矩阵，则有&lt;/p&gt;
+
+\[AA' = E\]
+
+&lt;p&gt;其中 $ E $ 是单位阵。&lt;/p&gt;
+
+&lt;p&gt;设 $ X = A’ $， $ X_i $ 表示 $ X $ 的第 $ i $ 列， $ e_i $ 是 $ E $ 的第 $ i $ 列。于是可以利用 $ A $ 的 $ LUP $ 分解求解方程中的 $ X $，需分别求解每一个方程&lt;/p&gt;
+
+\[AX_i = e_i\]
+
+&lt;p&gt;中的 $ X_i $。一旦得到 $ LUP $ 分解，就可以在 $ O(N^2) $ 时间内计算 $ n $ 个 $ X_i $ 列中的每一个，因此可以在 $ O(N^3) $ 时间内从 $ A $ 的 $ LUP $ 分解计算 $ X $。既然可以在 $ O(N^3) $ 内确定出 $ A $ 的 $ LUP $ 分解，我们就可以在 $ O(N^3) $ 的时间内求矩阵 $ A $ 的逆矩阵 $ A’ $。&lt;/p&gt;
+
+&lt;h5 id=&quot;算法演示&quot;&gt;算法演示&lt;/h5&gt;
+
+&lt;p&gt;&lt;strong&gt;示例：&lt;/strong&gt;&lt;/p&gt;
+
+\[\begin{bmatrix}
+1 &amp;amp; 2 &amp;amp; 0 \\
+3 &amp;amp; 4 &amp;amp; 4 \\
+5 &amp;amp; 6 &amp;amp; 3
+\end{bmatrix}\]
+
+&lt;pre&gt;&lt;code class=&quot;language-C++&quot;&gt;int main()
+{
+	vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;  l(N, vector&amp;lt;float&amp;gt;(N));
+	vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt;  u(N, vector&amp;lt;float&amp;gt;(N));
+	vector&amp;lt;float&amp;gt; x(N);
+	vector&amp;lt;float&amp;gt; y(N);
+	vector&amp;lt;vector&amp;lt;float&amp;gt;&amp;gt; E {
+		vector&amp;lt;float&amp;gt;{ 1, 0, 0 }, 
+		vector&amp;lt;float&amp;gt;{ 0, 1, 0 },
+		vector&amp;lt;float&amp;gt;{ 0, 0, 1}
+	};
+    float a[][N] = {
+		1, 2, 0,
+		3, 4, 4,
+		5, 6, 3
+	};
+
+	lu(l, u, a);
+	
+	for (int j = 0; j &amp;lt; E.size(); j++)
+	{
+		lup_solve(l, u, x, y, E[j], a);
+		cout &amp;lt;&amp;lt; &quot;解向量 X[&quot; &amp;lt;&amp;lt; j &amp;lt;&amp;lt; &quot;]:&quot; &amp;lt;&amp;lt; endl;
+		for (int i = 0; i &amp;lt; N; i++)
+			cout &amp;lt;&amp;lt; x[i] &amp;lt;&amp;lt; endl;
+	}
+	return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;output:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;解向量 X[0]:
+&lt;span class=&quot;nt&quot;&gt;-1&lt;/span&gt;.2
+1.1
+&lt;span class=&quot;nt&quot;&gt;-0&lt;/span&gt;.2
+解向量 X[1]:
+&lt;span class=&quot;nt&quot;&gt;-0&lt;/span&gt;.6
+0.3
+0.4
+解向量 X[2]:
+0.8
+&lt;span class=&quot;nt&quot;&gt;-0&lt;/span&gt;.4
+&lt;span class=&quot;nt&quot;&gt;-0&lt;/span&gt;.2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;即&lt;/strong&gt;
+\(A'=
+\begin{bmatrix}
+-1.2 &amp;amp; -0.6 &amp;amp; 0.8 \\
+1.1 &amp;amp; 0.3 &amp;amp; -0.4 \\
+-0.2 &amp;amp; 0.4 &amp;amp; -0.2
+\end{bmatrix}\)&lt;/p&gt;
+
+&lt;h1 id=&quot;最后&quot;&gt;最后&lt;/h1&gt;
+
+&lt;h3 id=&quot;参考文献&quot;&gt;参考文献&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;[1] 「算法导论・第三版」&lt;/li&gt;
+  &lt;li&gt;[2] &lt;a href=&quot;https://en.wikipedia.org/wiki/Matrix_multiplication&quot;&gt;matrix multiplicaton - wikipedia&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>nekosama</name></author><category term="Math" /><category term="C/C++" /><summary type="html">简介</summary></entry><entry><title type="html">数学-导数篇（持续更新）</title><link href="https://nekosama.club/mathematical/2018/09/05/math-derivative.html" rel="alternate" type="text/html" title="数学-导数篇（持续更新）" /><published>2018-09-05T19:39:45+08:00</published><updated>2018-09-05T19:39:45+08:00</updated><id>https://nekosama.club/mathematical/2018/09/05/math-derivative</id><content type="html" xml:base="https://nekosama.club/mathematical/2018/09/05/math-derivative.html">&lt;h3 id=&quot;简介&quot;&gt;简介&lt;/h3&gt;
+
+&lt;p&gt;这里主要存放一些导数题&lt;/p&gt;
+
+&lt;h3 id=&quot;题&quot;&gt;题&lt;/h3&gt;
+
+&lt;p&gt;1.已知向量 $ a = (sin(x), \frac{3}{4}), b = (cos(x), -1) $.&lt;/p&gt;
+
+&lt;p&gt;(1) 当 $ a // b $ 时，求 $ cos^2(x) - sin(2x) $;&lt;/p&gt;
+
+&lt;p&gt;(2) 设函数 $ f(x) = 2(\vec{a} + \vec{b}) \cdot \vec{b} $, 已知在△ABC中，内角A、B、C的对边分别为 $ a, b, c $,若 $ a = \sqrt{3}, b = 2, sin(B) = \frac{\sqrt{6}}{3} $,求 $ f(x) + 4 cos(2A + \frac{\pi}{6})(x \in [0, \frac{\pi}{3}]) $ 的取值范围。&lt;/p&gt;
+
+&lt;p&gt;题解：&lt;/p&gt;
+
+&lt;p&gt;这题虽然是一张向量试卷上的，但第二问基本上用导数就可以了，而且，我不知道题目给的几个边的条件有什么用…&lt;/p&gt;
+
+&lt;p&gt;(1) 求 $ cos^2(x) - sin(2x) $&lt;/p&gt;
+
+&lt;p&gt;由 $ a // b $，有： $ tan(x) = -\frac{3}{4} $.&lt;/p&gt;
+
+&lt;p&gt;对 $ cos^2(x) - sin(2x) $ 做一些变形：&lt;/p&gt;
+
+\[\begin{aligned}
+cos^2(x) - sin(2x)
+&amp;amp;= cos^2(x)(1 - \frac{sin(2x)}{cos^2(x)}) \\
+&amp;amp;= cos^2(x)(1 - \frac{2sin(x)cos(x)}{cos^2(x)}) \\
+&amp;amp;= cos^2(x)(1 - 2tan(x))
+\end{aligned}\]
+
+&lt;p&gt;然后考虑 $  tan(x) = -\frac{3}{4} = \frac{sin(x)}{cos(x)} $&lt;/p&gt;
+
+&lt;p&gt;有以下情况：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;$ \sqrt{(-3)^2 + 4^2} = 5 $ 或 $ \sqrt{3^2 + (-4)^2} = 5 $&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;$ sin(x) $ 为负或者 $ cos(x) $ 为负&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;既有 $ cos(x) = -\frac{4}{5} $ 或者 $ cos(x) = \frac{4}{5} $&lt;/p&gt;
+
+&lt;p&gt;这并不影响到 $ cos^2(x) $ 的值，所以有：&lt;/p&gt;
+
+\[\begin{aligned}
+cos^2(x) - sin(2x)
+&amp;amp;= cos^2(x)(1 - 2tan(x)) \\
+&amp;amp;= \frac{16}{25} \cdot [1 - 2 \cdot (-\frac{3}{4})] \\
+&amp;amp;= \frac{8}{5}
+\end{aligned}\]
+
+&lt;p&gt;(2) 求 $ f(x) + 4cos(2A + \frac{\pi}{6}) (x \in [0, \frac{\pi}{3}]) 的取值范围 $&lt;/p&gt;
+
+&lt;p&gt;令 $ \varphi (x) = f(x) + 4cos(2A + \frac{\pi}{6}) (x \in [0, \frac{\pi}{3}]) $&lt;/p&gt;
+
+&lt;p&gt;由题目条件知： $ f(x) = 2cos^2(x) + sin(2x) + \frac{1}{2} $&lt;/p&gt;
+
+\[\begin{aligned}
+f'(x)
+&amp;amp;= -4cos(x)sin(x) + 2cos(2x) \\
+&amp;amp;= 2(cos(2x) - sin(2x)) \\
+&amp;amp;= 2\sqrt{2}sin(\frac{\pi}{4} - 2x)
+\end{aligned}\]
+
+&lt;p&gt;令 $ f’(x) = 0 $, 则可得到 $ x = \frac{\pi}{8} + 2k\pi (k = 0,1,2…) $&lt;/p&gt;
+
+&lt;p&gt;$ \because x \in [0, \frac{\pi}{3}], \therefore x = \frac{\pi}{8} $&lt;/p&gt;
+
+&lt;p&gt;又&lt;/p&gt;
+
+&lt;p&gt;① $ f’(0) &amp;gt; 0; $
+② $ f’(\frac{\pi}{3}) &amp;lt; 0. $&lt;/p&gt;
+
+&lt;p&gt;考虑到 $ f’(x) $ 是一个最小周期为 $ \pi $ 的函数，所以 $ f’(x) $ 在 $ x \in [0, \frac{\pi}{3}] $ 内要么单调递增，要么单调递减，所以有如下分析：&lt;/p&gt;
+
+&lt;p&gt;① $ f’(x) $ 在 $ x \in [0, \frac{\pi}{3}) $ 恒大于 0，则原函数 $ f(x) $ 在 $ x \in [0, \frac{\pi}{3}) $ 内单调递增;
+② $ f’(x) $ 在 $ x \in (\frac{\pi}{8}, \frac{\pi}{3}] $ 恒小于 0，则原函数 $ f(x) $ 在 $ x \in (\frac{\pi}{8}, \frac{\pi}{3}] $ 内单调递减.&lt;/p&gt;
+
+&lt;p&gt;所以 $ x = \frac{\pi}{8} $ 为 $ f(x) $ 在 $ x \in [0, \frac{\pi}{3}) $ 内的唯一一个最大值.&lt;/p&gt;
+
+&lt;p&gt;又 $ f(0) &amp;gt; f(\frac{\pi}{3}) $ ，所以，$ f(\frac{\pi}{3}) $ 是 $ f(x) $ 在 $ x \in [0, \frac{\pi}{3}) $ 内的唯一一个最小值.&lt;/p&gt;
+
+&lt;p&gt;可以借助工具来画出函数图看一看是否正确：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/2cos^2x+sin2x+1_2.png&quot; alt=&quot;图1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;$ f(\frac{\pi}{8}) = \frac{3}{2} + \sqrt{2}, f(\frac{\pi}{3}) = 1 + \frac{\sqrt{3}}{2} $&lt;/p&gt;
+
+&lt;p&gt;于是&lt;/p&gt;
+
+\[\begin{aligned}
+max \ \varphi(x) &amp;amp;= f(\frac{\pi}{8}) + 4 = \frac{11}{2} + \sqrt{2} \\
+min \ \varphi(x) &amp;amp;= f(\frac{\pi}{3}) - 4 = \frac{\sqrt{3}}{2} - 3
+\end{aligned}\]
+
+&lt;p&gt;2.&lt;/p&gt;</content><author><name>nekosama</name></author><category term="Math" /><summary type="html">简介</summary></entry></feed>

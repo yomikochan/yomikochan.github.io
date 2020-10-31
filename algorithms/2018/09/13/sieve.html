@@ -1,0 +1,260 @@
+<h3 id="sieve-of-eratosthenes-埃氏筛">Sieve of Eratosthenes (埃氏筛)</h3>
+
+<p>时间复杂度：$ O(nlglgn) $</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">埃氏筛 - 维基百科</a></p>
+
+<pre><code class="language-C++">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 2000010;
+int main(int n, char**v)
+{
+    bool prime[N];
+    for(int i = 2; i &lt; N; i++)
+        prime[i] = true;
+    for (int i = 2; i &lt;= sqrt(N); i++)
+        if (prime[i])
+            for (int j = i*i; j &lt; N; j += i)
+                prime[j] = false;
+    for (int i = 2; i &lt; N; i++)
+        if (prime[i])
+            cout &lt;&lt; i &lt;&lt; ' ';
+    return 0;
+}
+</code></pre>
+
+<h3 id="sieve-of-atkin">Sieve of Atkin</h3>
+
+<p><a href="https://en.wikipedia.org/wiki/Sieve_of_Atkin">Sieve of Atkin - wikipedia</a></p>
+
+<h3 id="sieve-of-prime-素数筛">Sieve of prime (素数筛)</h3>
+
+<p>学会这个筛法就可以A掉这个题了：P3383 【模板】线性筛</p>
+
+<pre><code class="language-C++">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+#define rg register
+const int N = 10000010;
+int prime[N], notprime[N];
+void SievePrime()
+{
+    int step = 0;
+    notprime[1] = 1;
+    for (rg int i = 2; i &lt; N; i++)
+    {
+        if (!notprime[i]) prime[++step] = i;
+        for (rg int j = 1; j &lt;= step &amp;&amp; prime[j] * i &lt; N; j++)
+        {
+            notprime[i * prime[j]] = 1;
+            if (i%prime[j] == 0) break;
+        }
+    }
+}
+int main()
+{
+    SievePrime();
+    for (rg int i = 0; i &lt; N; i++)
+        if (prime[i])
+            cout &lt;&lt; prime[i] &lt;&lt; ' ';
+    return 0;
+}
+</code></pre>
+
+<h3 id="sieve-of-euler-欧拉筛">Sieve of Euler (欧拉筛)</h3>
+
+<h5 id="原理">原理</h5>
+
+<p><strong>欧拉函数</strong></p>
+
+\[\phi(n) = n \prod_{p|n} (1 - \frac{1}{p}) = \prod(p - 1)p^{k_r - 1}\]
+
+<p>其中 $ p $ 为 $ n $ 的所有质因子。<strong>它表示在不超过 $ n $ 的正整数中与 $ n $ 互质的数的个数。</strong></p>
+
+<p>如果 $ p $ 是素数，$ k \geq 1 $，那么有</p>
+
+\[\phi(p^k) = p^{k - 1}(p - 1) = p^k(1 - \frac{1}{p})\]
+
+<p>利用这个公式便可以证明欧拉函数。</p>
+
+<p>首先 $ n = p_1^{k_1} \cdots p_r^{k_r} $，则</p>
+
+\[\begin{aligned}
+\phi(n)
+&amp;= \phi(p_1^{k_1})\phi(p_2^{k_2}) \cdots \phi(p_r^{k_r}) \\
+&amp;= p_1^{k_1}(1 - \frac{1}{p_1})p_2^{k_2}(1 - \frac{1}{p_2}) \cdots p_r^{k_r}(1 - \frac{1}{p_r}) \\
+&amp;= p_1^{k_1}p_2^{k_2} \cdots p_r^{k_r}(1 - \frac{1}{p_1})(1 - \frac{1}{p_2}) \cdots (1 - \frac{1}{p_r}) \\
+&amp;= n(1 - \frac{1}{p_1})(1 - \frac{1}{p_2}) \cdots (1 - \frac{1}{p_r})
+\end{aligned}\]
+
+<p>欧拉函数是积性函数。</p>
+
+<ul>
+  <li>与欧拉定理、费马小定理的关系</li>
+</ul>
+
+<p>对任何两个互质的正整数 $ a, m (m &gt;= 2) $，有欧拉定理 $ a^{\phi(m)} = 1(mod \ m) $ (其中 $ \phi(m) $ 是欧拉函数) ，当 $ m $ 是质数 $ p $ 时，式子变为</p>
+
+\[x^{p - 1} = 1(mod \ p)\]
+
+<p>即费马小定理。</p>
+
+<p>更多关于欧拉函数，另请参见：</p>
+
+<ol>
+  <li><a href="https://baike.baidu.com/item/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/1944850?fr=aladdin">欧拉函数 - 百度百科</a></li>
+  <li><a href="https://en.wikipedia.org/wiki/Euler%27s_totient_function">Euler function - wikipedia</a></li>
+</ol>
+
+<p><strong>求欧拉函数的算法</strong></p>
+
+<pre><code class="language-C++">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int eular(int n)
+{
+    int ret=1;
+    for(int i = 2; i*i &lt;= n; i++)
+    {
+        if(n%i == 0)
+        {
+            n /= i,ret *= i - 1;
+            while(n%i == 0) n /= i, ret *= i;
+        }
+    }
+    if(n &gt; 1) ret *= n - 1;
+    return ret;
+}
+int main()
+{
+    int n, s;
+    cin &gt;&gt; n;
+    s = eular(n);
+    cout &lt;&lt; s &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+
+<p><strong>欧拉筛法</strong></p>
+
+<pre><code class="language-C++">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+#define rg register
+const int N = 10000010;
+int prime[N], notprime[N], phi[N];
+void SieveEuler()
+{
+    int step = 0;
+    phi[1] = 1;
+    for (rg int i = 2; i &lt; N; i++)
+    {
+        if (!notprime[i]) prime[++step] = i, phi[i] = i - 1;
+        for (rg int j = 1; j &lt;= step &amp;&amp; prime[j] * i &lt; N; j++)
+        {
+            notprime[i * prime[j]] = 1;
+            if (i%prime[j] == 0)
+            {
+                phi[i * prime[j]] = phi[i] * prime[j];
+                break;
+            }
+            else phi[i * prime[j]] = phi[i]*(prime[j] - 1);
+        }
+    }
+}
+int main()
+{
+    SieveEuler();
+    for (rg int i = 0; i &lt; N; i++)
+        if (prime[i])
+            cout &lt;&lt; prime[i] &lt;&lt; ' ';
+    return 0;
+}
+</code></pre>
+
+<h3 id="sieve-of-mobius-莫比乌斯筛">Sieve of Mobius (莫比乌斯筛)</h3>
+
+<h5 id="原理-1">原理</h5>
+
+<p><strong>莫比乌斯函数</strong></p>
+
+\[\mu(n) = \eta_{\omega(n)\Omega(n)}\lambda(n)\]
+
+<p>这里 $ \lambda(n) $ 是刘维尔函数。</p>
+
+<p>莫比乌斯函数也是一个积性函数（$ \mu(ab) = \mu(a)\mu(b) $，$ a $ 和 $ b $ 互质 ）</p>
+
+<p>当 $ n = 1 $ 时，$ n $ 的所有因子的莫比乌斯函数值和为 1;
+当 $ n \neq 1 $ 时，$ n $ 的所有因子的莫比乌斯函数值和为 0.</p>
+
+<p>即</p>
+
+\[\sum_{d|n}\mu(d) =
+\left\{
+\begin{aligned} 
+    1 \quad n = 1; \\
+    0 \quad n &gt; 1.
+\end{aligned}
+\right.\]
+
+<p>莫比乌斯函数完整定义的通俗表达：</p>
+
+<ol>
+  <li>莫比乌斯函数 $ \mu(n) $ 的定义域是 $ N $;</li>
+  <li>$ \mu(1) = 1 $;</li>
+  <li>当n存在平方因子时，$ \mu(n) =0 $;</li>
+  <li>当n是素数或奇数个不同素数之积时，$ \mu(n) = -1 $;</li>
+  <li>当n是偶数个不同素数之积时，$ \mu(n) = 1 $.</li>
+</ol>
+
+\[\mu(n) =
+\left\{
+\begin{aligned} 
+    1 \quad n = 1; \\
+    (-1)^k \quad n = p_1 p_2 \ cdots p_k
+    0 \quad other.
+\end{aligned}
+\right.\]
+
+<p>参考：</p>
+
+<p><a href="https://baike.baidu.com/item/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%87%BD%E6%95%B0/2567473">莫比乌斯函数 - 百度百科</a>
+<a href="https://en.wikipedia.org/wiki/M%C3%B6bius_function">Mobius function - wikipedia</a></p>
+
+<p><strong>莫比乌斯筛法</strong></p>
+
+<pre><code class="language-C++">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+#define rg register
+const int N = 1000010;
+int prime[N], notprime[N], mobius[N];
+void SieveMobius()
+{
+    int step = 0;
+    mobius[1] = 1;
+    for (rg int i = 2; i &lt; N; i++)
+    {
+        if (!notprime[i]) prime[++step] = i, mobius[i] = -1;
+        for (rg int j = 1; j &lt;= step &amp;&amp; prime[j] * i &lt; N; j++)
+        {
+            notprime[i * prime[j]] = 1;
+            if (i%prime[j] == 0)
+            {
+                mobius[i * prime[j]] = 0;
+                break;
+            }
+            else mobius[i * prime[j]] = -mobius[i];
+        }
+    }
+}
+int main()
+{
+    SieveMobius();
+    for (int i = 0; i &lt; N; i++)
+        if (prime[i])
+            cout &lt;&lt; prime[i] &lt;&lt; ' ';
+    return 0;
+}
+</code></pre>
+
+<h3 id="其他参考">其他参考</h3>
+
+<p><a href="https://www.cnblogs.com/Paul-Guderian/p/7723031.html">线性筛</a>
+<a href="https://blog.csdn.net/qq_40515553/article/details/79365871">几种线性筛</a></p>

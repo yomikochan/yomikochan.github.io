@@ -1,0 +1,832 @@
+<h1 id="简介">简介</h1>
+
+<p>这篇主要介绍一些矩阵运算相关算法。</p>
+
+<h3 id="矩阵乘法">矩阵乘法</h3>
+
+<p>矩阵相乘：$ C = AB $</p>
+
+<h5 id="普通算法">普通算法</h5>
+
+<ul>
+  <li>时间复杂度 $ O(N^3) $</li>
+</ul>
+
+<pre><code class="language-C">memset(c, 0, sizeof(c));
+for (int i = 0; i &lt; N; i++)
+    for (int j = 0; j &lt; N; j++)
+        for (int k = 0; k &lt; N; k++)
+            c[i][j] += a[i][k] * b[k][j];
+</code></pre>
+
+<h5 id="strassen算法">Strassen算法</h5>
+
+<ul>
+  <li>时间复杂度 $ O(N^{lg7}) $</li>
+</ul>
+
+<pre><code class="language-C">void Strassen_algo(vector&lt;vector&lt;float&gt;&gt; &amp; c, vector&lt;vector&lt;float&gt;&gt;  a, vector&lt;vector&lt;float&gt;&gt;  b)
+{
+}
+</code></pre>
+
+<h3 id="线性方程组">线性方程组</h3>
+
+<p>$ n $ 个未知数 $ m $ 个方程的线性方程组</p>
+
+\[\left\{
+\begin{matrix}
+a_{00}x_0 &amp; a_{01}x_1 &amp; \cdots &amp; a_{0n}x_n &amp;= b_0 \\
+a_{10}x_0 &amp; a_{11}x_1 &amp; \cdots &amp; a_{1n}x_n &amp;= b_1 \\
+\vdots \\
+a_{m0}x_0 &amp; a_{m1}x_1 &amp; \cdots &amp; a_{mn}x_n &amp;= b_m 
+\end{matrix}\right.\]
+
+<p>将上式写为以向量 $ x $ 为未知元的向量方程</p>
+
+\[Ax = b \quad (1)\]
+
+<h5 id="方程是否有解">方程是否有解</h5>
+
+<p>设 $ B = (A, b) $ 为增广矩阵，$ R(A) $ 是矩阵 $ A $ 的秩，$ R(A, b) $ 是增广矩阵 $ B $ 的秩。</p>
+
+<ul>
+  <li>无解的充分必要条件是 $ R(A) &lt; R(A, b) $;</li>
+  <li>$ n $ 元线性方程组 $ Ax = b \quad $ 有唯一解的充分必要条件是 $ R(A) = R(A, b) = n $;</li>
+  <li>有无限多解的充分必要条件是 $ R(A) = R(A, b) \leq n $.</li>
+</ul>
+
+<h5 id="lup分解原理">LUP分解原理</h5>
+
+<p>$ LUP $ 分解的基本思想就是找出三个 $ n \times n $ 矩阵 $ L $、$ U $、$ P $，满足</p>
+
+\[PA = LU \quad (2)\]
+
+<p>其中，$ L $ 是一个单位下三角矩阵，$ U $ 是一个上三角矩阵，$ P $ 是一个置换矩阵。我们称满足式 (2) 的矩阵 $ L $、$ U $、$ P $ 为矩阵 $ A $ 的 <strong>LUP 分解</strong>。</p>
+
+<p>可以证明，如果矩阵 $ A $ 是一个非奇异矩阵，那么我们一定能找到 $ L $、$ U $、$ P $ 分解满足上式。</p>
+
+<p>这有什么用呢？</p>
+
+<p>我们先对 (1) 进行置换，在等式 $ Ax = b $ 两边同时乘以 $ P $ 置换，得到：$ PAx = Pb $，利用 (2) 式有</p>
+
+\[LUx = Pb\]
+
+<p>设 $ y = Ux $，其中 x 就是要求解的向量解。首先，通过一种称为“正向替换”的方法求解单位下三角系统</p>
+
+\[Ly = Pb \quad (3)\]
+
+<p>得到未知向量 $ y $。然后，通过一种称为“反向替换”的方法求解上三角系统</p>
+
+\[Ux = y \quad (4)\]
+
+<p>得到向量解 $ x $。由于置换矩阵 $ P $ 是可逆的，在等式 (2) 两边同时乘以 $ P^{-1} $，于是</p>
+
+\[A = P^{-1}LU\]
+
+<p>因此，向量 $ x $ 就是 $ Ax = b $ 的解</p>
+
+\[\begin{aligned}
+Ax
+&amp;= P^{-1}LUx \\
+&amp;= P^{-1}Ly \\
+&amp;= P^{-1}Pb \\
+&amp;= b
+\end{aligned}\]
+
+<h5 id="正向替换与反向替换">正向替换与反向替换</h5>
+
+<p>进一步看看正向替换与反向替换是如何进行的。</p>
+
+<ul>
+  <li>正向替换</li>
+</ul>
+
+<p>已知 $ L $、$ P $ 和 $ b $，正向替换可在 $ O(n^2) $ 的时间内求解单位下三角系统 (3)。</p>
+
+\[Pb = 
+\begin{bmatrix}
+p_{0,0} &amp; p_{0,1} &amp; \cdots &amp; p_{0,n} \\
+p_{1,0} &amp; p_{1,1} &amp; \cdots &amp; p_{1,n} \\
+\vdots &amp; \vdots &amp; \cdots &amp; \vdots \\
+p_{n,0} &amp; p_{n,1} &amp; \cdots &amp; p_{n,n}
+\end{bmatrix}
+\begin{bmatrix}
+b_0 \\
+b_1 \\
+\vdots \\
+b_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+\sum_{j = 0}^{n}p_{0,j} \cdot b_j \\
+\sum_{j = 0}^{n}p_{1,j} \cdot b_j \\
+\vdots \\
+\sum_{j = 0}^{n}p_{n,j} \cdot b_j
+\end{bmatrix}\]
+
+<p>为了方便起见，这里用一个数组 $ \pi[0…n] $ 简洁地表示置换 $ P $。对 $ i = 0, 1, 2, \cdots, n $，元素 $ \pi[i] $ 表示 $ P_{i, \pi[i]} = 1 $，并且对 $ j \neq \pi[i] $ 有 $ P_{ij} = 0 $。因此，$ PA $ 第 $ i $ 行第 $ j $ 列的元素为 $ a_{\pi[i],j} $，$ Pb $ 的第 $ i $ 个元素为 $ b_{\pi[i]} $。因为 $ L $ 是单位下三角矩阵，我们可以重写等式 (3) 为：</p>
+
+\[\begin{bmatrix}
+y_0 &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp;= b_{\pi[0]} \\
+l_{10}y_0 &amp; + &amp; y_1 &amp; &amp; &amp; &amp; &amp; &amp; &amp;= b_{\pi[1]} \\
+l_{20}y_0 &amp; + &amp; l_{21}y_1 &amp; + &amp; y_2 &amp; &amp; &amp; &amp; &amp;= b_{\pi[2]} \\
+\vdots \\
+l_{n0}y_0 &amp; + &amp; l_{n1}y_1 &amp; + &amp; l_{n2}y_2 &amp; + &amp; \cdots &amp; + &amp; y_n &amp;= b_{\pi[n]}
+\end{bmatrix}\]
+
+<p>第一个等式可以求出 $ y_0 $，我们把它代入第二个等式，求出</p>
+
+\[y_1 = b_{\pi[1]} - l_{10}y_0\]
+
+<p>在将 $ y_1, y_2 $ 代入第三个等式，得到</p>
+
+\[y_2 = b_{\pi[2]} - (l_{20}y_0 + l{21}y_1)\]
+
+<p>一般的，我们把 $ y_0, y_1, \cdots, y_{i - 1} $ “正向替换”到第 $ i $ 个等式中，就可以求解 $ y_i $：</p>
+
+\[y_i = b_{\pi[i]} - \sum_{j = 0}^{i - 1} l_{ij}y_{j}\]
+
+<ul>
+  <li>反向替换</li>
+</ul>
+
+<p>与正向替换类似，求解上三角系统等式 (4)。</p>
+
+\[\begin{bmatrix}
+u_{0,0}x_0 &amp; + &amp; u_{0,1}x_1 &amp; + &amp; \cdots &amp; + &amp; u_{0,n-2}x_{n-2} &amp; + &amp; u_{0,n-1}x_{n-1} &amp; + &amp; u_{0,n}x_n &amp;= y_{0} \\
+&amp; &amp; u_{1,1}x_1 &amp; + &amp;  \cdots &amp; + &amp; u_{1,n-2}x_{n-2} &amp; + &amp; u_{1,n-1}x_{n-1} &amp; + &amp; u_{1,n}x_n &amp;= y_{1} \\
+&amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; \vdots \\
+&amp; &amp; &amp; &amp; &amp; &amp; u_{n-2,n-2}x_{n-2} &amp; + &amp; u_{n-2,n-1}x_{n-1} &amp; + &amp; u_{n-2,n}x_n &amp;= y_{n - 2} \\
+&amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; u_{n-1,n-1}x_{n-1} &amp; + &amp; u_{n-1,n}x_n &amp;= y_{n - 1} \\
+&amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; u_{n,n}x_n &amp;= y_{n}
+\end{bmatrix}\]
+
+<p>这里我们先求解第 $ n $ 个等式，然后往前一个等式代，因此可以如下相继求出 $ x_n, x_{n - 1}, \cdots, x_1 $ 的解：</p>
+
+\[\begin{aligned}
+x_n &amp;= \frac{y_{n}}{u_{n,n}} \\
+x_{n - 1} &amp;= \frac{y_{n - 1} - u_{n - 1, n}x_n}{u_{n - 1,n - 1}} \\
+\vdots
+\end{aligned}\]
+
+<p>一般的，有</p>
+
+\[x_i = \frac{y_i - \sum_{j = i + 1}^{n} u_{ij}x_{j}}{u_{ij}}\]
+
+<h5 id="计算lup分解">计算LUP分解</h5>
+
+<p>我们该如何找到这样的 $ L $、 $ U $、 $ P $ 矩阵呢？</p>
+
+<p>通常在 $ LUP $ 分解中包含一个置换矩阵 $ P $ 的原因是为了避免矩阵 $ A $ 中的主元 $ a_{i,i} = 0 $ ，即矩阵对角线上的数。</p>
+
+<p>但如果矩阵 $ A $ 的对角线上的数都不为 0，我们有一个 $ LU $ 分解算法就可以计算出矩阵 $ L $ 、 $ U $。</p>
+
+<p>下面先给出LU分解算法的实现，之后再分析算法原理。</p>
+
+<h5 id="lu分解算法实现">LU分解算法实现</h5>
+
+<p>示例(Example):</p>
+
+\[\begin{bmatrix}
+2 &amp; 3 &amp; 1 &amp; 5 \\
+6 &amp; 13 &amp; 5 &amp; 19 \\
+2 &amp; 19 &amp; 10 &amp; 23 \\
+4 &amp; 10 &amp; 11 &amp; 31 \\
+\end{bmatrix}\]
+
+<pre><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+const int N = 4;
+using namespace std;
+void lu(vector&lt;vector&lt;float&gt;&gt; &amp;l, vector&lt;vector&lt;float&gt;&gt; &amp;u, float a[][N])
+{
+    for (int i = 0; i &lt; N; i++)
+	{
+		l[i][i] = 1;
+		for (int j = i + 1; j &lt; N; j++)
+			l[i][j] = 0;
+	}
+	for (int i = 1; i &lt; N; i++)
+		for (int j = 0; j &lt; i; j++)
+			u[i][j] = 0;
+	for (size_t i = 0; i &lt; N; i++)
+	{
+		u[i][i] = a[i][i];
+		for (size_t j = i + 1; j &lt; N; j++)
+		{
+			l[j][i] = a[j][i] / u[i][i];
+			u[i][j] = a[i][j];
+		}
+		for (size_t j = i + 1; j &lt; N; j++)
+			for (size_t k = i + 1; k &lt; N; k++)
+				a[j][k] -= l[j][i] * u[i][k];
+	}
+}
+int main()
+{
+	vector&lt;vector&lt;float&gt;&gt;  l(N, vector&lt;float&gt;(N));
+	vector&lt;vector&lt;float&gt;&gt;  u(N, vector&lt;float&gt;(N));
+	float a[N][N] = {
+		2, 3, 1, 5,
+		6, 13, 5, 19,
+		2, 19, 10, 23,
+		4, 10, 11, 31
+	};
+
+	lu(l, u, a);
+
+	cout &lt;&lt; "L 矩阵:" &lt;&lt; endl;
+	for (int i = 0; i &lt; N; i++)
+	{
+		for (int j = 0; j &lt; N; j++)
+			cout &lt;&lt; l[i][j] &lt;&lt; '\t';
+		cout &lt;&lt; endl;
+	}
+	cout &lt;&lt; "U 矩阵:" &lt;&lt; endl;
+	for (int i = 0; i &lt; N; i++)
+	{
+		for (int j = 0; j &lt; N; j++)
+			cout &lt;&lt; u[i][j] &lt;&lt; '\t';
+		cout &lt;&lt; endl;
+	}
+
+	memset(a, 0, sizeof(a));
+
+	for (int i = 0; i &lt; N; i++)
+		for (int j = 0; j &lt; N; j++)
+			for (int k = 0; k &lt; N; k++)
+				a[i][j] += l[i][k] * u[k][j];
+
+	cout &lt;&lt; "A 矩阵:" &lt;&lt; endl;
+	for (int i = 0; i &lt; N; i++)
+	{
+		for (int j = 0; j &lt; N; j++)
+			cout &lt;&lt; a[i][j] &lt;&lt; '\t';
+		cout &lt;&lt; endl;
+	}
+	return 0;
+}
+</code></pre>
+
+<h5 id="lu分解算法分析">LU分解算法分析</h5>
+
+<p>前面说到对于一个非奇异矩阵 $ A $，即 $ \det{A} \neq 0 $，就能找到其 $ LU $ 分解，那么运用正向替换与反向替换就可以求出线性方程组 $ Ax = b $ 的解。</p>
+
+<blockquote>
+  <p>原理：算法利用高斯消元法来创建 $ LU $ 分解。首先从其他方程中减去第一个方程的倍数，以把那些方程中的第一个变量消去。然后，从第三个及以后的方程中减去第二个方程的倍数，把这些方程的第一个和第二个变量消去。继续上述过程，直到系统变为一个上三角矩阵形式，实际上此矩阵就是 $ U $。矩阵 $ L $ 是由消去变量所用的行的乘数组成。</p>
+</blockquote>
+
+<p>采用递归算法实现这个策略。我们希望构造出一个 $ n \times n $ 的非奇异矩阵 $ A $ 的一个 $ LU $ 分解。
+如果 $ n = 1 $，则构造完成，因为可以算则 $ L = I_1 $ (注：$ I_n $ 是单位阵)， $ U = A $。对于 $ n &gt; 1 $，我们把 $ A $ 拆成 4 部分</p>
+
+\[\begin{bmatrix}
+a_{11} &amp; | &amp; a_{12} &amp; \cdots &amp; a_{1n} \\
+-&amp;-&amp;-&amp;-&amp;- \\
+a_{21} &amp; | &amp; a_{22} &amp; \cdots &amp; a_{2n} \\
+\vdots &amp; | \\
+a_{n1} &amp; | &amp; a_{n2} &amp; \cdots &amp; a_{nn}
+\end{bmatrix}
+=
+\begin{bmatrix}
+a_{11} &amp; \omega^T \\
+\upsilon &amp; A'
+\end{bmatrix}\]
+
+<p>其中 $ \upsilon $ 是一个 $ n - 1 $ 维列向量，$ \omega^T $ 是一个 $ n - 1 $ 维行向量，$ A’ $ 是一个 $ (n - 1) \times (n - 1) $ 矩阵。然后，利用矩阵代数 (通过简单地从头到尾使用乘法来验证方程式)，可以把 $ A $ 分解为</p>
+
+\[\begin{bmatrix}
+1 &amp; 0 \\
+\frac{\upsilon}{a_{11}} &amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{11} &amp; \omega^T \\
+0 &amp; A' - \frac{\upsilon\omega^T}{a_{11}}
+\end{bmatrix}\]
+
+<p>项 $ \frac{\upsilon\omega^T}{a_{11}} $ 是一个 $ (n - 1) \times (n - 1) $ 矩阵，它与矩阵 $ A’ $ 大小一致。所得矩阵</p>
+
+\[A' - \frac{\upsilon\omega^T}{a_{11}}\]
+
+<p>称为矩阵 $ A $ 对于 $ a_{11} $ 的<a href="https://en.wikipedia.org/wiki/Schur_complement">舒尔补</a>。</p>
+
+<p>如果矩阵 $ A $ 是非奇异的，那么舒尔补矩阵也是非奇异的。</p>
+
+<p>因为舒尔补是非奇异的，现在我们可以递归地找出它的一个 $ LU $ 分解。我们说</p>
+
+\[A' - \frac{\upsilon\omega^T}{a_{11}} = L'U'\]
+
+<p>其中 $ L’ $ 是单位下三角矩阵，$ U’ $ 是上三角矩阵。然后，利用矩阵代数可得</p>
+
+\[\begin{aligned}
+A &amp;= 
+\begin{bmatrix}
+1 &amp; 0 \\
+\frac{\upsilon}{a_{00}} &amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{00} &amp; \omega^T \\
+0 &amp; A' - \frac{\upsilon\omega^T}{a_{00}}
+\end{bmatrix}
+= 
+\begin{bmatrix}
+1 &amp; 0 \\
+\frac{\upsilon}{a_{00}} &amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k0} &amp; \omega^T \\
+0 &amp; L'U'
+\end{bmatrix} \\
+&amp;=
+\begin{bmatrix}
+1 &amp; 0 \\
+\frac{\upsilon}{a_{00}} &amp; L'
+\end{bmatrix}
+\begin{bmatrix}
+a_{00} &amp; \omega^T \\
+0 &amp; U'
+\end{bmatrix}
+=
+LU
+\end{aligned}\]
+
+<ul>
+  <li>时间复杂度 $ O(N^3) $</li>
+</ul>
+
+<h5 id="lup分解算法实现">LUP分解算法实现</h5>
+
+<p>示例(Example):</p>
+
+\[\begin{bmatrix}
+2 &amp; 0 &amp; 2 &amp; 0.6 \\
+3 &amp; 3 &amp; 4 &amp; -2 \\
+5 &amp; 5 &amp; 4 &amp; 2 \\
+-1 &amp; -2 &amp; 3.4 &amp; -1
+\end{bmatrix}\]
+
+<pre><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+const int N = 4;
+using namespace std;
+void lup(vector&lt;float&gt; &amp;P, float a[][N])
+{
+	for (size_t i = 0; i &lt; N; i++)
+	{
+		float p = 0; size_t i_;
+		for (size_t j = i; j &lt; N; j++)
+			if (fabsf(a[j][i]) &gt; p)
+				p = fabsf(a[j][i]), i_ = j;
+		if (p == 0) return;
+		swap(P[i], P[i_]);
+		for (size_t j = 0; j &lt; N; j++)
+			swap(a[i][j], a[i_][j]);
+		for (size_t j = i + 1; j &lt; N; j++)
+		{
+			a[j][i] /= a[i][i];
+			for (size_t k = i + 1; k &lt; N; k++)
+				a[j][k] -= a[j][i] * a[i][k];
+		}
+	}
+}
+int main()
+{
+	vector&lt;float&gt; P(N);
+	float b[][N] = {
+		2, 0, 2, 0.6,
+		3, 3, 4, -2,
+		5, 5, 4, 2,
+		-1, -2, 3.4, -1
+	};
+
+    lup(P, b);
+
+	cout &lt;&lt; "B 矩阵:" &lt;&lt; endl;
+	for (int i = 0; i &lt; N; i++)
+	{
+		for (int j = 0; j &lt; N; j++)
+			cout &lt;&lt; b[i][j] &lt;&lt; '\t';
+		cout &lt;&lt; endl;
+	}
+    cout &lt;&lt; "P 矩阵:" &lt;&lt; endl;
+	for (size_t i = 0; i &lt; P.size(); i++)
+		cout &lt;&lt; i &lt;&lt; P[i] &lt;&lt; endl;
+	return 0;
+}
+</code></pre>
+
+<p><strong>version 2.<code class="language-plaintext highlighter-rouge">lup()</code></strong></p>
+
+<pre><code class="language-C++">void lup2(vector&lt;vector&lt;float&gt;&gt;&amp;l, vector&lt;vector&lt;float&gt;&gt;&amp;u, vector&lt;float&gt; &amp;P, float a[][N])
+{
+	for (int i = 0; i &lt; N; i++)
+	{
+		l[i][i] = 1;
+		for (int j = i + 1; j &lt; N; j++)
+			l[i][j] = 0;
+	}
+	for (int i = 1; i &lt; N; i++)
+		for (int j = 0; j &lt; i; j++)
+			u[i][j] = 0;
+	for (int i = 0; i &lt; N; i++)
+	{
+		float p = 0; int i_;
+		for (int j = i; j &lt; N; j++)
+			if (fabsf(a[j][i]) &gt; p)
+				p = fabsf(a[j][i]), i_ = j;
+		if (p == 0) return;
+		swap(P[i], P[i_]);
+		for (int j = 0; j &lt; N; j++)
+			swap(a[i][j], a[i_][j]);
+		u[i][i] = a[i][i];
+		for (int j = i + 1; j &lt; N; j++)
+		{
+			l[j][i] = a[j][i] / u[i][i];
+			u[i][j] = a[i][j];
+		}
+		for (int j = i + 1; j &lt; N; j++)
+			for (int k = i + 1; k &lt; N; k++)
+				a[j][k] -= l[j][i] * u[i][k];
+	}
+}
+</code></pre>
+
+<h5 id="lup分解算法分析">LUP分解算法分析</h5>
+
+<blockquote>
+  <p>原理：算法考虑每次计算过程，若主元为 $ 0 $ 或主元的值大于除数时，我们将找到合适的行与当前主元所在的行进行交换。比如，第 $ 1 $ 行，第 $ 1 $ 列为 $ 0 $，我们把第 $ 1 $ 行与第 $ k $ 行互换，这等价于用一个置换矩阵 $ Q $ 左乘矩阵 $ A $。因此可以把 $ QA $ 写成</p>
+</blockquote>
+
+\[QA =
+\begin{bmatrix}
+a_{k1} &amp; \omega^T \\
+\upsilon &amp; A'
+\end{bmatrix}\]
+
+<p>其中</p>
+
+\[\begin{aligned}
+\upsilon &amp;= (a_{21}, a_{31}, \cdots, a_{n1})^T \\
+\omega^T &amp;= (a_{k2}, a_{k3}, \cdots, a_{kn})
+\end{aligned}\]
+
+<p>$ A’ $ 是一个 $ (n - 1) \times (n - 1) $ 矩阵。因为 $ a_{k1} \neq 0 $，现在可以执行与 $ LU $ 分解基本相同的线性代数运算，但现在能保证不会除以 0</p>
+
+\[QA =
+\begin{bmatrix}
+a_{k1} &amp; \omega^T \\
+\upsilon &amp; A'
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 &amp; 0 \\
+\frac{\upsilon}{a_{k1}} &amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} &amp; \omega^T \\
+0 &amp; A' - \frac{\upsilon\omega^T}{a_{k1}}
+\end{bmatrix}\]
+
+<p>如果 $ A $ 是非奇异的，那么舒尔补 $ A’ - \frac{\upsilon\omega^T}{a_{k1}} $ 也是非奇异的。因此，可以递归地找出它的一个 $ LUP $ 分解，包括单位下三角矩阵 $ L’ $、上三角矩阵 $ U’ $ 和 置换矩阵 $ P’ $，满足</p>
+
+\[P'(A' - \frac{\upsilon\omega^T}{a_{k1}}) = L'U'\]
+
+<p>定义</p>
+
+\[P = 
+\begin{bmatrix}
+1 &amp; 0 \\
+0 &amp; P'
+\end{bmatrix}
+Q\]
+
+<p>它是一个置换矩阵，因为它是两个置换矩阵的乘积。有</p>
+
+\[\begin{aligned}
+PA &amp;= 
+\begin{bmatrix}
+1 &amp; 0 \\
+0 &amp; P'
+\end{bmatrix}
+QA = 
+\begin{bmatrix}
+1 &amp; 0 \\
+0 &amp; P'
+\end{bmatrix}
+\begin{bmatrix}
+1 &amp; 0 \\
+\frac{\upsilon}{a_{k1}} &amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} &amp; \omega^T \\
+0 &amp; A' - \frac{\upsilon\omega^T}{a_{k1}}
+\end{bmatrix} \\
+&amp;= 
+\begin{bmatrix}
+1 &amp; 0 \\
+P'\frac{\upsilon}{a_{k1}} &amp; P'
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} &amp; \omega^T \\
+0 &amp; A' - \frac{\upsilon\omega^T}{a_{k1}}
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 &amp; 0 \\
+P'\frac{\upsilon}{a_{k1}} &amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} &amp; \omega^T \\
+0 &amp; P'(A' - \frac{\upsilon\omega^T}{a_{k1}})
+\end{bmatrix} \\
+&amp;= 
+\begin{bmatrix}
+1 &amp; 0 \\
+P'\frac{\upsilon}{a_{k1}} &amp; I_{n - 1}
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} &amp; \omega^T \\
+0 &amp; L'U'
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 &amp; 0 \\
+P'\frac{\upsilon}{a_{k1}} &amp; L'
+\end{bmatrix}
+\begin{bmatrix}
+a_{k1} &amp; \omega^T \\
+0 &amp; U'
+\end{bmatrix}
+=
+LU
+\end{aligned}\]
+
+<p>这样就推出了 $ LUP $ 分解。因为 $ L’ $ 是单位下三角矩阵，所以 $ L $ 也是单位下三角矩阵；又因为 $ U’ $ 是上三角矩阵，于是 $ U $ 也是上三角矩阵。</p>
+
+<ul>
+  <li>时间复杂度 $ O(N^3) $</li>
+</ul>
+
+<h5 id="求解线性方程组算法">求解线性方程组算法</h5>
+
+<p>有了以上基础知识以后，我们才能拿到 $ L $、$ U $、$ P $ ，步入最后一步求解出线性方程组 $ Ax = b $ 的向量解。</p>
+
+<h5 id="完整的算法实现">完整的算法实现</h5>
+
+<pre><code class="language-C++">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+const int N = 3;
+using namespace std;
+void lu(vector&lt;vector&lt;float&gt;&gt; &amp;l, vector&lt;vector&lt;float&gt;&gt; &amp;u, float a[][N])
+{
+	for (int i = 0; i &lt; N; i++)
+	{
+		l[i][i] = 1;
+		for (int j = i + 1; j &lt; N; j++)
+			l[i][j] = 0;
+	}
+	for (int i = 1; i &lt; N; i++)
+		for (int j = 0; j &lt; i; j++)
+			u[i][j] = 0;
+	for (int i = 0; i &lt; N; i++)
+	{
+		u[i][i] = a[i][i];
+		for (int j = i + 1; j &lt; N; j++)
+		{
+			l[j][i] = a[j][i] / u[i][i];
+			u[i][j] = a[i][j];
+		}
+		for (int j = i + 1; j &lt; N; j++)
+			for (int k = i + 1; k &lt; N; k++)
+				a[j][k] -= l[j][i] * u[i][k];
+	}
+}
+void lup(vector&lt;float&gt; &amp;P, float a[][N])
+{
+	for (int i = 0; i &lt; N; i++)
+	{
+		float p = 0; int i_;
+		for (int j = i; j &lt; N; j++)
+			if (fabsf(a[j][i]) &gt; p)
+				p = fabsf(a[j][i]), i_ = j;
+		if (p == 0) return;
+		swap(P[i], P[i_]);
+		for (int j = 0; j &lt; N; j++)
+			swap(a[i][j], a[i_][j]);
+		for (int j = i + 1; j &lt; N; j++)
+		{
+			a[j][i] /= a[i][i];
+			for (int k = i + 1; k &lt; N; k++)
+				a[j][k] -= a[j][i] * a[i][k];
+		}
+	}
+}
+void lup2(vector&lt;vector&lt;float&gt;&gt;&amp;l, vector&lt;vector&lt;float&gt;&gt;&amp;u, vector&lt;float&gt; &amp;P, float a[][N])
+{
+	for (int i = 0; i &lt; N; i++)
+	{
+		l[i][i] = 1;
+		for (int j = i + 1; j &lt; N; j++)
+			l[i][j] = 0;
+	}
+	for (int i = 1; i &lt; N; i++)
+		for (int j = 0; j &lt; i; j++)
+			u[i][j] = 0;
+	for (int i = 0; i &lt; N; i++)
+	{
+		float p = 0; int i_;
+		for (int j = i; j &lt; N; j++)
+			if (fabsf(a[j][i]) &gt; p)
+				p = fabsf(a[j][i]), i_ = j;
+		if (p == 0) return;
+		swap(P[i], P[i_]);
+		for (int j = 0; j &lt; N; j++)
+			swap(a[i][j], a[i_][j]);
+		u[i][i] = a[i][i];
+		for (int j = i + 1; j &lt; N; j++)
+		{
+			l[j][i] = a[j][i] / u[i][i];
+			u[i][j] = a[i][j];
+		}
+		for (int j = i + 1; j &lt; N; j++)
+			for (int k = i + 1; k &lt; N; k++)
+				a[j][k] -= l[j][i] * u[i][k];
+	}
+}
+void lup_solve(vector&lt;vector&lt;float&gt;&gt;&amp;l, vector&lt;vector&lt;float&gt;&gt;&amp;u, vector&lt;float&gt;&amp;x, vector&lt;float&gt;&amp;y, vector&lt;float&gt; b, float a[][N])
+{
+	for (int i = 0; i &lt; N; i++)
+	{
+		float sum = 0;
+		for (int j = 0; j &lt; i; j++)
+			sum += l[i][j] * y[j];
+		y[i] = b[i] - sum;
+	}
+	for (int i = N - 1; i &gt;= 0; i--)
+	{
+		float sum = 0;
+		for (int j = i + 1; j &lt; N; j++)
+			sum += u[i][j] * x[j];
+		x[i] = (y[i] - sum) / u[i][i];
+	}
+}
+int main()
+{
+	vector&lt;vector&lt;float&gt;&gt;  l(N, vector&lt;float&gt;(N));
+	vector&lt;vector&lt;float&gt;&gt;  u(N, vector&lt;float&gt;(N));
+	/*float a[][N] = {
+		2, 3, 1, 5,
+		6, 13, 5, 19,
+		2, 19, 10, 23,
+		4, 10, 11, 31
+	};
+	float b[][N] = {
+		2, 0, 2, 0.6,
+		3, 3, 4, -2,
+		5, 5, 4, 2,
+		-1, -2, 3.4, -1
+	};*/
+	float c[][N] = {
+		1, 2, 0,
+		3, 4, 4,
+		5, 6, 3
+	};
+	vector&lt;float&gt; P(N);
+	vector&lt;float&gt; x(N);
+	vector&lt;float&gt; y(N);
+	vector&lt;float&gt; b { 3, 7, 8 };
+
+	for (int i = 0; i &lt; N; i++)
+		P[i] = (float)i;
+
+	lup2(l, u, P, c);
+	
+	lup_solve(l, u, x, y, b, c);
+
+	cout &lt;&lt; "解向量 x:" &lt;&lt; endl;
+	for (int i = 0; i &lt; N; i++)
+		cout &lt;&lt; x[i] &lt;&lt; endl;
+	return 0;
+}
+</code></pre>
+
+<p><strong>示例：</strong></p>
+
+\[\begin{bmatrix}
+1 &amp; 2 &amp; 0 \\
+3 &amp; 4 &amp; 4 \\
+5 &amp; 6 &amp; 3
+\end{bmatrix}\]
+
+<p><strong>output:</strong></p>
+
+<p>使用 <code class="language-plaintext highlighter-rouge">lu()</code> 函数</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>解向量 x:
+<span class="nt">-1</span>.4
+2.2
+0.6
+</code></pre></div></div>
+
+<p>使用 <code class="language-plaintext highlighter-rouge">lup2()</code> 函数</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>解向量 x:
+<span class="nt">-10</span>.08
+7.94
+1.92
+</code></pre></div></div>
+
+<h3 id="算法分析">算法分析</h3>
+
+<p>显然，代码很直观的实现了对算法的描述过程，即利用正向替换，代换出 $ Ly = Pb $ 的 $ y $，然后再利用反向替换计算出 $ Ux = y $ 中的解向量 $ x $。</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">lup_solve()</code>的时间复杂度为 $ O(N^2) $</li>
+</ul>
+
+<h3 id="矩阵求逆">矩阵求逆</h3>
+
+<p>$ A’ $ 是 $ A $ 的逆矩阵，则有</p>
+
+\[AA' = E\]
+
+<p>其中 $ E $ 是单位阵。</p>
+
+<p>设 $ X = A’ $， $ X_i $ 表示 $ X $ 的第 $ i $ 列， $ e_i $ 是 $ E $ 的第 $ i $ 列。于是可以利用 $ A $ 的 $ LUP $ 分解求解方程中的 $ X $，需分别求解每一个方程</p>
+
+\[AX_i = e_i\]
+
+<p>中的 $ X_i $。一旦得到 $ LUP $ 分解，就可以在 $ O(N^2) $ 时间内计算 $ n $ 个 $ X_i $ 列中的每一个，因此可以在 $ O(N^3) $ 时间内从 $ A $ 的 $ LUP $ 分解计算 $ X $。既然可以在 $ O(N^3) $ 内确定出 $ A $ 的 $ LUP $ 分解，我们就可以在 $ O(N^3) $ 的时间内求矩阵 $ A $ 的逆矩阵 $ A’ $。</p>
+
+<h5 id="算法演示">算法演示</h5>
+
+<p><strong>示例：</strong></p>
+
+\[\begin{bmatrix}
+1 &amp; 2 &amp; 0 \\
+3 &amp; 4 &amp; 4 \\
+5 &amp; 6 &amp; 3
+\end{bmatrix}\]
+
+<pre><code class="language-C++">int main()
+{
+	vector&lt;vector&lt;float&gt;&gt;  l(N, vector&lt;float&gt;(N));
+	vector&lt;vector&lt;float&gt;&gt;  u(N, vector&lt;float&gt;(N));
+	vector&lt;float&gt; x(N);
+	vector&lt;float&gt; y(N);
+	vector&lt;vector&lt;float&gt;&gt; E {
+		vector&lt;float&gt;{ 1, 0, 0 }, 
+		vector&lt;float&gt;{ 0, 1, 0 },
+		vector&lt;float&gt;{ 0, 0, 1}
+	};
+    float a[][N] = {
+		1, 2, 0,
+		3, 4, 4,
+		5, 6, 3
+	};
+
+	lu(l, u, a);
+	
+	for (int j = 0; j &lt; E.size(); j++)
+	{
+		lup_solve(l, u, x, y, E[j], a);
+		cout &lt;&lt; "解向量 X[" &lt;&lt; j &lt;&lt; "]:" &lt;&lt; endl;
+		for (int i = 0; i &lt; N; i++)
+			cout &lt;&lt; x[i] &lt;&lt; endl;
+	}
+	return 0;
+}
+</code></pre>
+
+<p><strong>output:</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>解向量 X[0]:
+<span class="nt">-1</span>.2
+1.1
+<span class="nt">-0</span>.2
+解向量 X[1]:
+<span class="nt">-0</span>.6
+0.3
+0.4
+解向量 X[2]:
+0.8
+<span class="nt">-0</span>.4
+<span class="nt">-0</span>.2
+</code></pre></div></div>
+
+<p><strong>即</strong>
+\(A'=
+\begin{bmatrix}
+-1.2 &amp; -0.6 &amp; 0.8 \\
+1.1 &amp; 0.3 &amp; -0.4 \\
+-0.2 &amp; 0.4 &amp; -0.2
+\end{bmatrix}\)</p>
+
+<h1 id="最后">最后</h1>
+
+<h3 id="参考文献">参考文献</h3>
+
+<ul>
+  <li>[1] 「算法导论・第三版」</li>
+  <li>[2] <a href="https://en.wikipedia.org/wiki/Matrix_multiplication">matrix multiplicaton - wikipedia</a></li>
+</ul>

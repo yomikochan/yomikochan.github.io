@@ -1,0 +1,93 @@
+<h3 id="前言">前言</h3>
+
+<p>借这个题学新姿势，这个题需要利用差分才能AC，普通树状树有3个点过不了。</p>
+
+<h5 id="差分原理参考题解区大佬">差分原理（参考题解区大佬）：</h5>
+
+<p>一个例子，一组数据 $ a[] = { 1, 5, 4, 2, 3 } $，差分后得到 $ b[] = { 1, 4, -1, -2, 1 } $，其中 $ a_0 = 0, b_i = a_i - a_{i - 1} $，求原数组 $ a_n $ 某个位置 $ i $ 上的值。</p>
+
+<p>由 $ b_i = a_i - a_{i - 1} \Rightarrow a_i = b_i + a_{i - 1} $，于是</p>
+
+\[\left.
+\begin{aligned}
+a_i &amp;= b_i + a_{i - 1} \\
+a_{i - 1} &amp;= b_{i - 1} + a_{i - 2} \\
+\vdots \\
+a_1 &amp;= b_1 + a_0
+\end{aligned} \right
+\} +\]
+
+\[\Rightarrow  a_i = b_i + b_{i - 1} + \cdots + b_1 + a_0\]
+
+<p>注意到 $ a_0 = 0 $，于是 $ a_i = \sum_{i = 1}^{n} b_i $ 。这样就求出了原数组位置上的值了。</p>
+
+<p>然后再看看如何更新区间的值呢。</p>
+
+<p>我们对 a 数组区间 2 ~ 4 每个值进行 +2 操作，得到 $ 1, 7, 6, 4, 3 $，我们对这个数组进行新的差分得到 $ b_n’ = { 1 6 -1 -2 -1 } $ ，我们比较新的差分数组 $ b_n’ $ 与 $ b_n $，发现只有 $ b_2’, b_5’ $ 上的值变了，$ b_2’ = b_2 + 2, b_5’ = b_5 - 2 $，可以验证，在任何区间 $ a[l,…,r] $ 做出 $ +x $ 更新，都有 $ b_l’ = b_l + x , b_{r + 1}’ = b_{r + 1} - x $ 。并且不论任何数组经过这样操作都有这样的特点，于是就有了代码中的 <code class="language-plaintext highlighter-rouge">dif()</code> 函数对区间进行更新。这样每次更新只用更新位置 $ b_l, b_{r + 1} $ 上的值，效率提高了许多。</p>
+
+<pre><code class="language-C++">#include &lt;bits/stdc++.h&gt;
+#define MP make_pair
+#define PB push_back
+#define st first
+#define nd second
+#define rd third
+#define rg register
+#define FOR(i, a, b) for(int i =(a); i &lt;=(b); ++i)
+#define RE(i, n) FOR(i, 1, n)
+#define FORD(i, a, b) for(int i = (a); i &gt;= (b); --i)
+#define REP(i, n) for(int i = 0;i &lt;(n); ++i)
+#define VAR(v, i) __typeof(i) v=(i)
+#define FORE(i, c) for(VAR(i, (c).begin()); i != (c).end(); ++i)
+#define ALL(x) (x).begin(), (x).end()
+#define SZ(x) ((int)(x).size())
+using namespace std;
+
+#define lowbit(x) ((x) &amp; (-x))
+const int N = 500010;
+int id[N];
+void upd(int n, int k, int x)
+{
+    while (k &lt;= n) id[k] += x, k += lowbit(k);
+}
+void dif(int n, int l, int r, int x)
+{
+    upd(n, l, x);
+    upd(n, r + 1, -x);
+}
+int sum(int k)
+{
+    int ans = 0;
+    while (k &gt; 0) ans += id[k], k -= lowbit(k);
+    return ans;
+}
+int org(int k)
+{
+    return sum(k) - sum(k - 1);
+}
+int ask(int l, int r)
+{
+    return sum(r) - sum(l - 1);
+}
+int main()
+{
+    int n, m, k, x, opera, l, r, pre;
+    pre = 0;
+    cin &gt;&gt; n &gt;&gt; m;
+    FOR (i, 1, n)
+    {
+        cin &gt;&gt; x;
+        upd(n, i, x - pre); // 差分后更新到树状数组
+        pre = x;
+    }
+    while(m--)
+    {
+        cin &gt;&gt; opera;
+        switch(opera)
+        {
+            case 1: cin &gt;&gt; l &gt;&gt; r &gt;&gt; x; dif(n, l, r, x); break;
+            case 2: cin &gt;&gt; k; cout &lt;&lt; sum(k) &lt;&lt; endl; break;
+        }
+    }
+    return 0;
+}
+</code></pre>

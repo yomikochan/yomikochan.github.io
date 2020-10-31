@@ -1,0 +1,81 @@
+<h3 id="算法简介">算法简介</h3>
+
+<p>Kruskal算法可用来求解最小生成树(minimum-spanning-tree, MST)问题，还可以用来生成迷宫。</p>
+
+<h3 id="算法分析">算法分析</h3>
+
+<p>其实算法不难理解，算法先要将 $ G(V, E) $ 的集合 $ E $ 按权重 $ \Omega $ 由小到大排序，然后还利用了不相交集中的<code class="language-plaintext highlighter-rouge">find()</code>(这里使用的是带路径压缩功能的) 和<code class="language-plaintext highlighter-rouge">union()</code>(这里函数名使用<code class="language-plaintext highlighter-rouge">marge()</code>) 函数，<code class="language-plaintext highlighter-rouge">find()</code>用于判断是否连通，如果连通则不能构成MST，反之则加入到MST的集合中，并调用<code class="language-plaintext highlighter-rouge">union()</code>函数将顶点连通。</p>
+
+<h5 id="时间复杂度分析">时间复杂度分析</h5>
+
+<p>$ O(E lg V) $</p>
+
+<h5 id="空间复杂度分析">空间复杂度分析</h5>
+
+<p>$ O(V + E) $</p>
+
+<h3 id="算法实现">算法实现</h3>
+
+<pre><code class="language-C++">#include "stdafx.h"
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;set&gt;
+using namespace std;
+const int N = 10010;
+int p[N];
+vector&lt;pair&lt;int, pair&lt;int, int&gt;&gt;&gt; graph;
+void init(int V, int E)
+{
+	for (int i = 1; i &lt;= V; i++)
+		p[i] = i;
+	for (int i = 0; i &lt; E; i++)
+	{
+		int w, s, e;
+		cin &gt;&gt; w &gt;&gt; s &gt;&gt; e;
+		graph.push_back(pair&lt;int, pair&lt;int ,int&gt;&gt;(w, pair&lt;int, int&gt;(s, e)));
+	}
+	sort(graph.begin(), graph.end());
+	for (auto e : graph)
+		cout &lt;&lt; e.first &lt;&lt; e.second.first &lt;&lt; e.second.second &lt;&lt; endl;
+}
+int find(int x)
+{
+	if (x != p[x])	p[x] = find(p[x]);
+	return p[x];
+}
+void marge(int x, int y)
+{
+	int r = find(x), t = find(y);
+	if (r != t)	p[r] = t;
+}
+vector&lt;pair&lt;int, int&gt;&gt; kruskal(int V, int E)
+{
+	vector&lt;pair&lt;int, int&gt;&gt; msts;
+	init(V, E);
+	for (vector&lt;pair&lt;int, pair&lt;int, int&gt;&gt;&gt;::iterator i = graph.begin(); i != graph.end(); i++)
+	{
+		if (find(i-&gt;second.first) != find(i-&gt;second.second))
+		{
+			msts.push_back(i-&gt;second);
+			marge(i-&gt;second.first, i-&gt;second.second);
+		}
+	}
+	return msts;
+}
+int main(int argc, char **argv)
+{
+	int V, E;
+	cin &gt;&gt; V &gt;&gt; E;
+	vector&lt;pair&lt;int, int&gt;&gt; es = kruskal(V, E);
+	for (auto e : es)
+		cout &lt;&lt; e.first &lt;&lt; "  " &lt;&lt; e.second &lt;&lt; endl;
+	return 0;
+}
+</code></pre>
+
+<h3 id="参考">参考</h3>
+
+<p>1.<a href="https://en.wikipedia.org/wiki/Kruskal%27s_algorithm">Kruskal’s algorithm - wikipedia</a>
+2.<a href="https://en.wikipedia.org/wiki/Maze_generation_algorithm">Maze generation algorithm - wikipedia</a>
+3.CLRS $ P_{366} $ 伪代码</p>

@@ -1,0 +1,58 @@
+<h3 id="简介">简介</h3>
+
+<p>这里是关于向量运算的题目题解，题目质量大概参差不齐。</p>
+
+<p>向量在现代数学和物理中有着很重要的作用，指的是一种具有大小和方向的量。又叫做矢量(vector)。</p>
+
+<p>[Vector - wikipedia](https://en.wikipedia.org/wiki/Vector_(mathematics_and_physics)</p>
+
+<h3 id="题">题</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>1.已知向量 $ \vec{OA}, \vec{OB} $ 满足 $</td>
+      <td>OA</td>
+      <td>=</td>
+      <td>OB</td>
+      <td>= 1, \vec{OA} \cdot \vec{OB} = 0, \vec{OC} = \lambda \ \vec{OA} + \mu \ \vec{OB} (\lambda ,\mu \in \mathbb{R}) $. 若 $ M $ 为 $ AB $ 的中点，并且 $</td>
+      <td>\vec{MC}</td>
+      <td>= 1 $, 则点 $ (\lambda , \mu) $ 在 ( B )</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A.以 $ (-\frac{1}{2}, \frac{1}{2}) $ 为圆心，半径为1的圆上.
+B.以 $ (\frac{1}{2}, -\frac{1}{2}) $ 为圆心，半径为1的圆上.
+C.以 $ (-\frac{1}{2}, -\frac{1}{2}) $ 为圆心，半径为1的圆上.
+D.以 $ (\frac{1}{2}, \frac{1}{2}) $ 为圆心，半径为1的圆上.</p>
+
+<p>题解：</p>
+
+<p>假设 $ A $ 点的坐标为 $ (x_0, y_0) $, $ B $ 点的坐标为 $ (x_1, y_1) $.</p>
+
+<p>由题目前2个条件知：</p>
+
+<p>$ x_0 ^2 + y_0 ^2 = 1, x_1 ^2 + y_1 ^2 = 1, x_0 \ x_1 + y_0 \ y_1 = 0 $</p>
+
+<p>将 $ A,B $ 点坐标带入第3个条件：$ \vec{OC} = \lambda \ \vec{OA} + \mu \ \vec{OB} (\lambda ,\mu \in \mathbb{R}) $</p>
+
+<p>于是求出 $ C $ 的坐标：$ (\lambda \ x_0 + \mu \ x_1, \lambda \ y_0 + \mu \ y_1) $</p>
+
+<p>$ M $ 是 $ AB $ 的中点，所以得到 $ M $ 的坐标为：$ (\frac{x_1 - x_0}{2}, \frac{y_1 - y_0}{2}) $</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>又因为 $</td>
+      <td>\vec{MC}</td>
+      <td>= 1 $, 把上面 $ M, C $ 的坐标代入进行计算并化简，最终可得：</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>$ (\lambda + \frac{1}{2})^2 + (\mu - \frac{1}{2})^2 = 1 $</p>
+
+<p>所以，选 B.</p>
+
+<p>2.</p>

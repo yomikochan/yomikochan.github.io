@@ -1,0 +1,44 @@
+<h3 id="参考">参考</h3>
+
+<p><a href="https://en.wikipedia.org/wiki/Fenwick_tree">fenwick tree</a></p>
+
+<h3 id="算法实现">算法实现</h3>
+
+<pre><code class="language-C++">#include &lt;iostream&gt;
+#define LSB(i) (i &amp; -i)
+const int M = 10001;
+int bit_tree[M];
+int freq[M];
+int getsum(int index)
+{
+    int sum = 0;
+    for (index += 1; index &gt; 0; index -= LSB(index))
+        sum += bit_tree[index];
+    return sum;
+}
+void update(int n, int index, int val)
+{
+    for (index += 1; index &lt;= n; index += LSB(index))
+        bit_tree[index] += val;
+}
+void init(int freq[], int n)
+{
+    for (int i = 1; i &lt;= n; i++)
+        bit_tree[i] = 0;
+    for (int i = 0; i &lt; n; i++)
+        update(n, i, freq[i]);
+}
+int main()
+{
+    int n;
+    std::cin &gt;&gt; n;
+    for (int i = 0; i &lt; n; i++)
+        std::cin &gt;&gt; freq[i];
+    init(freq, n);
+    for (int i = 0; i &lt; n; i++)
+    std::cout &lt;&lt; getsum(i) &lt;&lt; std::endl;
+    for (int i = 1; i &lt;= n; i++)
+        std::cout &lt;&lt; bit_tree[i] &lt;&lt; ' ';
+    return 0;
+}
+</code></pre>
