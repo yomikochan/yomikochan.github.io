@@ -1,14 +1,16 @@
 ---
-layout: page
 title: 梯度下降算法
-date: 2018-07-26 23:30:49+8
+layout: page
+date: '2018-07-26 23:30:49 +0800'
 tags:
-  - Math
-  - C/C++
-  - MatLab
-  - Python
-categories: algorithms
-cover_index: /assets/60572969.jpg
+- Math
+- C/C++
+- MatLab
+- Python
+categories:
+- algorithms
+cover_index: "/assets/60572969.jpg"
+math: true
 ---
 
 ### 补充说明
@@ -61,7 +63,7 @@ $$ min \ f(x) = 2x_1 ^2 + x_2 ^2, $$
 
 ##### C programming language
 
-```C
+```cpp
 #include <stdio.h>
 #include <math.h>
 #define square(x) x*x
@@ -115,7 +117,7 @@ Output:
 
 $ \epsilon = 10^-3 $
 
-```bash
+```
 (1.000000, 1.000000)
 (-0.111111, 0.444444)
 (0.074074, 0.074074)
@@ -149,7 +151,7 @@ $ \epsilon = 10^-6 $
 
 ##### Python3
 
-```python
+```py
 square = lambda x: x ** 2
 side = lambda a, b: (a ** 2 + b ** 2) ** (1 / 2)
 
@@ -178,7 +180,7 @@ if __name__ == '__main__':
 
 Output:
 
-```bash
+```
 1 (1.000000, 1.000000)
 2 (-0.111111, 0.444444)
 3 (0.074074, 0.074074)
@@ -232,5 +234,5 @@ end
 
 ### 参考文献
 
-1.[《最优化理论与算法 第二版》・陈宝林](https://baike.baidu.com/item/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E4%B8%8E%E7%AE%97%E6%B3%95/8459488)
-2.[Gradient descent - wikipedia](https://en.wikipedia.org/wiki/Gradient_descent)
+* 1.[《最优化理论与算法 第二版》・陈宝林](https://baike.baidu.com/item/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E4%B8%8E%E7%AE%97%E6%B3%95/8459488)
+* 2.[Gradient descent - wikipedia](https://en.wikipedia.org/wiki/Gradient_descent)

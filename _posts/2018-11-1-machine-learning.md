@@ -5,6 +5,7 @@ date: 2018-10-24 22:34:16+8
 tags:
   - Machine Leraning
   - Python
+math: true
 ---
 
 ### 前言
@@ -87,7 +88,7 @@ plt.show()
 
 然后很简单的拟合，并保存模型：
 
-```Python
+```py
 import pandas as pd
 import numpy as np
 import seaborn as sns

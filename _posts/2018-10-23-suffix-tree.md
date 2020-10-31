@@ -1,10 +1,12 @@
 ---
-layout: page
 title: 后缀树
-date: 2018-09-25 22:47:46+8
-tags: C/C++
-categories: algorithms
-cover_index: /assets/5307140.jpg
+layout: page
+date: '2018-09-25 22:47:46 +0800'
+tags:
+- C/C++
+categories:
+- algorithms
+cover_index: "/assets/5307140.jpg"
 ---
 
 ### 前言
@@ -13,7 +15,7 @@ cover_index: /assets/5307140.jpg
 
 ### 路径压缩版后缀树
 
-```C++
+```cpp
 #include <iostream>
 using namespace std;
 #define rep(i, a, b) for(int i = a; i < b; i++)
@@ -133,7 +135,7 @@ int main()
 
 output:
 
-```bash
+```
 0:
 a$
 ana$

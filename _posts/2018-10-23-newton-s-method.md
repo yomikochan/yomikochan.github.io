@@ -1,14 +1,15 @@
 ---
-layout: page
 title: 牛顿法(Newton's method)
-date: 2018-08-04 16:21:39+8
+layout: page
+date: '2018-08-04 16:21:39 +0800'
 tags:
-  - C/C++
-  - Math
-categories: 
-  - algorithms
-  - mathematical
-cover_index: /assets/222044074.jpg
+- C/C++
+- Math
+categories:
+- algorithms
+- mathematical
+cover_index: "/assets/222044074.jpg"
+math: true
 ---
 
 ### 算法简介
@@ -154,7 +155,7 @@ output:
 
 开方代码实现：
 
-```C++
+```cpp
 #include <iostream>
 int main()
 {
@@ -173,7 +174,7 @@ int main()
 
 牛顿法求 $ x^n $ 算法实现（代码有误）：
 
-```C++
+```cpp
 #include <iostream>
 double newton_method_power(double a, double b)
 {

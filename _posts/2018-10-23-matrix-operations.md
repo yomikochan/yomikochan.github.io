@@ -25,7 +25,7 @@ toc: true
 
 * 时间复杂度 $ O(N^3) $
 
-```C
+```c
 memset(c, 0, sizeof(c));
 for (int i = 0; i < N; i++)
     for (int j = 0; j < N; j++)
@@ -37,7 +37,7 @@ for (int i = 0; i < N; i++)
 
 * 时间复杂度 $ O(N^{lg7}) $
 
-```C
+```c
 void Strassen_algo(vector<vector<float>> & c, vector<vector<float>>  a, vector<vector<float>>  b)
 {
 }
@@ -217,7 +217,7 @@ $$
 \end{bmatrix}
 $$
 
-```C++
+```cpp
 #include <iostream>
 #include <vector>
 const int N = 4;
@@ -392,7 +392,7 @@ $$
 \end{bmatrix}
 $$
 
-```C++
+```cpp
 #include <iostream>
 #include <vector>
 const int N = 4;
@@ -446,7 +446,7 @@ int main()
 
 **version 2.`lup()`**
 
-```C++
+```cpp
 void lup2(vector<vector<float>>&l, vector<vector<float>>&u, vector<float> &P, float a[][N])
 {
 	for (int i = 0; i < N; i++)
@@ -609,7 +609,7 @@ $$
 
 ##### 完整的算法实现
 
-```C++
+```cpp
 #include <iostream>
 #include <vector>
 const int N = 3;
@@ -763,7 +763,7 @@ $$
 
 使用 `lu()` 函数
 
-```bash
+```
 解向量 x:
 -1.4
 2.2
@@ -772,7 +772,7 @@ $$
 
 使用 `lup2()` 函数
 
-```bash
+```
 解向量 x:
 -10.08
 7.94
@@ -811,7 +811,7 @@ $$
 \end{bmatrix}
 $$
 
-```C++
+```cpp
 int main()
 {
 	vector<vector<float>>  l(N, vector<float>(N));
@@ -845,7 +845,7 @@ int main()
 
 **output:**
 
-```bash
+```
 解向量 X[0]:
 -1.2
 1.1

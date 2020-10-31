@@ -1,12 +1,13 @@
 ---
-layout: page
 title: 汉明距离(hamming distance)
-date: 2018-08-04 15:45:39+8
+layout: page
+date: '2018-08-04 15:45:39 +0800'
 tags:
-  - C/C++
-  - Python
-categories: algorithms
-cover_index: /assets/28446480.jpg
+- C/C++
+- Python
+categories:
+- algorithms
+cover_index: "/assets/28446480.jpg"
 ---
 
 ### 简介
@@ -21,7 +22,7 @@ cover_index: /assets/28446480.jpg
 
 维基上有人也发现这个问题并给了一个正确的`python`代码：
 
-```
+```py
 s1 = 'karolin'
 s2 = 'kerstin'
 
@@ -74,7 +75,7 @@ int main()
 
 然后维基上还有一段代码：
 
-```
+```cpp
 int hamming_distance(unsigned x, unsigned y)
 {
     return __builtin_popcount(x ^ y);

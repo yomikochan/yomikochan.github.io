@@ -1,10 +1,13 @@
 ---
-layout: page
 title: 数学-导数篇（持续更新）
-date: 2018-09-05 19:39:45+8
-tags: Math
-categories: mathematical
-cover_index: /assets/472062875.jpg
+layout: page
+date: '2018-09-05 19:39:45 +0800'
+tags:
+- Math
+categories:
+- mathematical
+cover_index: "/assets/472062875.jpg"
+math: true
 ---
 
 ### 简介

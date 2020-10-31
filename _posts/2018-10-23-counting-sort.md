@@ -1,12 +1,12 @@
 ---
-layout: page
 title: 计数排序
-date: 2018-09-09 20:38:06+8
+layout: page
+date: '2018-09-09 20:38:06 +0800'
 tags:
-  - C/C++
-  - Sorting
+- C/C++
+- Sorting
 categories: algorithms
-cover_index: /assets/52183994.jpg
+cover_index: "/assets/52183994.jpg"
 ---
 
 ### 简介
@@ -21,7 +21,7 @@ cover_index: /assets/52183994.jpg
 
 ### 算法实现
 
-```C++
+```cpp
 #include <iostream>
 using namespace std;
 const int MAXN = 100000;
