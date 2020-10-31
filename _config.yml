@@ -28,7 +28,7 @@ twitter_username:
 github_username:  yomikochan
 
 # Build settings
-theme: jekyll-theme-hamilton
+remote_theme: ngzhio/jekyll-theme-hamilton
 plugins:
   - jekyll-theme-hamilton
 
