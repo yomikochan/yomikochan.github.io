@@ -47,8 +47,8 @@ lang: zh-cn
 date_format: "%Y-%m-%d"
 paginate: 5
 paginate_path: "page:num"
-disqus: yomiko
-google_analytics: G-0BF2ZJ4TKZ
+disqus: "yomiko"
+google_analytics: "G-0BF2ZJ4TKZ"
 
 search:
   path: search.xml
