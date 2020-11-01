@@ -10,7 +10,7 @@ categories:
 - mathematical
 cover_index: "/assets/95669376.jpg"
 math: true
-doc: true
+toc: true
 comments: true
 ---
 
