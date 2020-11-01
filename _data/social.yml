@@ -6,7 +6,12 @@
   icon: fab fa-github
 - title: Galgame
   url: https://www.nyavoo.com/tag/galgame
+  icon: fa fa-paw
 - title: Wolframalpha
   url: https://www.wolframalpha.com/
+  icon: fa fa-pi
 - title: Latex
   url: https://latex.codecogs.com/eqneditor/editor.php
+  icon: fa fa-function
+- title: Fractal
+  url: http://hpdz.net/
