@@ -14,7 +14,7 @@ categories:
 
 数学家们对分形的研究也有很长时间了，著名的 Mandelbrot set、Julia set、Newton's fractal 等，嘛，水平有限，只能从程序方面欣赏她的美了。
 
-一些关于分形的网站：http://hpdz.net/
+一些关于分形的网站：[http://hpdz.net/](http://hpdz.net/)
 
 1. Mandelbrot set
 
@@ -116,7 +116,7 @@ cv.imwrite('frame.png', image)
 
 2. Newton fractal
 
-这是一篇介绍牛顿迭代法的分形文章：https://www.chiark.greenend.org.uk/~sgtatham/newton/
+这是一篇介绍牛顿迭代法的分形文章：[https://www.chiark.greenend.org.uk/~sgtatham/newton/](https://www.chiark.greenend.org.uk/~sgtatham/newton/)
 
 C/C++:
 ```cpp
