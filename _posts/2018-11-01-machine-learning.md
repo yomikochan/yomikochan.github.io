@@ -1,11 +1,12 @@
 ---
-layout: page
 title: 机器学习
-date: 2018-10-24 22:34:16+8
+layout: page
+date: '2018-10-24 22:34:16 +0800'
 tags:
-  - Machine Leraning
-  - Python
+- Machine Leraning
+- Python
 math: true
+comments: true
 ---
 
 ### 前言
