@@ -35,3 +35,7 @@ gem 'jekyll-sitemap'
 gem 'jekyll-theme-hamilton'
 
 gem 'jekyll-paginate'
+
+gem "rack", ">= 2.1.4"
+
+
