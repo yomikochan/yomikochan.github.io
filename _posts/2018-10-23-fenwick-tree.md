@@ -1,10 +1,13 @@
 ---
-layout: page
 title: 树状数组（Fenwick tree）
-date: 2018-08-01 21:46:03+8
-tags: C/C++
-categories: algorithms
-cover_index: /assets/61082747.jpg
+layout: page
+date: '2018-08-01 21:46:03 +0800'
+tags:
+- C/C++
+categories:
+- algorithms
+cover_index: "/assets/61082747.jpg"
+comments: true
 ---
 
 ### 参考

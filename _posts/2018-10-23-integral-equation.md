@@ -8,6 +8,7 @@ categories:
 - mathematical
 cover_index: "/assets/15429725.jpg"
 math: true
+comments: true
 ---
 
 ### 前言

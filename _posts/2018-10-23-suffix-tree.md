@@ -7,6 +7,7 @@ tags:
 categories:
 - algorithms
 cover_index: "/assets/5307140.jpg"
+comments: true
 ---
 
 ### 前言

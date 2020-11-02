@@ -1,13 +1,14 @@
 ---
-layout: page
 title: 轻量级Json解析器
-date: 2018-07-21 13:38:00+8
+layout: page
+date: '2018-07-21 13:38:00 +0800'
 tags:
-  - C/C++
-  - Json
+- C/C++
+- Json
 categories:
-  - 词法分析树
-cover_index: /assets/1632277878.jpg
+- 词法分析树
+cover_index: "/assets/1632277878.jpg"
+comments: true
 ---
 
 # 更新日志

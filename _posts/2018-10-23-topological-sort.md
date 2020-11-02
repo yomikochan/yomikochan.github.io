@@ -1,10 +1,14 @@
 ---
-layout: page
 title: 拓扑排序
-date: 2018-08-24 18:30:07+8
-tags: C/C++
-categories: algorithms
-cover_index: /assets/4201472.jpg
+layout: page
+date: '2018-08-24 18:30:07 +0800'
+tags:
+- C/C++
+categories:
+- algorithms
+cover_index: "/assets/4201472.jpg"
+comments: true
+math: true
 ---
 
 ### 拓扑排序简介

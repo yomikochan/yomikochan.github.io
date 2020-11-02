@@ -10,7 +10,7 @@ categories:
 - fractal
 ---
 
-这里给大家介绍一下如何 C/C++/Python 等语言画分形。
+这里给大家介绍一下如何使用 C/C++/Python 等语言画分形。
 
 数学家们对分形的研究也有很长时间了，著名的 Mandelbrot set、Julia set、Newton's fractal 等，嘛，水平有限，只能从程序方面欣赏她的美了。
 

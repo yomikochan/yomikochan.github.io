@@ -8,6 +8,7 @@ tags:
 categories:
 - algorithms
 cover_index: "/assets/28446480.jpg"
+comments: true
 ---
 
 ### 简介

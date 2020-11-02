@@ -50,6 +50,8 @@ paginate_path: "page:num"
 disqus: "yomiko"
 google_analytics: "G-0BF2ZJ4TKZ"
 
+comments: true
+
 search:
   path: search.xml
   field: post

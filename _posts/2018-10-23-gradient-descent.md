@@ -11,6 +11,7 @@ categories:
 - algorithms
 cover_index: "/assets/60572969.jpg"
 math: true
+comments: true
 ---
 
 ### 补充说明

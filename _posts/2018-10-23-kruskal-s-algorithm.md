@@ -1,10 +1,13 @@
 ---
-layout: page
 title: Kruskal's algorithm
-date: 2018-08-29 18:18:43+8
-tags: C/C++
-categories: algorithms
-cover_index: /assets/4201472.jpg
+layout: page
+date: '2018-08-29 18:18:43 +0800'
+tags:
+- C/C++
+categories:
+- algorithms
+cover_index: "/assets/4201472.jpg"
+comments: true
 ---
 
 ### 算法简介

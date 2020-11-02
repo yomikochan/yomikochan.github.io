@@ -1,10 +1,13 @@
 ---
-layout: page
 title: Tarjan's algorithm
-date: 2018-08-27 20:54:58+8
-tags: C/C++
-categories: algorithms
-cover_index: /assets/4953156.jpg
+layout: page
+date: '2018-08-27 20:54:58 +0800'
+tags:
+- C/C++
+categories:
+- algorithms
+cover_index: "/assets/4953156.jpg"
+comments: true
 ---
 
 ### 算法简介

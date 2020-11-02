@@ -1,12 +1,14 @@
 ---
-layout: page
 title: Kosaraju's algorithm
-date: 2018-08-17 19:19:47+8
-tags: C/C++
-categories: algorithms
-cover_index: /assets/61142601.jpg
+layout: page
+date: '2018-08-17 19:19:47 +0800'
+tags:
+- C/C++
+categories:
+- algorithms
+cover_index: "/assets/61142601.jpg"
+comments: true
 ---
-
 
 ### 算法简介
 
