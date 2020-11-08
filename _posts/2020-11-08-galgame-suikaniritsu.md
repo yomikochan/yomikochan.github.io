@@ -11,7 +11,7 @@ categories:
 
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=4922660&auto=1&height=66"></iframe>
 
-熟悉的可能知道是「水夏弐律」的特典來著，但我從來沒玩過這部游戲，只聽過音樂，於是就想玩玩，網上找了好久終於找到了游戲資源，但由於沒有visa卡，注冊不了資源下載的網站，只好下体验版了：
+熟悉的可能知道是「水夏弐律」的OST來著，但我從來沒玩過這部游戲，只聽過音樂，於是就想玩玩，網上找了好久終於找到了游戲資源，但由於沒有visa卡，注冊不了資源下載的網站，只好下体验版了：
 
 ![游戏截图](/img/suika_taiken.png)
 
