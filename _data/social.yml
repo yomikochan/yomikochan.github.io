@@ -4,7 +4,6 @@
 - title: GitHub
   url: https://github.com/yomikochan
   icon: fab fa-github
-  icon: fa fa-paw
 - title: Wolframalpha
   url: https://www.wolframalpha.com/
   icon: fa fa-pi
@@ -17,5 +16,6 @@
   url: https://zh.touhouwiki.net/wiki/%E4%B8%9C%E6%96%B9%E7%BB%B4%E5%9F%BA
 - title: nyavoo
   url: https://www.nyavoo.com/tag/galgame
+  icon: fa fa-paw
 - title: 萌游网
   url: https://galge.cn/
