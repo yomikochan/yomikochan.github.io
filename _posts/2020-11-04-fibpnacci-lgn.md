@@ -167,13 +167,16 @@ q &\leftarrow q
 			((even? n) (fib-iter a
 					b
 					(+ (square p) (square q))
-					(+ (square q) (* 2 p q))))
+					(+ (square q) (* 2 p q))
+					(/ n 2)))
 			(else (fib-iter (+ (* b q) (* a q) (* a p))
 					(+ (* b p) (* a q))
 					p
 					q
-					n))))
+					(- n 1)))))
 	(fib-iter 1 0 0 1 n))
 ```
 
 其实这是 `SICP` 第一章的一道练习题，证明不难，就是变量多可能有点绕，一开始心算有点打脑壳，然后草稿纸上写出来就很简单了。
+
+有關更多題解見我的github。

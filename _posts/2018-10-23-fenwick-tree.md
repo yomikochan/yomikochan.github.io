@@ -10,13 +10,11 @@ cover_index: "/assets/61082747.jpg"
 comments: true
 ---
 
-### 参考
-
-[fenwick tree](https://en.wikipedia.org/wiki/Fenwick_tree)
+树状数组是一种是常用于一类区间操作的算法。
 
 ### 算法实现
 
-```C++
+```cpp
 #include <iostream>
 #define LSB(i) (i & -i)
 const int M = 10001;
@@ -55,3 +53,7 @@ int main()
     return 0;
 }
 ```
+
+### 参考
+
+[fenwick tree](https://en.wikipedia.org/wiki/Fenwick_tree)

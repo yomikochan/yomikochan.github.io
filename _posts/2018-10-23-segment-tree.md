@@ -10,15 +10,7 @@ cover_index: "/assets/15429725.jpg"
 comments: true
 ---
 
-### 参考
-
-[github-consmos](https://github.com/darkchii/cosmos/blob/master/code/data_structures/src/tree/segment_tree/segment_Tree_rmq.adb)
-
-[博客园-TenosDoIt](http://www.cnblogs.com/TenosDoIt/p/3453089.html)
-
-### 算法解析
-
-关于线段树详细释义请见：[博客园-darkchii](https://www.cnblogs.com/darkchii/p/9402760.html)
+关于线段树详细释义请见：[博客园](https://www.cnblogs.com/darkchii/p/9402760.html)
 
 ### 算法实现
 
@@ -92,3 +84,9 @@ int main()
     return 0;
 }
 ```
+
+### 参考
+
+[github-consmos](https://github.com/darkchii/cosmos/blob/master/code/data_structures/src/tree/segment_tree/segment_Tree_rmq.adb)
+
+[博客园-TenosDoIt](http://www.cnblogs.com/TenosDoIt/p/3453089.html)
