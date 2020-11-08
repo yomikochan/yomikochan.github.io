@@ -50,12 +50,10 @@ paginate_path: "page:num"
 disqus: "yomiko"
 google_analytics: "G-0BF2ZJ4TKZ"
 
-comments: true
-
-search:
-  path: search.xml
-  field: post
-  limit: 10000
+# search:
+#   path: search.xml
+#   field: post
+#   limit: 10000
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
