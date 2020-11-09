@@ -24,7 +24,7 @@ F_{i}
 \end{pmatrix}
 $$
 
-这里简写为 $$\vec{F_{i+1}} = \mathbf{A}\vec{F_{i}}$$，其递归累加和得到 $$\vec{F_{n}} = \mathbf{A}^n\vec{F_{0}}$$。
+这里简写为 $$\vec{F_{i+1}} = \mathbf{A}\vec{F_{i}}$$，将其递归累乘得到 $$\vec{F_{n}} = \mathbf{A}^n\vec{F_{0}}$$。
 
 其中矩阵 $$\mathbf{A}$$ 的特征方程为 $$\lambda^2 - \lambda - 1 = 0$$，特征值 $$\phi = \frac{1 + \sqrt{5}}{2}$$ 和 $$-\phi^{-1} = \frac{1 - \sqrt{5}}{2}$$ 对应的特征向量分别为 $$\vec{\mu} = \begin{pmatrix}
 \phi\\ 
