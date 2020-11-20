@@ -1,6 +1,6 @@
 ---
 title: 高等数学-积分方程篇（持续更新）
-layout: page
+layout: post
 date: '2018-09-03 02:55:15 +0800'
 tags:
 - Math

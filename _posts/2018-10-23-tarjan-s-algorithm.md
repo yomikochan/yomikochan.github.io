@@ -1,6 +1,6 @@
 ---
 title: Tarjan's algorithm
-layout: page
+layout: post
 date: '2018-08-27 20:54:58 +0800'
 tags:
 - C/C++

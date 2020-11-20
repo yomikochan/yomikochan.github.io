@@ -1,6 +1,6 @@
 ---
 title: 并查集
-layout: page
+layout: post
 date: '2018-07-28 13:47:58 +0800'
 tags:
 - C/C++

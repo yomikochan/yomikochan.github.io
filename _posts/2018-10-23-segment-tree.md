@@ -1,6 +1,6 @@
 ---
 title: 线段树（Segment tree）
-layout: page
+layout: post
 date: '2018-08-01 22:04:32 +0800'
 tags:
 - C/C++

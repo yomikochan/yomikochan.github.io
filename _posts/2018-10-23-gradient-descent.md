@@ -1,6 +1,6 @@
 ---
 title: 梯度下降算法
-layout: page
+layout: post
 date: '2018-07-26 23:30:49 +0800'
 tags:
 - Math

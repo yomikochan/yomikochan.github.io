@@ -1,6 +1,6 @@
 ---
 title: 树状数组（Fenwick tree）
-layout: page
+layout: post
 date: '2018-08-01 21:46:03 +0800'
 tags:
 - C/C++

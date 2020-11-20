@@ -1,6 +1,6 @@
 ---
 title: 水夏弐律
-layout: page
+layout: post
 tags:
 - galgame
 categories:

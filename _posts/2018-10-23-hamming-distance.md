@@ -1,6 +1,6 @@
 ---
 title: 汉明距离(hamming distance)
-layout: page
+layout: post
 date: '2018-08-04 15:45:39 +0800'
 tags:
 - C/C++

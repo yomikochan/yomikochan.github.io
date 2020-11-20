@@ -1,6 +1,6 @@
 ---
 title: 后缀树
-layout: page
+layout: post
 date: '2018-09-25 22:47:46 +0800'
 tags:
 - C/C++

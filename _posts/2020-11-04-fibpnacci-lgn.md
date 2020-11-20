@@ -1,6 +1,6 @@
 ---
 title: 斐波那契数O(lgn)算法及证明
-layout: page
+layout: post
 math: true
 comments: true
 ---

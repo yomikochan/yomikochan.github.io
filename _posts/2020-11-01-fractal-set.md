@@ -1,6 +1,6 @@
 ---
 title: 分形美学
-layout: page
+layout: post
 comments: true
 tags:
 - C/C++

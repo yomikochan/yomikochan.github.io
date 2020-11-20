@@ -1,6 +1,6 @@
 ---
 title: 拓扑排序
-layout: page
+layout: post
 date: '2018-08-24 18:30:07 +0800'
 tags:
 - C/C++

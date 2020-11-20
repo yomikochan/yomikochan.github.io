@@ -1,6 +1,6 @@
 ---
 title: 牛顿法(Newton's method)
-layout: page
+layout: post
 date: '2018-08-04 16:21:39 +0800'
 tags:
 - C/C++

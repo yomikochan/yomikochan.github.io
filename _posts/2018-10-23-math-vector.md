@@ -1,6 +1,6 @@
 ---
 title: 高中数学-向量篇（持续更新）
-layout: page
+layout: post
 date: '2018-09-02 18:54:58 +0800'
 tags:
 - Math

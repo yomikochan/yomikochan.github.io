@@ -1,6 +1,6 @@
 ---
 title: Kosaraju's algorithm
-layout: page
+layout: post
 date: '2018-08-17 19:19:47 +0800'
 tags:
 - C/C++

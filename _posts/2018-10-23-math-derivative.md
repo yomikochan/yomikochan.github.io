@@ -1,6 +1,6 @@
 ---
 title: 数学-导数篇（持续更新）
-layout: page
+layout: post
 date: '2018-09-05 19:39:45 +0800'
 tags:
 - Math

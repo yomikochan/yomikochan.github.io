@@ -1,6 +1,6 @@
 ---
 title: 矩阵运算
-layout: page
+layout: post
 date: '2018-09-08 01:10:44 +0800'
 tags:
 - Math

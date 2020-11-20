@@ -1,6 +1,6 @@
 ---
 title: 机器学习
-layout: page
+layout: post
 date: '2018-10-24 22:34:16 +0800'
 tags:
 - Machine Leraning

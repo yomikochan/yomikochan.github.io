@@ -1,6 +1,6 @@
 ---
 title: 计数排序
-layout: page
+layout: post
 date: '2018-09-09 20:38:06 +0800'
 tags:
 - C/C++

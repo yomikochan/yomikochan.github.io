@@ -1,6 +1,6 @@
 ---
 title: Kruskal's algorithm
-layout: page
+layout: post
 date: '2018-08-29 18:18:43 +0800'
 tags:
 - C/C++
