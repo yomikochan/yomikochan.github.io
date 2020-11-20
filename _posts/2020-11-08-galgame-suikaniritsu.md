@@ -5,6 +5,7 @@ tags:
 - galgame
 categories:
 - Galgame
+comments: true
 ---
 
 好久没推gal了，正好前天听到曲子「[月明かり](https://music.163.com/#/song?id=4922660)」
