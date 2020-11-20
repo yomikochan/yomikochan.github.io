@@ -47,8 +47,7 @@ lang: zh-cn
 date_format: "%Y-%m-%d"
 paginate: 5
 paginate_path: "page:num"
-comment:
-  disqus: "yomiko"
+disqus: "yomiko"
 google_analytics: "G-0BF2ZJ4TKZ"
 
 # search:
