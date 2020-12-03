@@ -13,9 +13,7 @@ math: true
 comments: true
 ---
 
-### 算法简介
-
-感觉是老生常谈的算法了（其实咱就是来水一下> <）。但还是稍微说一下这个算法：对于形如 $ y = f(x) = 0 $ 这样的方程，初中的时候大部分的方程我们都可以使用求根公式解决，但实际上有许多方程我们很难求出它的根，于是只能用数值分析方法来逼近根值。基本原理:设 $ y=f(x) $ 在 $ x \in [a,b] $  上连续，如果有 $ f(a)f(b) < 0 $ ，则 $ f(x), x \in (a, b) $ 一定过零点（记不得叫啥定理了，好像叫费马引理。至于为什么，画个图就很容易明白了。），那么 $ f(x) $ 在点 $ x0, (a < x_0 < b)$ 处的切线方程也过零点，根据 $ f(x) $ 曲线的类型：递增、递减、凸或凹，我们会发现起点的选择对于切线随着点向根方向移动时的效率也是不同的。
+[牛顿法](https://en.wikipedia.org/wiki/Newton%27s_method)也是数值分析中很常见的算法了。嘛，网上对它的各种介绍也很多，但还是稍微说一下这个算法：对于形如 $ y = f(x) = 0 $ 这样的方程，初中的时候大部分的方程我们都可以使用求根公式解决，但实际上有许多方程我们很难求出它的根，于是只能用数值分析方法来逼近根值。基本原理:设 $ y=f(x) $ 在 $ x \in [a,b] $  上连续，如果有 $ f(a)f(b) < 0 $ ，则 $ f(x), x \in (a, b) $ 一定过零点（记不得叫啥定理了，好像叫费马引理。至于为什么，画个图就很容易明白了。），那么 $ f(x) $ 在点 $ x0, (a < x_0 < b)$ 处的切线方程也过零点，根据 $ f(x) $ 曲线的类型：递增、递减、凸或凹，我们会发现起点的选择对于切线随着点向根方向移动时的效率也是不同的。
 
 比如：若 $ x \in [a, b], f(a) < 0, f(b) > 0, f''(x) < 0 $ 时，起点应从a点开始迭代效率会更高，即考察 $ f(a) $ 与 $ f''(x) $ 是否同号，如果同号，则a点为起点，否则b点为起点。
 
@@ -23,129 +21,79 @@ comments: true
 
 $$ f(x) - f(x_0) = f'(x_0)(x - x_0) $$
 
-由于 $ f(x) = 0 $，所以有：
+由于 $$ f(x) = 0 $$，所以有：
 
 $$ x_1 = x_0 - \frac{f(x_0)}{f'(x_0)} $$
 
-再在点 $ (x_1, f(x_1)) $ 作切线，可得根得近似值 $ x_2 $.如此反复进行，一般的，在点(x_{n-1}, f(x_{n-1}))作切线，最终可得到迭代方程：
+再在点 $$ (x_1, f(x_1)) $$ 作切线，可得根得近似值 $$ x_2 $$。如此反复进行，一般的，在点(x_{n-1}, f(x_{n-1}))作切线，最终可得到迭代方程：
 
 $$ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} $$
+# 算法实现
 
-算法原理参考：高等数学。
-
-想要再详细了解的同学可以看看：[Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method)
-
-### 算法实现
-
-这里我使用函数指针方式来保证接口使用的便利性，虽然可变长参数还没做处理，这一点有空再完善吧。。。
-
+C++:
 ```cpp
 #include <iostream>
-typedef double(*equaton)(double x, ...);
-double square(double x)
-{
-	return x * x;
-}
-double func1(double x, ...)
-{
-	return square(x)*x + square(x) - 1.;
-}
-double func2(double x, ...)
-{
-	return 3 * square(x) + 2 * square(x);
-}
-double newton_method(equaton func, equaton der_func, double a, double b, bool isbump, double λ) // isbump： 凹 is true; 凸 is false
-{
-	if (func(a)*func(b) >= 0)
-		return 0.0;
-	double x, pre_x;
-	if (func(a) > 0 && isbump)
-		x = a;
-	else
-		x = b;
-	do
-	{
-		pre_x = x;
-		x -= func(x) / der_func(x);
-	} while (abs(func(x)) > λ && fabs(pre_x - x) > λ);
-	return x;
-}
-int main()
-{
-	std::cout << "方程的根为：" << newton_method(func1, func2, 0., 1., true, 1e-6) << std::endl;
-	return 0;
-}
-```
+#include <vector>
+#include <cassert>
+#include <functional>
 
-测试：
+const double h = 1e-5;
 
-$ f(x) = x^3 + x^2 - 1 $
+auto square(double x) -> double const { return x * x; }
+auto cube(double x) -> double const { return x * x * x; }
 
-output:
-
-```
-方程的根为：0.754878
-```
-
-更新：增加了两个函数，一个是 $ f(x) $ 的二阶导函数，一个是判断原函数凹凸。
-
-```cpp
-#include <iostream>
-typedef double(*equaton)(double x, ...);
-double square(double x)
-{
-	return x * x;
+template<class Fn_Ty>
+auto partial_derivative(Fn_Ty g) {
+    auto a = [&](const auto& vec, size_t i)
+    {
+        auto components = vec;
+        components[i] += h;
+        return (g(components) - g(vec)) / h;
+    };
+    return a;
 }
-double func1(double x, ...)
-{
-	return cos(x) - square(x)*x;
-}
-double func2(double x, ...)
-{
-	return -sin(x) - 3 * square(x);
-}
-double func3(double x, ...)
-{
-	return -cos(x) - 6 * x;
-}
-bool isbump(double a, double b)
-{
-	for (double i = a; i <= b; i += 1e-2)
-		if (func3(i) < 0.)
-			return false;
-	return true;
-}
-double newton_method(equaton func, equaton der_func, double a, double b, bool isc, double λ) // isc： 凹 is true; 凸 is false
-{
-	if (func(a)*func(b) >= 0.)
-		return 0.0;
-	double x, pre_x;
-	if (func(a) > 0 && isc)
-		x = a;
-	else
-		x = b;
-	do
-	{
-		pre_x = x;
-		x -= func(x) / der_func(x);
-	} while (abs(func(x)) > λ && fabs(pre_x - x) > λ);
-	return x;
-}
-int main()
-{
-	std::cout << "方程的根为：" << newton_method(func1, func2, 0., 1., isbump(0., 1.), 1e-6) << std::endl;
-	return 0;
-}
-```
 
-测试：
+template<class Fn_Ty, class Arg>
+auto fixed_point(Fn_Ty g, Arg first_guess)
+{
+    auto close_enough = [](auto v1, auto v2)
+    {
+        return (std::abs(v1 - v2) < 1e-5);
+    };
+    auto try_again = [&](auto guess, auto& try_ref)
+    {
+        auto next = g(guess);
+        if (close_enough(guess, next)) return next;
+        else return try_ref(next, try_ref);
+    };
+    return try_again(first_guess, try_again);
+}
 
-$ f(x) = cos(x) - x^3 $
+template<class Fn_Ty>
+auto deriv(Fn_Ty g)
+{
+    auto a = [&](auto x)
+    {
+        return (g(x + h) - g(x)) / h;
+    };
+    return a;
+}
 
-output:
+template<class Fn_Ty>
+auto newton_transform(Fn_Ty g)
+{
+    auto a = [&](auto x)
+    {
+        return x - (g(x) / deriv(g)(x));
+    };
+    return a;
+}
 
-```
-方程的根为：0.865474
+template<class Fn_Ty, class Arg>
+auto newton_method(Fn_Ty g, Arg guess)
+{
+    return fixed_point(newton_transform(g), guess);
+}
 ```
 
 ![图1](img/cosx-x^3.png)
@@ -224,7 +172,8 @@ $$ f(x + \Delta x) \approx f(x) + f'(x) \cdot \Delta x $$
 利用公式有 $ 2^{10 - 1} = (2^{10})^{(1 - \frac{1}{10})} \approx 2^{10} + 2^{10} ln(2^{10}) \cdot 0.1 \approx 709.783... $
 $ 2^9 = 512 $
 
-### 参考
+# 参考
 
-1.[Newton's method - wikipedia](https://en.wikipedia.org/wiki/Newton%27s_method)
-2.[果壳网](https://www.guokr.com/question/461510/)
+1. [Newton's method - wikipedia](https://en.wikipedia.org/wiki/Newton%27s_method)
+2. [果壳网](https://www.guokr.com/question/461510/)
+3. 高等数学

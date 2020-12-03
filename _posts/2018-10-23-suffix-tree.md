@@ -10,11 +10,9 @@ cover_index: "/assets/5307140.jpg"
 comments: true
 ---
 
-### 前言
+详见:[Suffix tree](https://www.cnblogs.com/darkchii/p/9116558.html)
 
-详见我的这篇blog:[Suffix tree](https://www.cnblogs.com/darkchii/p/9116558.html)
-
-### 路径压缩版后缀树
+# 路径压缩版后缀树
 
 ```cpp
 #include <iostream>
