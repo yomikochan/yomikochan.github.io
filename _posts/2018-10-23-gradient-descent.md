@@ -501,6 +501,5 @@ end
 ```
 
 # 参考文献
-
 1. [最优化理论与算法 第二版・陈宝林](https://baike.baidu.com/item/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E4%B8%8E%E7%AE%97%E6%B3%95/8459488)
 2. [Gradient descent - wikipedia](https://en.wikipedia.org/wiki/Gradient_descent)
