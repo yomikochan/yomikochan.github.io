@@ -21,7 +21,7 @@ comments: true
 # 代码实现
 使用方法就是自定义一个多元函数 $$ g $$，然后调用 `(gradient-descent g init-arguments max-iterations tolerance)` (e.g. $$ f(x_1, x_2) = exp(x_1^2 + x_2^2) $$，`(gradient-descent (lambda (vec) (exp (+ (square (list-ref vec 0)) (square (list-ref vec 1))))) (list 1.0 1.0) 30 0.00001)`)
 
-Lisp:
+Lisp：
 ```scheme
 (define delta 0.00001)
 
@@ -213,7 +213,7 @@ Lisp:
 ```
 问题最优解：`(0, 0)`
 
-C++（有个问题，原因是 cpp 的lambda的对变量的捕获问题或者作用域的问题，如果不包装到class里面，每个功能定义为各个函数组件，那么只需要把向量作为全局变量，就可以正常运行，但如果非要用 class 包装的话，我暂时没找到解决办法）:
+C++（有个问题，原因是 cpp 的lambda的对变量的捕获问题或者作用域的问题，如果不包装到class里面，每个功能定义为各个函数组件，那么只需要把向量作为全局变量，就可以正常运行，但如果非要用 class 包装的话，我暂时没找到解决办法）：
 ```cpp
 #include <cmath>
 #include <iostream>
@@ -420,7 +420,65 @@ int main()
 }
 ```
 
+Matlab：
+```matlab
+clc;clear;
+figure
+
+f = @(x,y) 3*(1-x).^2.*exp(-(x.^2) - (y+1).^2) ... 
+   - 10*(x/5 - x.^3 - y.^5).*exp(-x.^2-y.^2) ... 
+   - 1/3*exp(-(x+1).^2 - y.^2);
+
+tolerance = 1e-5;
+max_iter = 30;
+
+x0 = 0.;
+y0 = 1.5;
+x = -2.8:0.001:2.8;
+y = x';
+X = -2.8:0.05:2.8;
+set(gcf, 'Position', get(0,'Screensize'));
+surf(X,X,f(X, X'));
+xlabel('x');ylabel('y');zlabel('z');
+[gx,gy] = gradient(f(x, y), 0.1);
+hold on
+filename = 'd:/blog/img/gradient_descent_visualization.gif';
+for i=0:1:max_iter
+%     syms x y
+%     g = gradient(f, [x, y]);
+%     g1 = subs(g(1), [x, y], {x0, y0});
+%     g2 = subs(g(2), [x, y], {x0, y0});
+%     d = -[g1 g2];
+    t = find(((x < x0 + 1e-3) & (x > x0 - 1e-3)) & ((y < y0 + 1e-3) & (y > y0 - 1e-3)));
+    d = [gx(t), gy(t)];
+    disp(d)
+    if isempty(d)
+        break;
+    elseif(sqrt(d * d') < tolerance)
+        break;   
+    end
+    plot3(x0,y0,f(x0, y0),'r*');
+    lambda = fminbnd(@(c) f(x0 - c*d(1), y0 - c*d(2)), -5, 5);
+    x0 = x0 - lambda*d(1);
+    y0 = y0 - lambda*d(2);
+    drawnow
+    
+    frame = getframe(gcf);
+    im = frame2im(frame);
+    [imind,cm] = rgb2ind(im,256);
+    if i == 0
+        imwrite(imind,cm,filename,'gif', 'Loopcount',inf);
+    else
+        imwrite(imind,cm,filename,'gif','WriteMode','append');
+    end
+end
+```
+
+输出：
+![梯度下降可视化](/img/gradient_descent_visualization.gif)
+
 以下部分是以前写的，暂时没更新。
+
 <hr>
 
 python:
@@ -460,44 +518,6 @@ Output:
 6 (-0.000610, 0.002439)
 7 (0.000406, 0.000406)
 8 (-0.000045, 0.000181)
-```
-
-matlab版的有点问题。。
-```matlab
-clc;clear;
-figure
-
-f = @(x,y) 3*(1-x).^2.*exp(-(x.^2) - (y+1).^2) ... 
-   - 10*(x/5 - x.^3 - y.^5).*exp(-x.^2-y.^2) ... 
-   - 1/3*exp(-(x+1).^2 - y.^2);
-
-tolerance = 1e-6;
-max_iter = 30;
-
-x0 = -0.4;
-y0 = -0.6;
-[x,y] = meshgrid(-2.4:0.1:2.4);
-z = f(x,y);
-surf(x,y,z);
-xlabel('x');ylabel('y');zlabel('z');
-[lx,ly] = gradient(z);
-
-for i=0:1:max_iter
-    hold on
-    t = find(x == x0 & y == y0);
-    d = -[lx(t) ly(t)];
-    disp([x0, y0])
-    if isempty(d)
-        break;
-    elseif (sqrt(d * d') < tolerance)
-        break;   
-    end
-    plot3(x0,y0,f(x0,y0),'r*');
-    lambda = fminbnd(@(c) f(x0 + c*d(1), y0 + c*d(2)), -5, 5);
-    x0 = x0 + lambda*d(1);
-    y0 = y0 + lambda*d(2);
-    drawnow
-end
 ```
 
 # 参考文献
