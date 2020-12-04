@@ -30,6 +30,7 @@ $$ x_1 = x_0 - \frac{f(x_0)}{f'(x_0)} $$
 再在点 $$ (x_1, f(x_1)) $$ 作切线，可得根得近似值 $$ x_2 $$。如此反复进行，一般的，在点 $$(x_{n-1}, f(x_{n-1}))$$ 作切线，最终可得到迭代方程：
 
 $$ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} $$
+
 # 算法实现
 C++:
 ```cpp
@@ -143,13 +144,13 @@ $$ x_{i+1} = x_i - \frac{f'(x_i)}{f''(x_i)} $$
 template<class Fn_Ty>
 auto minimization(Fn_Ty g)
 {
-		return newton_method(deriv(g), 1.0);
+    return newton_method(deriv(g), 1.0);
 }
 
 int main()
 {
-		std::cout << minimization([](auto x) { return 2. * square(1. - 4. * x) + square(1. - 2. * x); }) << std::endl;
-		return 0;
+    std::cout << minimization([](auto x) { return 2. * square(1. - 4. * x) + square(1. - 2. * x); }) << std::endl;
+    return 0;
 }
 ```
 
@@ -160,13 +161,15 @@ $$ f(x + \Delta x) \approx f(x) + f'(x) \cdot \Delta x $$
 
 1. 求 $$ 2^{1.4} $$
 
-由 $$ f(x) = a^x $，$$ f(x + \Delta x) = a^{x + \Delta x} \approx a^{x} + a^{x} ln(a) \cdot \Delta x $$
+由 $$ f(x) = a^x $$，$$ f(x + \Delta x) = a^{x + \Delta x} \approx a^{x} + a^{x} ln(a) \cdot \Delta x $$
 有 $$ 2^{1 + 0.4} \approx 2 + 2ln(2) \cdot 0.4 \approx 2.554518... $$
+
 而原表达式 $$ 2^{1.4} = 2.63902... $$
 
 2. 求 $$ 2^{9} $$
 
 利用公式有 $$ 2^{10 - 1} = (2^{10})^{(1 - \frac{1}{10})} \approx 2^{10} + 2^{10} ln(2^{10}) \cdot 0.1 \approx 709.783... $$
+
 而 $$2^9$$ 等于 $$512$$
 
 # 参考
