@@ -8,7 +8,7 @@ comments: true
 介绍一种对数时间复杂度的斐波那契数列算法。
 
 ## 指数时间
-我们都知道 Fibonacci 数平凡的树形递归算法时间复杂度是 $$O(0.618^{n})$$，其证明很简单（参考[wikipeida-Fibonacci](https://en.wikipedia.org/wiki/Fibonacci_number#Matrix_form)：
+我们都知道 Fibonacci 数平凡的树形递归算法时间复杂度是 $$O(1.618^{n})$$，其证明很简单（参考[wikipeida-Fibonacci](https://en.wikipedia.org/wiki/Fibonacci_number#Matrix_form)：
 利用矩阵形式：
 
 $$
@@ -58,7 +58,7 @@ $$\begin{aligned}
 F_{n} &= \frac{1}{\sqrt{5}}(\frac{1 + \sqrt{5}}{2})^n - \frac{1}{\sqrt{5}}(\frac{1 - \sqrt{5}}{2})^n
 \end{aligned}$$
 
-现在可以解释之所以该算法时间复杂度是 $$O(0.618^{n})$$，是因为 $$\vec{F_{n}} = \mathbf{A}^n\vec{F_{0}} = O(\mathbf{A}^n) = O(-\phi^{-n}) = O(0.618^{n})$$。
+现在可以解释之所以该算法时间复杂度是 $$O(1.618^{n})$$，是因为 $$\vec{F_{n}} = \mathbf{A}^n\vec{F_{0}} = O(\mathbf{A}^n) = O(-\phi^{-n}) = O(1.618^{n})$$。
 
 算法 Lisp 实现：
 

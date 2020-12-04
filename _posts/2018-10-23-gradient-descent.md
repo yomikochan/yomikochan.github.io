@@ -465,39 +465,39 @@ Output:
 matlab版的有点问题。。
 ```matlab
 clc;clear;
-e = 1e-3;
-x0 = [1 1];
-max_iters = 100;
-
-gradient_descent_algorithm(e, x0, max_iters);
-
-function gradient_descent_algorithm(epsilon, x0, max_iters)
-f = @(p) 4 * p(1) + 2 * p(2);
-[x,y] = meshgrid(-2:0.1:2);
-z = 2 * x.^2 + y.^2;
 figure
-surfc(x,y,z);
-xlabel('x');
-ylabel('y');
-zlabel('z');
-[zx,zy] = gradient(z);
-d = -x0;
-iters = 0;
-while sqrt(d * d') > epsilon && iters < max_iters
-    inat = find(x == x0(1) & y == x0(2));
-    d = -[zx(inat) zy(inat)];
-    disp(d);
-    syms c;
-    l = f(x0 + c*d) == 0;
-    lambda = solve(l, c);
-    x0 = x0 + lambda*d;
-    iters = iters + 1;
-end
-end
 
-% function draw_search()
-%
-% end
+f = @(x,y) 3*(1-x).^2.*exp(-(x.^2) - (y+1).^2) ... 
+   - 10*(x/5 - x.^3 - y.^5).*exp(-x.^2-y.^2) ... 
+   - 1/3*exp(-(x+1).^2 - y.^2);
+
+tolerance = 1e-6;
+max_iter = 30;
+
+x0 = -0.4;
+y0 = -0.6;
+[x,y] = meshgrid(-2.4:0.1:2.4);
+z = f(x,y);
+surf(x,y,z);
+xlabel('x');ylabel('y');zlabel('z');
+[lx,ly] = gradient(z);
+
+for i=0:1:max_iter
+    hold on
+    t = find(x == x0 & y == y0);
+    d = -[lx(t) ly(t)];
+    disp([x0, y0])
+    if isempty(d)
+        break;
+    elseif (sqrt(d * d') < tolerance)
+        break;   
+    end
+    plot3(x0,y0,f(x0,y0),'r*');
+    lambda = fminbnd(@(c) f(x0 + c*d(1), y0 + c*d(2)), -5, 5);
+    x0 = x0 + lambda*d(1);
+    y0 = y0 + lambda*d(2);
+    drawnow
+end
 ```
 
 # 参考文献
