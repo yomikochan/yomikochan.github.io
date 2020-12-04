@@ -1,5 +1,5 @@
 ---
-title: 分形美学
+title: 分形
 layout: post
 comments: true
 tags:
