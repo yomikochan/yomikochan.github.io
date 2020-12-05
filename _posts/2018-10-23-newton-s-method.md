@@ -46,7 +46,7 @@ auto cube(double x) -> double const { return x * x * x; }
 
 template<class Fn_Ty>
 auto partial_derivative(Fn_Ty g) {
-    auto a = [&](const auto& vec, size_t i)
+    auto a = [g](const auto& vec, size_t i)
     {
         auto components = vec;
         components[i] += h;
@@ -62,7 +62,7 @@ auto fixed_point(Fn_Ty g, Arg first_guess)
     {
         return (std::abs(v1 - v2) < 1e-5);
     };
-    auto try_again = [&](auto guess, auto& try_ref)
+    auto try_again = [g, close_enough](auto guess, auto& try_ref)
     {
         auto next = g(guess);
         if (close_enough(guess, next)) return next;
@@ -74,7 +74,7 @@ auto fixed_point(Fn_Ty g, Arg first_guess)
 template<class Fn_Ty>
 auto deriv(Fn_Ty g)
 {
-    auto a = [&](auto x)
+    auto a = [g](auto x)
     {
         return (g(x + h) - g(x)) / h;
     };
@@ -84,7 +84,7 @@ auto deriv(Fn_Ty g)
 template<class Fn_Ty>
 auto newton_transform(Fn_Ty g)
 {
-    auto a = [&](auto x)
+    auto a = [g](auto x)
     {
         return x - (g(x) / deriv(g)(x));
     };
@@ -122,7 +122,7 @@ int main()
 ```cpp
 double m_sqrt(double x)
 {
-    auto a = [&](auto y)
+    auto a = [x](auto y)
     {
         return square(y) - x;
     };
