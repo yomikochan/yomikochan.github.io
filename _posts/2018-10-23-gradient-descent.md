@@ -222,7 +222,7 @@ public:
         {
             if (output) step_output(step);
 
-						std::vector<double> gradient_components; // 梯度向量
+            std::vector<double> gradient_components; // 梯度向量
             for (size_t i = 0; i < vec.size(); i++)
                 gradient_components.push_back(partial_derivative(goal_fn)(vec, i));
 
@@ -240,7 +240,7 @@ public:
             double min_lambda = minimization(fg);  // 极小点
             vec += min_lambda * (-gradient_components); // 下一步迭代
             gradient_components.clear();
-						step += 1;
+            step += 1;
         }
     }
 
