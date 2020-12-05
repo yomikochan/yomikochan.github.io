@@ -19,8 +19,13 @@ comments: true
 有空我将补上推导过程并给出梯度法的收敛条件，可能还会介绍一些其它无约束问题的优化算法(牛顿法、共轭梯度法等)及其他约束问题的优化算法，届时我们将会看到许多有趣的搜索算法，比如斐波那契法、黄金比例法(0.618法)等。
 
 # 代码实现
-使用方法就是自定义一个多元函数 $$ g $$，然后调用 `(gradient-descent g init-arguments max-iterations tolerance)` (e.g. $$ f(x_1, x_2) = exp(x_1^2 + x_2^2) $$，`(gradient-descent (lambda (vec) (exp (+ (square (list-ref vec 0)) (square (list-ref vec 1))))) (list 1.0 1.0) 30 0.00001)`)
+使用方法就是自定义一个多元函数 $$ g $$，然后如下方式调用：
 
+`(gradient-descent g init-arguments max-iterations tolerance)`
+
+e.g. $$ f(x_1, x_2) = exp(x_1^2 + x_2^2) $$
+
+`(gradient-descent (lambda (vec) (exp (+ (square (list-ref vec 0)) (square (list-ref vec 1))))) (list 1.0 1.0) 30 0.00001)`)
 ## Lisp
 ```scheme
 (define delta 0.00001)
