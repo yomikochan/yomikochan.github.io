@@ -222,12 +222,13 @@ public:
         {
             if (output) step_output(step);
 
+						std::vector<double> gradient_components; // 梯度向量
             for (size_t i = 0; i < vec.size(); i++)
                 gradient_components.push_back(partial_derivative(goal_fn)(vec, i));
 
             if (distance(gradient_components) < error) break;
 
-            auto fg = [this](auto lambda)
+            auto fg = [this, gradient_components](auto lambda)
             {
                 std::vector<double> lambda_components;
                 for (size_t i = 0; i < vec.size(); i++)
@@ -280,8 +281,6 @@ private:
     const double error;
     // 最大迭代次数
     size_t max_it;
-    // 梯度向量
-    std::vector<double> gradient_components;
     // 初始值
     std::vector<double> init_variable;
     // 最终目标函数极值
