@@ -12,7 +12,7 @@ categories:
 cover_index: "/assets/60572969.jpg"
 math: true
 comments: true
-doc: true
+toc: true
 ---
 
 [梯度下降法](https://en.wikipedia.org/wiki/Gradient_descent)(Gradient descent)又叫最速下降法，是一种局部搜索算法，属于智能算法，类似的有爬山算法、模拟退火等。基本原理是优化理论中的无约束问题，利用梯度搜索函数变化最快的方向，然后不断迭代寻找出极值的方法。
