@@ -237,9 +237,8 @@ public:
             };
 
             // 使用牛顿法搜索极小点
-            double min_lambda = minimization(fg);  // 极小点
-            vec += min_lambda * (-gradient_components); // 下一步迭代
-            gradient_components.clear();
+            double min_lambda = minimization(fg);    // 极小点
+            vec -= gradient_components * min_lambda; // 下一步迭代
             step += 1;
         }
     }
