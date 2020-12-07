@@ -3,11 +3,12 @@ title: 斐波那契数O(lgn)算法及证明
 layout: post
 math: true
 comments: true
+toc: true
 ---
 
 介绍一种对数时间复杂度的斐波那契数列算法。
 
-# 指数时间
+## 指数时间
 我们都知道 Fibonacci 数平凡的树形递归算法时间复杂度是 $$O(1.618^{n})$$，其证明很简单（参考[wikipeida-Fibonacci](https://en.wikipedia.org/wiki/Fibonacci_number#Matrix_form)：
 利用矩阵形式：
 
@@ -69,7 +70,7 @@ F_{n} &= \frac{1}{\sqrt{5}}(\frac{1 + \sqrt{5}}{2})^n - \frac{1}{\sqrt{5}}(\frac
 		(else (+ (fib (- n 2)) (fib (- n 1))))
 ```
 
-# 线性时间
+## 线性时间
 该算法考虑如下变换规则$$T$$： $$a\leftarrow a + b, b \leftarrow a$$，初始时 $$a=1，b=0$$。
 
 这是一种带记忆搜索的迭代算法，它的证明很显然，所以仅给出算法实现。
@@ -85,7 +86,7 @@ F_{n} &= \frac{1}{\sqrt{5}}(\frac{1 + \sqrt{5}}{2})^n - \frac{1}{\sqrt{5}}(\frac
 	(fib-iter 1 0 n))
 ```
 
-# 对数时间
+## 对数时间
 该算法特别巧妙的地方是它在线性迭代的变换规则基础上做了一些改动，考虑变换规则 $$T_{pq}$$ ：
 
 $$\begin{aligned}

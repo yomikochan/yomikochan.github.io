@@ -9,6 +9,7 @@ tags:
 categories:
 - fractal
 math: true
+toc: true
 ---
 
 话说一直想找时间写写关于学图形学时学到的东西，但又觉得码字好累，图形学中挺多公式和推导（/捂脸，这里先简单介绍一下如何使用 C/C++/Python 等语言画分形吧，其余的改天提起劲了再补充。
@@ -17,7 +18,7 @@ math: true
 
 一些关于分形的网站：[http://hpdz.net/](http://hpdz.net/)
 
-1. Mandelbrot set
+## Mandelbrot set
 
 C/C++：
 ```cpp
@@ -123,7 +124,7 @@ cv.imwrite('mandelbort_frac_py.png', image)
 
 ![img](/img/mandelbrot_frac_py.png)
 
-2. Newton fractal
+## Newton fractal
 
 这是一篇介绍牛顿迭代法的分形文章：[https://www.chiark.greenend.org.uk/~sgtatham/newton/](https://www.chiark.greenend.org.uk/~sgtatham/newton/)
 
@@ -210,4 +211,4 @@ int main()
 
 ![picture](/img/picture.png)
 
-3. Julia set
+## Julia set

@@ -19,7 +19,7 @@ toc: true
 
 有空我将补上推导过程并给出梯度法的收敛条件，可能还会介绍一些其它无约束问题的优化算法(牛顿法、共轭梯度法等)及其他约束问题的优化算法，届时我们将会看到许多有趣的搜索算法，比如斐波那契法、黄金比例法(0.618法)等。
 
-# 代码实现
+## 代码实现
 使用方法就是自定义一个多元函数 $$ g $$，然后如下方式调用：
 
 `(gradient-descent g init-arguments max-iterations tolerance)`
@@ -27,7 +27,7 @@ toc: true
 e.g. $$ f(x_1, x_2) = exp(x_1^2 + x_2^2) $$
 
 `(gradient-descent (lambda (vec) (exp (+ (square (list-ref vec 0)) (square (list-ref vec 1))))) (list 1.0 1.0) 30 0.00001)`)
-## Scheme
+### Scheme
 ```scheme
 (define delta 0.00001)
 
@@ -96,7 +96,7 @@ e.g. $$ f(x_1, x_2) = exp(x_1^2 + x_2^2) $$
   (iter init-vec 0))
 ```
 
-## C++
+### C++
 ```cpp
 #include <cmath>
 #include <iostream>
@@ -289,7 +289,7 @@ private:
 };
 ```
 
-# 测试
+## 测试
 
 以 $$ min \ f(\mathbf{x}) = 2x_1 ^2 + x_2 ^2, $$ 起始点 $$ x_0 = (1, 1)^T, \epsilon = \frac{1}{100000} $$ 为例。
 
@@ -370,8 +370,8 @@ int main()
 19 : (-4.60445e-06, 1.17907e-06)
 ```
 
-# 其它语言实现
-## Matlab
+## 其它语言实现
+### Matlab
 ```matlab
 clc;clear;
 figure
@@ -432,7 +432,7 @@ end
 
 <hr>
 
-## Python
+### Python
 ```py
 square = lambda x: x ** 2
 side = lambda a, b: (a ** 2 + b ** 2) ** (1 / 2)
@@ -471,6 +471,6 @@ Output:
 8 (-0.000045, 0.000181)
 ```
 
-# 参考文献
+## 参考文献
 1. [最优化理论与算法 第二版・陈宝林](https://baike.baidu.com/item/%E6%9C%80%E4%BC%98%E5%8C%96%E7%90%86%E8%AE%BA%E4%B8%8E%E7%AE%97%E6%B3%95/8459488)
 2. [Gradient descent - wikipedia](https://en.wikipedia.org/wiki/Gradient_descent)

@@ -31,7 +31,7 @@ $$ x_1 = x_0 - \frac{f(x_0)}{f'(x_0)} $$
 
 $$ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} $$
 
-# 算法实现
+## 算法实现
 C++:
 ```cpp
 #include <iostream>
@@ -98,7 +98,7 @@ auto newton_method(Fn_Ty g, Arg guess)
 }
 ```
 
-# 示例
+## 示例
 求 $$f(x) = \cos(x) - x^3 = 0$$ 的零点。
 ```cpp
 int main()
@@ -112,8 +112,8 @@ int main()
 
 ![图1](/img/cosx-x^3.png)
 
-# 相关内容
-## 牛顿法开方
+## 相关内容
+### 牛顿法开方
 关于牛顿法开方（或任意次方）算法，强烈推荐看看这个回答：https://www.guokr.com/question/461510/
 
 简单提一下需要注意得地方：求 $$ \sqrt{2} $$ 时，考虑有 $$ f(x) = x^2 - a = 0 $$，其中 $$a = 2$$。
@@ -136,7 +136,7 @@ int main()
 }
 ```
 
-## 极值
+### 极值
 $$ x_{i+1} = x_i - \frac{f'(x_i)}{f''(x_i)} $$
 
 代码实现：
@@ -154,7 +154,7 @@ int main()
 }
 ```
 
-## 微分
+### 微分
 $$ f(x + \Delta x) \approx f(x) + f'(x) \cdot \Delta x $$
 
 例如：
@@ -172,7 +172,7 @@ $$ f(x + \Delta x) \approx f(x) + f'(x) \cdot \Delta x $$
 
 而 $$2^9$$ 等于 $$512$$
 
-# 参考
+## 参考
 1. [Newton's method - wikipedia](https://en.wikipedia.org/wiki/Newton%27s_method)
 2. [果壳网](https://www.guokr.com/question/461510/)
 3. 高等数学
