@@ -10,20 +10,20 @@ cover_index: "/assets/15429725.jpg"
 comments: true
 ---
 
-### About algorithm
+## About algorithm
 
 [Union-Find algorithm](https://en.wikipedia.org/wiki/Disjoint-set_data_structure)(also called a Disjoint-set or Merge find algorithm) is a very useful data structure.
 
-### References
+## References
 
 Recommend to see this document:[Union-Find.pdf](https://www.cs.princeton.edu/~rs/AlgsDS07/01UnionFind.pdf)
 
 
-### Algorithm implementation
+## Algorithm implementation
 
 Below is an algorithm I implemented in C Programming language:
 
-```C
+```cpp
 #include <iostream>
 const int N = 10010;
 int id[N];
