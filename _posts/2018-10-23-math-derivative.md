@@ -154,6 +154,6 @@ $$ \begin{aligned} min(f(x)) &= b = -1 \quad when \ x = 0 \\ max(f(x)) &= 2 + b 
 * 当 $$ 0 < a < 3 $$ 时，$$ f(x) $$ 在 $$ [0, 1] $$ 上有 $$ \begin{aligned} max(f(x)) &= b = 1 \quad when \ x = 0 \\ min(f(x)) &= 2(\frac{a}{3})^3 - a(\frac{a}{3})^2 + b \quad when \ x = \frac{a}{3}\end{aligned} $$，由 $$ b = 1 $$，$$ 2(\frac{a}{3})^3 - a(\frac{a}{3})^2 + 1 = -1 \Rightarrow a = 3 \cdot 2^{\frac{1}{3}} $$，即，取 $$ a = 3 \cdot 2^{\frac{1}{3}} > 3 $$，故矛盾。
 * 当 $$ a \geq 3 $$ 时，$$ f(x) $$ 在 $$ [0, 1] $$ 上有 $$ \begin{aligned} max(f(x)) &= b = 1 \quad when \ x = 0 \\ min(f(x)) &= 2 - a + b \quad when \ x = 1\end{aligned} $$，由 $$ b = 1 $$，有 $$ f(1) = 2 - a + 1 = -1 \Rightarrow a = 4 $$，满足题目条件。
 
-故当 $$ a = 1, b = -1$$ 或 $$ a = 4, b = 1 $$ 时，$$ f(x) $$ 在 $$ [0, 1] $$ 上取得最小值和最大值。
+故当 $$ a = 0, b = -1$$ 或 $$ a = 4, b = 1 $$ 时，$$ f(x) $$ 在 $$ [0, 1] $$ 上取得最小值和最大值。
 
 证毕。
