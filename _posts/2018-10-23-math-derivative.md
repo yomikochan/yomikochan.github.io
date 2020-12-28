@@ -122,7 +122,7 @@ $$
 ① 当 $$ a < 0 $$
 
 * 若 $$ f'(x) \leq 0 $$，有 $$ \begin{aligned} 6x^2 - 2ax &\leq  0 \\ 2x \cdot (3x - a) &\leq 0 \end{aligned} $$，解不等式得到：$$ \frac{a}{3} \leq x \leq 0 $$（注意 a < 0)，即 $$ f'(x) $$ 在 $$ [\frac{a}{3}, 0] $$ 上小于 $$ 0 $$，而原函数 $$ f(x) $$ 在 $$ [\frac{a}{3}, 0] $$ 上单调递减.
-* 若 $$ f'(x) > 0 $$，由 $$ \begin{aligned} 6x^2 - 2ax &>  0 \\ 2x \cdot (3x - a) &> 0 \end{aligned} $$，得：$$ x < \frac{a}{3} 或 x > 0 $$ ，即 $$ f'(x) $$ 在 $$ (-\infty, \frac{a}{3}) \or (0, +\infty) $$ 上大于 $$ 0 $$，而原函数 $$ f(x) $$ 在 $$ (-\infty, \frac{a}{3}) \or (0, +\infty) $$ 上单调递增.
+* 若 $$ f'(x) > 0 $$，由 $$ \begin{aligned} 6x^2 - 2ax &>  0 \\ 2x \cdot (3x - a) &> 0 \end{aligned} $$，得：$$ x < \frac{a}{3} 或 x > 0 $$ ，即 $$ f'(x) $$ 在 $$ (-\infty, \frac{a}{3}) \vee (0, +\infty) $$ 上大于 $$ 0 $$，而原函数 $$ f(x) $$ 在 $$ (-\infty, \frac{a}{3}) \vee (0, +\infty) $$ 上单调递增.
 
 ② 当 $$ a = 0 $$
 
@@ -149,16 +149,11 @@ $$ \begin{aligned} min(f(x)) &= b = -1 \quad when \ x = 0 \\ max(f(x)) &= 2 + b 
 
 由 $$ b = -1 $$，$$ max(f(x)) = f(1) = 2 - 1 = 1 $$，正好满足题目条件，故存在 a = 0, b = -1 使得函数 $$ f(x) $$ 在区间 $$ [0, 1] $$ 上得最小值为 $$ -1 $$，最大值为 $$ 1 $$。
 
-③ 当 $$ a > 0 $$，由 (1) 问知 $$ f(x) $$ 在 $$ [0, \frac{a}{3}] $$ 上单调递减，那么函数 $$ f(x) $$ 可在 $$ x = 0 $$ 处取得最大值，$$ x = \frac{a}{3} $$ 处取得最小值，即
+③ 当 $$ a > 0 $$，由 (1) 问知 $$ f(x) $$ 在 $$ [0, \frac{a}{3}] $$ 上单调递减，那么函数 $$ f(x) $$ 可在 $$ x = 0 $$ 处取得最大值，$$ x = \frac{a}{3} $$ 处取得最小值。
 
-$$ \begin{aligned} max(f(x)) &= b = -1 \quad when \ x = 0 \\ min(f(x)) &= 2(\frac{a}{3})^3 - a(\frac{a}{3})^2 + b \quad when \ x = \frac{a}{3}\end{aligned} $$，
+* 当 $$ 0 < a < 3 $$ 时，$$ f(x) $$ 在 $$ [0, 1] $$ 上有 $$ \begin{aligned} max(f(x)) &= b = 1 \quad when \ x = 0 \\ min(f(x)) &= 2(\frac{a}{3})^3 - a(\frac{a}{3})^2 + b \quad when \ x = \frac{a}{3}\end{aligned} $$，由 $$ b = 1 $$，$$ 2(\frac{a}{3})^3 - a(\frac{a}{3})^2 + 1 = -1 \Rightarrow a = 3 \cdot 2^{\frac{1}{3}} $$，即，取 $$ a = 3 \cdot 2^{\frac{1}{3}} > 3 $$，故矛盾。
+* 当 $$ a \geq 3 $$ 时，$$ f(x) $$ 在 $$ [0, 1] $$ 上有 $$ \begin{aligned} max(f(x)) &= b = 1 \quad when \ x = 0 \\ min(f(x)) &= 2 - a + b \quad when \ x = 1\end{aligned} $$，由 $$ b = 1 $$，有 $$ f(1) = 2 - a + 1 = -1 \Rightarrow a = 4 $$，满足题目条件。
 
-由 $$ x = \frac{a}{3} = 1 $$，取 $$ a = 3 > 0 $$，有
-
-$$ \begin{aligned} max(f(x)) &= b = -1 \quad when \ x = 0 \\ min(f(x)) &= 2 - 3 + b \quad when \ x = 1\end{aligned} $$，
-
-由 $$ b = -1 $$，$$ min(f(x)) = f(1) = -1 - 1 = -2 $$，知 $$ f(x) < 0, x \in [0, 1] $$，这与题意矛盾。
+故当 $$ a = 1, b = -1$$ 或 $$ a = 4, b = 1 $$ 时，$$ f(x) $$ 在 $$ [0, 1] $$ 上取得最小值和最大值。
 
 证毕。
-
-（当然其实一些地方没必要写这么麻烦。。）
