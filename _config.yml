@@ -28,7 +28,7 @@ twitter_username: tennshiniaitai
 github_username:  yomikochan
 
 # Build settings
-# theme: jekyll-theme-hamilton
+theme: jekyll-theme-hamilton
 remote_theme: ngzhio/jekyll-theme-hamilton
 plugins:
   - jekyll-theme-hamilton
@@ -42,7 +42,7 @@ plugins:
 
 author: nekosama
 avatar:	avatar.jpg
-skin: midnight
+skin: daylight
 lang: zh-cn
 date_format: "%Y-%m-%d"
 paginate: 5
