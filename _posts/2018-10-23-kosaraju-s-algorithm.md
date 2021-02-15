@@ -10,15 +10,13 @@ cover_index: "/assets/61142601.jpg"
 comments: true
 ---
 
-### 算法简介
-
 该算法可以用来求解一个有向图的强连通分量。
 
-### 算法解析
+## 算法解析
 
 什么是强连通分量？
 
-先说说强连通图：在有向图G中，如果任意 u,v 两顶点间连通，则称 (u,v) 强连通，则图G的一个强连通图，强连通图的极大强连通子图（强连通分量）就是其本身。
+先说说强连通图：在有向图G中，如果任意 $$u$$，$$v$$ 两顶点间连通，则称 $$(u,v)$$ 强连通，则图G的一个强连通图，强连通图的极大强连通子图（强连通分量）就是其本身。
 
 根据上面的说法，如果向图G中添加x个额外节点，使得有向图G不再是强连通图，则存在强连通分量。
 
@@ -72,7 +70,7 @@ comments: true
 
 使用邻接链表表示图时的时间复杂度为 $ O(V + E) $ 的线性时间。
 
-### 算法实现
+## 算法实现
 
 ```cpp
 #include <iostream>
@@ -137,6 +135,6 @@ int main()
 }
 ```
 
-### 参考
+## 参考
 
-1.[Kosaraju's algorithm - wikipedia](https://en.wikipedia.org/wiki/Kosaraju%27s_algorithm)
+1. [Kosaraju's algorithm - wikipedia](https://en.wikipedia.org/wiki/Kosaraju%27s_algorithm)

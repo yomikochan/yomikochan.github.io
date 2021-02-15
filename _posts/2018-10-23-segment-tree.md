@@ -10,9 +10,9 @@ cover_index: "/assets/15429725.jpg"
 comments: true
 ---
 
-关于线段树详细释义请见：[博客园](https://www.cnblogs.com/darkchii/p/9402760.html)
+一种区间操作算法。
 
-### 算法实现
+## 算法实现
 
 ```cpp
 #include <iostream>
@@ -85,7 +85,101 @@ int main()
 }
 ```
 
-### 参考
+## 模板
+
+```cpp
+#include <bits/stdc++.h>
+#define MP make_pair
+#define PB push_back
+#define st first
+#define nd second
+#define rd third
+#define rg register
+#define FOR(i, a, b) for(int i =(a); i <=(b); ++i)
+#define RE(i, n) FOR(i, 1, n)
+#define FORD(i, a, b) for(int i = (a); i >= (b); --i)
+#define REP(i, n) for(int i = 0;i <(n); ++i)
+#define VAR(v, i) __typeof(i) v=(i)
+#define FORE(i, c) for(VAR(i, (c).begin()); i != (c).end(); ++i)
+#define ALL(x) (x).begin(), (x).end()
+#define SZ(x) ((int)(x).size())
+using namespace std;
+#define l(i) ((i) << 1)
+#define r(i) ((i) << 1 | 1)
+const int N = 500010;
+struct { int l, r, val, tag; } segment[N];
+inline int read()
+{
+    char c; int ret = 0, sgn = 1;
+    do{c = getchar();}while((c < '0' || c > '9') && c != '-');
+    if(c == '-') sgn = -1; else ret = c - '0';
+    while((c = getchar()) >= '0' && c <= '9') ret = ret * 10 + (c - '0');
+    return sgn * ret;
+}
+void build(int num[], int s, int e, int p)
+{
+    if (s == e) segment[p].val = num[s];
+    else
+    {
+        segment[p].tag = 0;
+        int m = (s + e) >> 1;
+        build(num, s, m, l(p));
+        build(num, m + 1, e, r(p));
+        segment[p].val = segment[l(p)].val + segment[r(p)].val;
+    }
+}
+void update(int s, int e, int b, int f, int p, int v)
+{
+    if (b <= s && e <= f)
+    {
+        segment[p].val += v*(e - s + 1);
+        segment[p].tag += v;
+        return;
+    }
+    int m = (s + e) >> 1;
+    segment[l(p)].tag += segment[p].tag;
+    segment[l(p)].val += segment[p].tag*(m - s + 1);
+    segment[r(p)].tag += segment[p].tag;
+    segment[r(p)].val += segment[p].tag*(e - m);
+    segment[p].tag = 0;
+    if (b <= m) update(s, m, b, f, l(p), v);
+    if (f > m) update(m + 1, e, b, f, r(p), v);
+    segment[p].val = segment[l(p)].val + segment[r(p)].val;
+}
+int query(int s, int e, int b, int f, int p)
+{
+    if (b <= s && e <= f) return segment[p].val;
+    int m = (s + e) >> 1, ans = 0;
+    segment[l(p)].tag += segment[p].tag;
+    segment[l(p)].val += segment[p].tag*(m - s + 1);
+    segment[r(p)].tag += segment[p].tag;
+    segment[r(p)].val += segment[p].tag*(e - m);
+    segment[p].tag = 0;
+    if (b <= m) ans += query(s, m, b, f, l(p));
+    if (f > m) ans += query(m + 1, e, b, f, r(p));
+    return ans;
+}
+int main()
+{
+    int n, m, num[N], x, y, v, opera;
+    cin >> n >> m;
+    for (int i = 1; i <= n; i++)
+        cin >> num[i];
+    build(num, 1, n, 1);
+    while (m--)
+    {
+        cin >> opera;
+        switch(opera)
+        {
+            case 1: cin >> x >> y >> v; update(1, n, x, y, 1, v); break;
+            case 2: cin >> x >> y; cout << query(1, n, x, y, 1) << endl; break;
+        }
+    }
+    return 0;
+}
+```
+
+## 参考
 
 [github-consmos](https://github.com/darkchii/cosmos/blob/master/code/data_structures/src/tree/segment_tree/segment_Tree_rmq.adb)
 

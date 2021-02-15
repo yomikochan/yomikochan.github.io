@@ -11,6 +11,7 @@ categories:
 cover_index: "/assets/222044074.jpg"
 math: true
 comments: true
+toc: true
 ---
 
 [牛顿法](https://en.wikipedia.org/wiki/Newton%27s_method)也是数值分析中很常见的算法了。嘛，网上对它的各种介绍也很多，但还是稍微说一下这个算法。

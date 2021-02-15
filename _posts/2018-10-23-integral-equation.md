@@ -13,7 +13,7 @@ comments: true
 
 这里存放一些积分方程题的题解。
 
-### 题目
+## 题目
 
 1.求 $$ \int_{0}^{\frac{\pi}{4}} x \ \prod cos(\frac{x}{2^k}) dx $$ (from MIT 2015 Integration Bee) (这个题是在youtube上看到的，解法也是视频中给出的)
 

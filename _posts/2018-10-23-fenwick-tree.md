@@ -10,9 +10,9 @@ cover_index: "/assets/61082747.jpg"
 comments: true
 ---
 
-树状数组是一种是常用于一类区间操作的算法。
+树状数组是一种是常用于区间操作的算法。
 
-### 算法实现
+## 算法实现
 
 ```cpp
 #include <iostream>
@@ -54,6 +54,76 @@ int main()
 }
 ```
 
-### 参考
+## 模板
+
+```cpp
+#include <bits/stdc++.h>
+#define MP make_pair
+#define PB push_back
+#define st first
+#define nd second
+#define rd third
+#define rg register
+#define FOR(i, a, b) for(int i =(a); i <=(b); ++i)
+#define RE(i, n) FOR(i, 1, n)
+#define FORD(i, a, b) for(int i = (a); i >= (b); --i)
+#define REP(i, n) for(int i = 0;i <(n); ++i)
+#define VAR(v, i) __typeof(i) v=(i)
+#define FORE(i, c) for(VAR(i, (c).begin()); i != (c).end(); ++i)
+#define ALL(x) (x).begin(), (x).end()
+#define SZ(x) ((int)(x).size())
+using namespace std;
+
+#define lowbit(x) ((x) & (-x))
+const int N = 500010;
+int id[N];
+void upd(int n, int k, int x)
+{
+    while (k <= n) id[k] += x, k += lowbit(k);
+}
+void dif(int n, int l, int r, int x)
+{
+    upd(n, l, x);
+    upd(n, r + 1, -x);
+}
+int sum(int k)
+{
+    int ans = 0;
+    while (k > 0) ans += id[k], k -= lowbit(k);
+    return ans;
+}
+int org(int k)
+{
+    return sum(k) - sum(k - 1);
+}
+int ask(int l, int r)
+{
+    return sum(r) - sum(l - 1);
+}
+int main()
+{
+    int n, m, k, x, opera, l, r, pre;
+    pre = 0;
+    cin >> n >> m;
+    FOR (i, 1, n)
+    {
+        cin >> x;
+        upd(n, i, x - pre); // 差分后更新到树状数组
+        pre = x;
+    }
+    while(m--)
+    {
+        cin >> opera;
+        switch(opera)
+        {
+            case 1: cin >> l >> r >> x; dif(n, l, r, x); break;
+            case 2: cin >> k; cout << sum(k) << endl; break;
+        }
+    }
+    return 0;
+}
+```
+
+## 参考
 
 [fenwick tree](https://en.wikipedia.org/wiki/Fenwick_tree)

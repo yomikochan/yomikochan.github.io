@@ -15,7 +15,7 @@ comments: true
 
 向量在现代数学和物理中有着很重要的作用，指的是一种具有大小和方向的量。又叫做矢量([Vector-wikipedia](https://en.wikipedia.org/wiki/Vector))
 
-### 题目
+## 题目
 1.已知向量 $$ \vec{OA}, \vec{OB} $$ 满足 $$ \|OA\| = \|OB\| = 1, \vec{OA} \cdot \vec{OB} = 0, \vec{OC} = \lambda \ \vec{OA} + \mu \ \vec{OB} (\lambda ,\mu \in \mathbb{R}) $$. 若 $$ M $$ 为 $$ AB $$ 的中点，并且 $$ \|\vec{MC}\| = 1 $$，则点 $$ (\lambda , \mu) $$ 在 (  )
 
 A. 以 $$ (-\frac{1}{2}, \frac{1}{2}) $$ 为圆心，半径为 $$ 1 $$ 的圆上.

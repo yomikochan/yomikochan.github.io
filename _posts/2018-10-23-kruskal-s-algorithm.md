@@ -8,25 +8,24 @@ categories:
 - algorithms
 cover_index: "/assets/4201472.jpg"
 comments: true
+toc: true
 ---
-
-### 算法简介
 
 Kruskal算法可用来求解最小生成树(minimum-spanning-tree, MST)问题，还可以用来生成迷宫。
 
-### 算法分析
+## 算法分析
 
-其实算法不难理解，算法先要将 $ G(V, E) $ 的集合 $ E $ 按权重 $ \Omega $ 由小到大排序，然后还利用了不相交集中的`find()`(这里使用的是带路径压缩功能的) 和`union()`(这里函数名使用`marge()`) 函数，`find()`用于判断是否连通，如果连通则不能构成MST，反之则加入到MST的集合中，并调用`union()`函数将顶点连通。
+算法先要将 $$ G(V, E) $$ 的集合 $$ E $$ 按权重 $$ \Omega $$ 由小到大排序，然后还利用了不相交集中的`find()`(这里使用的是带路径压缩功能的) 和`union()`(这里函数名使用`marge()`) 函数，`find()`用于判断是否连通，如果连通则不能构成MST，反之则加入到MST的集合中，并调用`union()`函数将顶点连通。
 
-##### 时间复杂度分析
+##### 时间复杂度
 
-$ O(E lg V) $
+$$ O(E lg V) $$
 
-##### 空间复杂度分析
+##### 空间复杂度
 
-$ O(V + E) $
+$$ O(V + E) $$
 
-### 算法实现
+## 算法实现
 
 ```C++
 #include "stdafx.h"
@@ -87,8 +86,8 @@ int main(int argc, char **argv)
 }
 ```
 
-### 参考
+## 参考
 
 1.[Kruskal's algorithm - wikipedia](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm)
 2.[Maze generation algorithm - wikipedia](https://en.wikipedia.org/wiki/Maze_generation_algorithm)
-3.CLRS $ P_{366} $ 伪代码
+3.CLRS $$ P_{366} $$ 伪代码
