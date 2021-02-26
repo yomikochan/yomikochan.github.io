@@ -21,7 +21,7 @@ Recommend to see this document:[Union-Find.pdf](https://www.cs.princeton.edu/~rs
 
 ## Algorithm implementation
 
-The C language code as follow:
+The C code as follows:
 
 ```cpp
 #include <iostream>
