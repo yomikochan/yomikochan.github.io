@@ -36,5 +36,9 @@ gem 'jekyll-theme-hamilton'
 
 gem 'jekyll-paginate'
 
+gem "kramdown", ">= 2.3.1"
+
+gem "rack", ">= 2.1.4"
+
 
 
