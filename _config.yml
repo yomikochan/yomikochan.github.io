@@ -18,14 +18,14 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: nekosama
+title: pacyu
 email: darkchii@qq.com
 description: >- # this means to ignore newlines until "baseurl:"
   .
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://nekosama.club" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: tennshiniaitai
-github_username:  yomikochan
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: mahousi_
+github_username:  pacyu
 
 # Build settings
 theme: jekyll-theme-hamilton
@@ -33,21 +33,21 @@ remote_theme: ngzhio/jekyll-theme-hamilton
 plugins:
   - jekyll-theme-hamilton
 
-url: "https://nekosama.club" # the base hostname & protocol for your site
+url: "https://pacyu.github.io" # the base hostname & protocol for your site
 plugins:
   - jekyll-sitemap
 
 plugins:
   - jekyll-paginate
 
-author: nekosama
+author: pacyu
 avatar:	avatar.jpg
 skin: daylight
 lang: zh-cn
 date_format: "%Y-%m-%d"
 paginate: 5
 paginate_path: "page:num"
-disqus: "yomiko"
+disqus: "pacyu"
 google_analytics: "G-0BF2ZJ4TKZ"
 
 # search:
