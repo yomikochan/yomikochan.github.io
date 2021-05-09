@@ -64,7 +64,7 @@ $$
 
 由正弦定理知：$$ \sin(A) = \frac{a\sin(B)}{b} = \frac{\sqrt{3}\frac{\sqrt{6}}{3}}{2} = \frac{\sqrt{2}}{2} \rightarrow A = \frac{\pi}{4} $$，所以 $$ \cos(2A + \frac{\pi}{6}) = \cos(\frac{\pi}{2} + \frac{\pi}{6}) = -\sin(\frac{\pi}{6}) = -\frac{1}{2} $$。
 
-令 $$ \varphi (x) = f(x) - 2) (x \in [0, \frac{\pi}{3}]) $$
+令 $$ \varphi (x) = f(x) - 2 (x \in [0, \frac{\pi}{3}]) $$
 
 由题目条件知： $$ f(x) = 2cos^2(x) + sin(2x) + \frac{1}{2} $$
 
